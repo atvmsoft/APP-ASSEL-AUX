@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Application.IO.Site.Models.SystemModels.AreaAtuacao
+namespace Application.IO.Site.Models.SystemModels.Situacao
 {
-    public class AreaAtuacaoModel
+    public class SituacaoModel
     {
         [Display(Name = "Nome")]
         [Required(ErrorMessage = "\"{0}\" é obrigatório")]

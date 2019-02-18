@@ -1,25 +1,6 @@
-﻿toastr.options = {
-    "closeButton": true,
-    "debug": false,
-    "newestOnTop": true,
-    "progressBar": true,
-    "positionClass": "toast-top-right",
-    "preventDuplicates": true,
-    "onclick": null,
-    "showDuration": "0",
-    "hideDuration": "0",
-    "timeOut": 0,
-    "extendedTimeOut": 0,
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut",
-    "tapToDismiss": false
-};
+﻿function DefaultMessage(type, title, msgs, width) {
 
-function DefaultMessage(type, title, msgs, width) {
-
-    width = width < 270 ? 270 : width;
+    width = (width < 270 || width === undefined) ? 270 : width;
 
     var error = "<ul style=\"padding-top:10px!important; padding-left: 16px!important;\">";
 
@@ -29,7 +10,28 @@ function DefaultMessage(type, title, msgs, width) {
 
     error += "</ul>";
 
-    toastr[type](error, title).css("width", width + "px");
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": false,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "0",
+        "hideDuration": "0",
+        "timeOut": "0",
+        "extendedTimeOut": "0",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+
+    let ttr = toastr[type](error, title);
+    if (ttr === undefined) return;
+
+    ttr.css("width", width + "px");
 }
 
 function DefaultError(msgs, width) {

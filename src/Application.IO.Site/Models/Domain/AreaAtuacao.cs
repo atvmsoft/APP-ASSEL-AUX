@@ -1,5 +1,4 @@
-﻿using Application.IO.Site.Data;
-using Application.IO.Site.Models.Source;
+﻿using Application.IO.Site.Models.Source;
 using Application.IO.Site.Models.Source.Notifications;
 using Application.IO.Site.Services.Business.Select;
 using System;
@@ -11,32 +10,32 @@ namespace Application.IO.Site.Models.Domain
     public class AreaAtuacao : Entity
     {
         [Required]
-        public Guid IdInsertUser { get; private set; }
+        public Guid IdUser { get; private set; }
 
         [Required]
         public string Nome { get; private set; }
 
         [Required]
-        public DateTime DateInsert { get; private set; }
+        public DateTime Date { get; private set; }
 
         [Required]
-        public bool LogicalDelete { get; private set; }
+        public bool Delete { get; private set; }
 
         public AreaAtuacao(Guid idInsertUser, string nome)
         {
             if (new AreaAtuacaoSelect().GetByName(nome) != null) Add(new DomainNotification("Area", $"A Área de Atuação \"'{ nome.ToUpper() }'\" já existe."));
 
-            IdInsertUser = idInsertUser;
-            DateInsert = DateTime.Now;
+            IdUser = idInsertUser;
+            Date = DateTime.Now;
             Nome = nome.ToUpper();
-            LogicalDelete = false;
+            Delete = false;
         }
 
-        public void ChangeEntity(string nome, bool logicalDelte)
+        public void ChangeEntity(string nome, bool delete)
         {
-            DateInsert = DateTime.Now;
+            Date = DateTime.Now;
             Nome = nome.ToUpper();
-            LogicalDelete = logicalDelte;
+            Delete = delete;
         }
 
         // EF Construtor

@@ -1,0 +1,25 @@
+﻿.tab-principal {
+    border: 1px solid #ddd;
+    border-top: none;
+    padding: 10px;
+}
+
+.pager-styler {
+    font-size: 12px !important;
+}
+
+.grid-collumn-dateinsert {
+    width: 140px;
+}
+
+.table-hover > tbody > tr > td.grid-collumn-dateinsert {
+    text-align: center;
+}
+
+.grid-collumn-del {
+    width: 60px;
+}
+
+.grid-collumn-edt {
+    width: 62px;
+}

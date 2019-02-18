@@ -9,17 +9,17 @@ namespace Application.IO.Site.Services.Business.Select
     {
         public AreaAtuacao GetByName(string nome)
         {
-            return db.AreaAtuacao.AsNoTracking().Where(w => w.Nome == nome && w.LogicalDelete == false).FirstOrDefault();
+            return db.AreaAtuacao.AsNoTracking().Where(w => w.Nome == nome && w.Delete == false).FirstOrDefault();
         }
 
         public AreaAtuacao GetById(int id)
         {
-            return db.AreaAtuacao.AsNoTracking().Where(w => w.Id == id && w.LogicalDelete == false).FirstOrDefault();
+            return db.AreaAtuacao.AsNoTracking().Where(w => w.Id == id && w.Delete == false).FirstOrDefault();
         }
 
         public IQueryable<AreaAtuacao> Get()
         {
-            return db.AreaAtuacao.AsNoTracking().Where(w => w.LogicalDelete == false).OrderBy(o => o.Nome);
+            return db.AreaAtuacao.AsNoTracking().Where(w => w.Delete == false).OrderBy(o => o.Nome);
         }
     }
 }

@@ -10,13 +10,13 @@ namespace Application.IO.Site.Data.Mappings
         public override void Map(EntityTypeBuilder<AreaAtuacao> builder)
         {
             builder.Property(e => e.Nome).HasColumnType("varchar(200)");
-            builder.Property(e => e.DateInsert).HasColumnType("datetime");
+            builder.Property(e => e.Date).HasColumnType("datetime");
 
             builder.ToTable("AreaAtuacao");
 
             builder.HasOne(e => e.ApplicationUser)
                 .WithMany(o => o.AreaAtuacao)
-                .HasForeignKey(e => e.IdInsertUser).OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(e => e.IdUser).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

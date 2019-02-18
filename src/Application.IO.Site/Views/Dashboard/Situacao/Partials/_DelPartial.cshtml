@@ -1,4 +1,4 @@
-﻿@model SystemModels.AreaAtuacao.AreaAtuacaoModel
+﻿@model SystemModels.Situacao.SituacaoModel
 
 <style>
     .modal-dialog {
@@ -8,10 +8,10 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h4 class="modal-title">Excluir - Área de Atuação</h4>
+    <h4 class="modal-title">Excluir - Situacao</h4>
 </div>
 <div>
-    @using (Html.BeginForm("SaveAreaAtuacao", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", id = "FormDelAreaAtuacao", role = "form", onsubmit = "return false;" }))
+    @using (Html.BeginForm("SaveSituacao", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", id = "FormDelSituacao", role = "form", onsubmit = "return false;" }))
     {
         @Html.HiddenFor(m => m.Id)
         @Html.Hidden("Delete", true);
@@ -33,4 +33,4 @@
         </div>
     }
 </div>
-<script src="~/js/Views/AreaAtuacao/dashboardDelAreaAtuacao.js"></script>
+<script src="~/js/Views/Situacao/dashboardDelSituacao.js"></script>

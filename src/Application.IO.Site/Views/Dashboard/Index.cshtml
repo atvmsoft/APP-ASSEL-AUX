@@ -1,82 +1,17 @@
-﻿<style>
-    .tab-principal {
-        border: 1px solid #ddd;
-        border-top: none;
-        padding: 10px;
-    }
+﻿<link rel="stylesheet" href="~/css/dashboard.css">
 
-    .pager-styler {
-        font-size: 12px !important;
-    }
-
-    .grid-collumn-dateinsert {
-        width: 140px;
-    }
-
-    .table-hover > tbody > tr > td.grid-collumn-dateinsert {
-        text-align: center;
-    }
-
-    .grid-collumn-del {
-        width: 60px;
-    }
-
-    .grid-collumn-edt {
-        width: 62px;
-    }
-</style>
-
-<script>
-    $(document).ready(function () {
-        $(".tab-principal").height($(window).height() - 205);
-        $(window).resize(function () {
-            $(".tab-principal").height($(window).height() - 205);
-        });
-    });
-
-    function GridAreaAtuacaoEdt(id) {
-        $.ajax({
-            type: "POST",
-            url: '/Dashboard/EdtAreaAtuacao',
-            datatype: "Application/Json",
-            data: { id: id },
-            success: function (result) {
-                $("#ModalMainContent").html(result);
-                $("#ModalMain").modal("show");
-            },
-            error: function () {
-                DefaultErrorAlert();
-            }
-        });
-    }
-
-    function GridAreaAtuacaoDel(id) {
-        $.ajax({
-            type: "POST",
-            url: '/Dashboard/DelAreaAtuacao',
-            datatype: "Application/Json",
-            data: { id: id },
-            success: function (result) {
-                $("#ModalMainContent").html(result);
-                $("#ModalMain").modal("show");
-            },
-            error: function () {
-                DefaultErrorAlert();
-            }
-        });
-    }
-</script>
+<script src="~/js/dashboard.js"></script>
 
 <h2>Cadastro de Advogado</h2>
 
 <ul class="nav nav-tabs" id="advCadTab" role="tablist">
     <li class="nav-item">
-        <a class="nav-link active" id="tab-adv" data-toggle="tab" href="#tab-c-advogado" role="tab" aria-selected="true">Advogados</a>
-    </li>
-    <li class="nav-item active">
-        <a class="nav-link" id="tab-att" data-toggle="tab" href="#tab-c-atuacao" role="tab" aria-selected="false">Área de Atuação</a>
+        <a class="nav-link" id="tab-adv" data-toggle="tab" href="#tab-c-advogado" role="tab" aria-selected="true">Advogados</a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" id="tab-att" data-toggle="tab" href="#tab-c-atuacao" role="tab" aria-selected="false">Área de Atuação</a>
+    </li>
+    <li class="nav-item active">
         <a class="nav-link" id="tab-sit" data-toggle="tab" href="#tab-c-situacao" role="tab" aria-selected="false">Situação</a>
     </li>
     <li class="nav-item">
@@ -88,7 +23,7 @@
 </ul>
 <div class="tab-content" id="advCadTabContent">
     <div class="tab-principal tab-pane" id="tab-c-advogado" role="tabpanel">A</div>
-    <div class="tab-principal tab-pane active in" id="tab-c-atuacao" role="tabpanel" style="overflow-y:auto; overflow-x:hidden;">
+    <div class="tab-principal tab-pane" id="tab-c-atuacao" role="tabpanel" style="overflow-y:auto; overflow-x:hidden;">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:10px;">
                 <button class="btn btn-primary" onclick="GridAreaAtuacaoEdt(0);" data-toggle="modal" data-target="#ModalMain"><i class="glyphicon glyphicon-plus"></i> Novo</button>
@@ -98,8 +33,19 @@
             </div>
         </div>
     </div>
-    <div class="tab-principal tab-pane" id="tab-c-situacao" role="tabpanel">C</div>
+    <div class="tab-principal tab-pane active in" id="tab-c-situacao" role="tabpanel">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:10px;">
+                <button class="btn btn-primary" onclick="GridSituacaoEdt(0);" data-toggle="modal" data-target="#ModalMain"><i class="glyphicon glyphicon-plus"></i> Novo</button>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                @Html.AjaxGrid(Url.Action("GridSituacao"))
+            </div>
+        </div>
+    </div>
     <div class="tab-principal tab-pane" id="tab-c-contato" role="tabpanel">D</div>
     <div class="tab-principal tab-pane" id="tab-c-endereco" role="tabpanel">E</div>
 </div>
 
+<script src="~/js/Views/AreaAtuacao/dashboardGridAreaAtuacao.js"></script>
+<script src="~/js/Views/Situacao/dashboardGridSituacao.js"></script>

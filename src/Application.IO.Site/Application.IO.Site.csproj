@@ -28,6 +28,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Dashboard\Situacao\Partials\_DelPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Dashboard\Situacao\Partials\_EdtPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Dashboard\Situacao\Partials\_GridView.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Dashboard\AreaAtuacao\Partials\_DelPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

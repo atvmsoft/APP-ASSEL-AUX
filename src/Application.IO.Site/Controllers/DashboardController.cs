@@ -1,6 +1,7 @@
 ﻿using Application.IO.Site.Interfaces;
 using Application.IO.Site.Models.Source;
 using Application.IO.Site.Models.SystemModels.AreaAtuacao;
+using Application.IO.Site.Models.SystemModels.Situacao;
 using Application.IO.Site.Services.Business.Core;
 using Application.IO.Site.Services.Business.Select;
 using Microsoft.AspNetCore.Authorization;
@@ -72,6 +73,62 @@ namespace Application.IO.Site.Controllers
 
 
             return Json(new AreaAtuacaoCore().Save(model, UserId));
+        }
+        #endregion
+
+        #region Situacao
+        [HttpGet]
+        public PartialViewResult GridSituacao()
+        {
+            return PartialView("Situacao/Partials/_GridView", new SituacaoSelect().Get());
+        }
+
+        [HttpPost]
+        public IActionResult EdtSituacao(int id)
+        {
+            var model = new SituacaoModel();
+
+            var obj = new SituacaoSelect().GetById(id);
+            if (obj != null)
+            {
+                model.Id = obj.Id;
+                model.Nome = obj.Nome;
+            }
+
+            return PartialView("Situacao/Partials/_EdtPartial", model);
+        }
+
+        [HttpPost]
+        public IActionResult DelSituacao(int id)
+        {
+            var model = new SituacaoModel();
+
+            var obj = new SituacaoSelect().GetById(id);
+            if (obj != null)
+            {
+                model.Id = obj.Id;
+                model.Nome = obj.Nome;
+            }
+
+            return PartialView("Situacao/Partials/_DelPartial", model);
+        }
+
+        [HttpPost]
+        public IActionResult SaveSituacao(SituacaoModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var retorno = new ReturnAction();
+                foreach (var item in ModelState.Values.SelectMany(s => s.Errors).Select(s => s.ErrorMessage))
+                {
+                    retorno.Mensagens.Add(item);
+                }
+
+                return Json(retorno);
+            }
+
+
+            return Json(new SituacaoCore().Save(model, UserId));
         }
         #endregion
     }
