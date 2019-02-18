@@ -1,0 +1,48 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "Novo Usuário";
+}
+
+<div class="row">
+    <div class="col-md-4 col-sm-12" style="border: 1px solid #ececec; background-color: #fdfdfd; border-radius: 5px; margin: 0 auto; float: none; margin-top: 30px; padding-bottom:15px;">
+        <h2>@ViewData["Title"]</h2>
+        <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" autofocus />
+            </div>
+            <div class="form-group">
+                <label asp-for="NumDocument"></label>
+                <input asp-for="NumDocument" class="form-control inputcpf" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmEmail"></label>
+                <input asp-for="ConfirmEmail" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-default">Salvar</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
+<script>
+    $(document).ready(function () {
+        $('.inputcpf').mask('000.000.000-00');
+    });
+</script>
