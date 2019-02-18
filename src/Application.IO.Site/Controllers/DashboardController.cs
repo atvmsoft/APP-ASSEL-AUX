@@ -3,6 +3,7 @@ using Application.IO.Site.Models.Source;
 using Application.IO.Site.Models.SystemModels.AreaAtuacao;
 using Application.IO.Site.Models.SystemModels.Situacao;
 using Application.IO.Site.Models.SystemModels.TipoContato;
+using Application.IO.Site.Models.SystemModels.TipoEndereco;
 using Application.IO.Site.Services.Business.Core;
 using Application.IO.Site.Services.Business.Select;
 using Microsoft.AspNetCore.Authorization;
@@ -186,6 +187,62 @@ namespace Application.IO.Site.Controllers
 
 
             return Json(new TipoContatoCore().Save(model, UserId));
+        }
+        #endregion
+
+        #region TipoEndereco
+        [HttpGet]
+        public PartialViewResult GridTipoEndereco()
+        {
+            return PartialView("TipoEndereco/Partials/_GridView", new TipoEnderecoSelect().Get());
+        }
+
+        [HttpPost]
+        public IActionResult EdtTipoEndereco(int id)
+        {
+            var model = new TipoEnderecoModel();
+
+            var obj = new TipoEnderecoSelect().GetById(id);
+            if (obj != null)
+            {
+                model.Id = obj.Id;
+                model.Nome = obj.Nome;
+            }
+
+            return PartialView("TipoEndereco/Partials/_EdtPartial", model);
+        }
+
+        [HttpPost]
+        public IActionResult DelTipoEndereco(int id)
+        {
+            var model = new TipoEnderecoModel();
+
+            var obj = new TipoEnderecoSelect().GetById(id);
+            if (obj != null)
+            {
+                model.Id = obj.Id;
+                model.Nome = obj.Nome;
+            }
+
+            return PartialView("TipoEndereco/Partials/_DelPartial", model);
+        }
+
+        [HttpPost]
+        public IActionResult SaveTipoEndereco(TipoEnderecoModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var retorno = new ReturnAction();
+                foreach (var item in ModelState.Values.SelectMany(s => s.Errors).Select(s => s.ErrorMessage))
+                {
+                    retorno.Mensagens.Add(item);
+                }
+
+                return Json(retorno);
+            }
+
+
+            return Json(new TipoEnderecoCore().Save(model, UserId));
         }
         #endregion
     }

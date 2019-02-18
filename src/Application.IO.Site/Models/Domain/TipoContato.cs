@@ -27,7 +27,7 @@ namespace Application.IO.Site.Models.Domain
 
             IdUser = idUser;
             Date = DateTime.Now;
-            Nome = nome;
+            Nome = nome.ToUpper();
         }
 
         public void ChangeEntity(string nome, bool delte)

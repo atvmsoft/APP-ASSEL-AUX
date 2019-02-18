@@ -1,5 +1,4 @@
-﻿using Application.IO.Site.Data;
-using Application.IO.Site.Models.Source;
+﻿using Application.IO.Site.Models.Source;
 using Application.IO.Site.Models.Source.Notifications;
 using Application.IO.Site.Services.Business.Select;
 using System;
@@ -11,21 +10,31 @@ namespace Application.IO.Site.Models.Domain
     public class TipoEndereco : Entity
     {
         [Required]
-        public Guid IdInsertUser { get; private set; }
+        public Guid IdUser { get; private set; }
 
         [Required]
         public string Nome { get; private set; }
 
         [Required]
-        public DateTime DateInsert { get; private set; }
+        public DateTime Date { get; private set; }
 
-        public TipoEndereco(Guid idInsertUser, string nome)
+        [Required]
+        public bool Delete { get; private set; }
+
+        public TipoEndereco(Guid idUser, string nome)
         {
             if (new TipoEnderecoSelect().GetByName(nome) != null) Add(new DomainNotification("TipoEndereco", $"O Tipo de Endereço \"'{ nome }'\" já existe."));
 
-            IdInsertUser = idInsertUser;
-            DateInsert = DateTime.Now;
-            Nome = nome;
+            IdUser = idUser;
+            Date = DateTime.Now;
+            Nome = nome.ToUpper();
+        }
+
+        public void ChangeEntity(string nome, bool delte)
+        {
+            Date = DateTime.Now;
+            Nome = nome.ToUpper();
+            Delete = delte;
         }
 
         // EF Construtor

@@ -1,4 +1,4 @@
-﻿@model SystemModels.TipoContato.TipoContatoModel
+﻿@model SystemModels.TipoEndereco.TipoEnderecoModel
 
 <style>
     .modal-dialog {
@@ -8,10 +8,10 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h4 class="modal-title">Excluir - Tipo de Contato</h4>
+    <h4 class="modal-title">Excluir - Tipo de Endereco</h4>
 </div>
 <div>
-    @using (Html.BeginForm("SaveTipoContato", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", id = "FormDelTipoContato", role = "form", onsubmit = "return false;" }))
+    @using (Html.BeginForm("SaveTipoEndereco", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", id = "FormDelTipoEndereco", role = "form", onsubmit = "return false;" }))
     {
         @Html.HiddenFor(m => m.Id)
         @Html.Hidden("Delete", true);
@@ -33,4 +33,4 @@
         </div>
     }
 </div>
-<script src="~/js/Views/TipoContato/dashboardDelTipoContato.js"></script>
+<script src="~/js/Views/TipoEndereco/dashboardDelTipoEndereco.js"></script>
