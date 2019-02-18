@@ -2,6 +2,7 @@
 using Application.IO.Site.Models.Source;
 using Application.IO.Site.Models.SystemModels.AreaAtuacao;
 using Application.IO.Site.Models.SystemModels.Situacao;
+using Application.IO.Site.Models.SystemModels.TipoContato;
 using Application.IO.Site.Services.Business.Core;
 using Application.IO.Site.Services.Business.Select;
 using Microsoft.AspNetCore.Authorization;
@@ -129,6 +130,62 @@ namespace Application.IO.Site.Controllers
 
 
             return Json(new SituacaoCore().Save(model, UserId));
+        }
+        #endregion
+
+        #region TipoContato
+        [HttpGet]
+        public PartialViewResult GridTipoContato()
+        {
+            return PartialView("TipoContato/Partials/_GridView", new TipoContatoSelect().Get());
+        }
+
+        [HttpPost]
+        public IActionResult EdtTipoContato(int id)
+        {
+            var model = new TipoContatoModel();
+
+            var obj = new TipoContatoSelect().GetById(id);
+            if (obj != null)
+            {
+                model.Id = obj.Id;
+                model.Nome = obj.Nome;
+            }
+
+            return PartialView("TipoContato/Partials/_EdtPartial", model);
+        }
+
+        [HttpPost]
+        public IActionResult DelTipoContato(int id)
+        {
+            var model = new TipoContatoModel();
+
+            var obj = new TipoContatoSelect().GetById(id);
+            if (obj != null)
+            {
+                model.Id = obj.Id;
+                model.Nome = obj.Nome;
+            }
+
+            return PartialView("TipoContato/Partials/_DelPartial", model);
+        }
+
+        [HttpPost]
+        public IActionResult SaveTipoContato(TipoContatoModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var retorno = new ReturnAction();
+                foreach (var item in ModelState.Values.SelectMany(s => s.Errors).Select(s => s.ErrorMessage))
+                {
+                    retorno.Mensagens.Add(item);
+                }
+
+                return Json(retorno);
+            }
+
+
+            return Json(new TipoContatoCore().Save(model, UserId));
         }
         #endregion
     }

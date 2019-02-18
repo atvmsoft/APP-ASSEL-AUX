@@ -11,10 +11,10 @@
     <li class="nav-item">
         <a class="nav-link" id="tab-att" data-toggle="tab" href="#tab-c-atuacao" role="tab" aria-selected="false">Área de Atuação</a>
     </li>
-    <li class="nav-item active">
+    <li class="nav-item">
         <a class="nav-link" id="tab-sit" data-toggle="tab" href="#tab-c-situacao" role="tab" aria-selected="false">Situação</a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item active">
         <a class="nav-link" id="tab-t-cont" data-toggle="tab" href="#tab-c-contato" role="tab" aria-selected="false">Tipo de Contato</a>
     </li>
     <li class="nav-item">
@@ -33,7 +33,7 @@
             </div>
         </div>
     </div>
-    <div class="tab-principal tab-pane active in" id="tab-c-situacao" role="tabpanel">
+    <div class="tab-principal tab-pane" id="tab-c-situacao" role="tabpanel">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:10px;">
                 <button class="btn btn-primary" onclick="GridSituacaoEdt(0);" data-toggle="modal" data-target="#ModalMain"><i class="glyphicon glyphicon-plus"></i> Novo</button>
@@ -43,9 +43,19 @@
             </div>
         </div>
     </div>
-    <div class="tab-principal tab-pane" id="tab-c-contato" role="tabpanel">D</div>
+    <div class="tab-principal tab-pane active in" id="tab-c-contato" role="tabpanel">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:10px;">
+                <button class="btn btn-primary" onclick="GridTipoContatoEdt(0);" data-toggle="modal" data-target="#ModalMain"><i class="glyphicon glyphicon-plus"></i> Novo</button>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                @Html.AjaxGrid(Url.Action("GridTipoContato"))
+            </div>
+        </div>
+    </div>
     <div class="tab-principal tab-pane" id="tab-c-endereco" role="tabpanel">E</div>
 </div>
 
 <script src="~/js/Views/AreaAtuacao/dashboardGridAreaAtuacao.js"></script>
 <script src="~/js/Views/Situacao/dashboardGridSituacao.js"></script>
+<script src="~/js/Views/TipoContato/dashboardGridTipoContato.js"></script>

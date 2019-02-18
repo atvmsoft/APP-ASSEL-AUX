@@ -1,4 +1,4 @@
-﻿@model SystemModels.Situacao.SituacaoModel
+﻿@model SystemModels.TipoContato.TipoContatoModel
 
 <style>
     .modal-dialog {
@@ -8,19 +8,14 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
-    @if (Model.Id == 0)
-    {
-        <h4 class="modal-title">Inserir Situacao</h4>
-    }
-    else
-    {
-        <h4 class="modal-title">Editar - Situacao: @(Model.Nome)</h4>
-    }
+    <h4 class="modal-title">Excluir - Tipo Contato</h4>
 </div>
 <div>
-    @using (Html.BeginForm("SaveSituacao", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", id = "FormEdtSituacao", role = "form", onsubmit = "return false;" }))
+    @using (Html.BeginForm("SaveTipoContato", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", id = "FormDelTipoContato", role = "form", onsubmit = "return false;" }))
     {
         @Html.HiddenFor(m => m.Id)
+        @Html.Hidden("Delete", true);
+        @Html.HiddenFor(m => m.Nome)
 
         <div class="modal-body">
             <div class="row">
@@ -28,7 +23,7 @@
                     @Html.LabelFor(m => m.Nome)
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    @Html.TextBoxFor(m => m.Nome, new { autocomplete = "nope", @class = "form-control", @required = "", @autofocus = "" })
+                    @Html.DisplayFor(m => m.Nome)
                 </div>
             </div>
         </div>
@@ -38,4 +33,4 @@
         </div>
     }
 </div>
-<script src="~/js/Views/Situacao/dashboardEdtSituacao.js"></script>
+<script src="~/js/Views/TipoContato/dashboardDelTipoContato.js"></script>

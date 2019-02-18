@@ -1,4 +1,4 @@
-﻿@model SystemModels.Situacao.SituacaoModel
+﻿@model SystemModels.TipoContato.TipoContatoModel
 
 <style>
     .modal-dialog {
@@ -10,15 +10,15 @@
     <button type="button" class="close" data-dismiss="modal">&times;</button>
     @if (Model.Id == 0)
     {
-        <h4 class="modal-title">Inserir Situacao</h4>
+    <h4 class="modal-title">Inserir Tipo Contato</h4>
     }
     else
     {
-        <h4 class="modal-title">Editar - Situacao: @(Model.Nome)</h4>
+    <h4 class="modal-title">Editar - Tipo Contato: @(Model.Nome)</h4>
     }
 </div>
 <div>
-    @using (Html.BeginForm("SaveSituacao", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", id = "FormEdtSituacao", role = "form", onsubmit = "return false;" }))
+    @using (Html.BeginForm("SaveTipoContato", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", id = "FormEdtTipoContato", role = "form", onsubmit = "return false;" }))
     {
         @Html.HiddenFor(m => m.Id)
 
@@ -38,4 +38,4 @@
         </div>
     }
 </div>
-<script src="~/js/Views/Situacao/dashboardEdtSituacao.js"></script>
+<script src="~/js/Views/TipoContato/dashboardEdtTipoContato.js"></script>
