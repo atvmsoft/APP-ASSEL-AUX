@@ -1,5 +1,7 @@
 ﻿using Application.IO.Site.Interfaces;
+using Application.IO.Site.Models.Domain;
 using Application.IO.Site.Models.Source;
+using Application.IO.Site.Models.SystemModels.Advogado;
 using Application.IO.Site.Models.SystemModels.AreaAtuacao;
 using Application.IO.Site.Models.SystemModels.Situacao;
 using Application.IO.Site.Models.SystemModels.TipoContato;
@@ -243,6 +245,23 @@ namespace Application.IO.Site.Controllers
 
 
             return Json(new TipoEnderecoCore().Save(model, UserId));
+        }
+        #endregion
+
+        #region Advogado
+        //[HttpPost]
+        public IActionResult Lawyer(int id)
+        {
+            var model = new AdvogadoModel();
+
+            //var obj = new Advogado().GetById(id);
+            //if (obj != null)
+            //{
+            //    model.Id = obj.Id;
+            //    model.Nome = obj.Nome;
+            //}
+
+            return View("Advogado/Index", model);
         }
         #endregion
     }

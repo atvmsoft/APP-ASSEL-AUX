@@ -28,6 +28,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Dashboard\Advogado\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Dashboard\Advogado\Partials\_DelPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Dashboard\Advogado\Partials\_GridView.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Dashboard\TipoEndereco\Partials\_DelPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Domain.AreaAtuacao>
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(model => $"<button class=\"btn btn-danger\" onclick=\"GridAreaAtuacaoDel({model.Id});\"><i class=\"glyphicon glyphicon-remove\"></i></button>").Css("grid-collumn-del").Encoded(false);
+        columns.Add(model => $"<button class=\"btn btn-warning\" onclick=\"GridAreaAtuacaoEdt({model.Id});\"><i class=\"glyphicon glyphicon-pencil\"></i></button>").Css("grid-collumn-edt").Encoded(false);
+        columns.Add(model => model.Nome).Titled("Nome");
+        columns.Add(model => model.Date).Css("grid-collumn-dateinsert").Formatted("{0: dd/MM/yyyy HH:mm}").Titled("Cadastro");
+    })
+    .Empty("Nenhum Item encontrado")
+    .Id("GridAreaAtuacao")
+    .Pageable(pager =>
+    {
+        pager.RowsPerPage = 6;
+        pager.CssClasses = "pager-styler";
+    })
+    .AppendCss("table-hover")
+)

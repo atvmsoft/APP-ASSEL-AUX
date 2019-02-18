@@ -10,7 +10,7 @@ namespace Application.IO.Site.Models.Domain
     public class Advogado : Entity
     {
         [Required]
-        public Guid IdInsertUser { get; private set; }
+        public Guid IdUser { get; private set; }
 
         [Required]
         public int IdGeoCidade { get; private set; } //Subseção
@@ -31,20 +31,20 @@ namespace Application.IO.Site.Models.Domain
         public DateTime DateAtualizacao { get; private set; }
 
         [Required]
-        public DateTime DateInsert { get; private set; }
+        public DateTime Date { get; private set; }
 
-        public Advogado(Guid idInsertUser, int idGeoCidade, string nome, string numOrdem, string nomePai, string nomeMae, DateTime dateInscricaoOAB, DateTime dateAtualizacao)
+        public Advogado(Guid idUser, int idGeoCidade, string nome, string numOrdem, string nomePai, string nomeMae, DateTime dateInscricaoOAB, DateTime dateAtualizacao)
         {
             if (new AdvogadoSelect().GetByNumOrdem(numOrdem) != null) Add(new DomainNotification("Advogado", $"O Número da Ordem \"'{ numOrdem }'\" já existe."));
 
-            IdInsertUser = idInsertUser;
+            IdUser = idUser;
             Nome = nome;
             NumOrdem = numOrdem;
             NomePai = nomePai;
             NomeMae = nomeMae;
             DateInscricaoOAB = dateInscricaoOAB;
             DateAtualizacao = dateAtualizacao;
-            DateInsert = DateTime.Now;
+            Date = DateTime.Now;
         }
 
         // EF Construtor

@@ -15,13 +15,13 @@ namespace Application.IO.Site.Data.Mappings
             builder.Property(e => e.NomeMae).HasColumnType("varchar(100)");
             builder.Property(e => e.DateInscricaoOAB).HasColumnType("datetime");
             builder.Property(e => e.DateAtualizacao).HasColumnType("datetime");
-            builder.Property(e => e.DateInsert).HasColumnType("datetime");
+            builder.Property(e => e.Date).HasColumnType("datetime");
 
             builder.ToTable("Advogado");
 
             builder.HasOne(e => e.ApplicationUser)
                 .WithMany(o => o.AdvogadoInsert)
-                .HasForeignKey(e => e.IdInsertUser).OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(e => e.IdUser).OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.GeoCidade)
                 .WithMany(o => o.Advogado)
