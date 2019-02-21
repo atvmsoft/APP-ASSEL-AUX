@@ -9,7 +9,15 @@
             else {
                 DefaultSucessAlert();
                 $("#ModalMain").modal("hide");
-                new MvcGrid(document.querySelector('#GridAreaAtuacao')).reload();
+
+                if (!inscadadv)
+                    new MvcGrid(document.querySelector('#GridAreaAtuacao')).reload();
+                else {
+                    if ($(".span-areatuacao-notfound").length > 0)
+                        $(".span-areatuacao-notfound").remove();
+
+                    $(".ckb-areaatuacao").append("<label><input type=\"checkbox\" checked value=\"" + result.objRetorno.id + "\"><span>" + result.objRetorno.nome + "</span></label>");
+                }
             }
         },
         error: function () {

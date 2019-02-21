@@ -10,6 +10,8 @@
         <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/css/mvc-grid.css">
         <link rel="stylesheet" href="~/css/toastr.min.css">
+        <link rel="stylesheet" href="~/css/bootstrap-datepicker.min.css">
+        <link rel="stylesheet" href="~/css/mvc-grid.css">
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -18,9 +20,9 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 
-    @*<script> var baseUrl = "@Url.Content("~")"; </script>*@
-
-    <link rel="stylesheet" href="~/css/mvc-grid.css">
+    <script>
+        var baseUrl = "@Url.Content("~")", True = true, False = false;
+    </script>
 
     <style>
         .table-hover tbody tr:hover {
@@ -80,22 +82,33 @@
 
     @RenderSection("Scripts", required: false)
 
+    <script src="~/js/mvc-grid.js"></script>
+    <script src="~/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/js/bootstrap-datepicker.pt-BR.min.js"></script>
+
     <div class="container body-content b-content">
         @RenderBody()
-
-        <script src="~/js/mvc-grid.js"></script>
-        <script>
-            [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
-                new MvcGrid(element);
-            });
-
-            $(document).ready(function () {
-                $('#ModalMain').on('hidden.bs.modal', function (e) {
-                    $("#ModalMainContent").empty();
-                })
-            });
-        </script>
     </div>
+
+    <script>
+        [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
+            new MvcGrid(element);
+        });
+
+        $(document).ready(function () {
+            $('#ModalMain').on('hidden.bs.modal', function (e) {
+                $("#ModalMainContent").empty();
+            });
+
+            $('.date').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'pt-BR',
+                todayHighlight: true,
+                autoclose: true,
+                orientation: 'bottom left'
+            });
+        });
+    </script>
 
     <!-- Modal -->
     <div id="ModalMain" style="overflow:hidden;" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">

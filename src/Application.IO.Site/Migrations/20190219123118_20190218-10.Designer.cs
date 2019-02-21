@@ -11,9 +11,10 @@ using System;
 namespace Application.IO.Site.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190219123118_20190218-10")]
+    partial class _2019021810
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,8 +99,6 @@ namespace Application.IO.Site.Migrations
 
                     b.Property<DateTime>("DateInscricaoOAB")
                         .HasColumnType("datetime");
-
-                    b.Property<bool>("Delete");
 
                     b.Property<string>("Foto")
                         .IsRequired();

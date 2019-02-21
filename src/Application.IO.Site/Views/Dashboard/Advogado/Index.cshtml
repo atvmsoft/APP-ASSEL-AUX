@@ -1,6 +1,10 @@
 ﻿@model SystemModels.Advogado.AdvogadoModel
 
 <link rel="stylesheet" href="~/css/Views/Dashboard/Advogado/Index.css" />
+<script>var modelidadv = @(Model.Id);</script>
+<script src="~/js/Views/Dashboard/Advogado/Index.js"></script>
+<script src="~/js/Views/Situacao/dashboardGridSituacao.js"></script>
+<script src="~/js/Views/AreaAtuacao/dashboardGridAreaAtuacao.js"></script>
 
 @if (Model.Id == 0)
 {
@@ -11,12 +15,12 @@ else
     <h2>Editar Advogado: @($"{Model.Nome} - {Model.NumOrdem}")</h2>
 }
 
-@using (Html.BeginForm("SaveTipoEndereco", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", id = "FormEdtTipoEndereco", role = "form", onsubmit = "return false;" }))
+@using (Html.BeginForm("SaveAdvogado", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", id = "FormEdtAdvogado", role = "form", onsubmit = "return false;" }))
 {
     @Html.HiddenFor(m => m.Id)
 
     <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-12 zero-padding">
+        <div class="col-lg-6 col-md-6 col-sm-12 padding-adjust">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 @Html.LabelFor(m => m.Nome)
             </div>
@@ -24,7 +28,7 @@ else
                 @Html.TextBoxFor(m => m.Nome, new { autocomplete = "nope", @class = "form-control", @required = "", @autofocus = "" })
             </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-12 zero-padding">
+        <div class="col-lg-2 col-md-2 col-sm-12 padding-adjust">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 @Html.LabelFor(m => m.NumOrdem)
             </div>
@@ -32,16 +36,142 @@ else
                 @Html.TextBoxFor(m => m.NumOrdem, new { autocomplete = "nope", @class = "form-control", @required = "" })
             </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-12 zero-padding">
+        <div class="col-lg-2 col-md-2 col-sm-12 padding-adjust">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 @Html.LabelFor(m => m.DateInscricaoOAB)
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
-                @Html.TextBoxFor(m => m.DateInscricaoOAB, new { autocomplete = "nope", @class = "form-control", @required = "" })
+                <div class="input-group date" data-provide="datepicker" data-date-end-date="0d">
+                    <input type="text" class="form-control" autocomplete="nope" id="DateInscricaoOAB" name="DateInscricaoOAB" value="@(Model.Id == 0 ? "" : Model.DateInscricaoOAB.ToString("dd/MM/yyyy"))" required />
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 padding-adjust">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                @Html.LabelFor(m => m.DateAtualizacao)
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="input-group date" data-provide="datepicker" data-date-end-date="0d">
+                    <input type="text" class="form-control" autocomplete="nope" id="DateAtualizacao" name="DateAtualizacao" value="@(Model.Id == 0 ? "" : Model.DateAtualizacao.ToString("dd/MM/yyyy"))" required />
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="row div-submit">
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-12 padding-adjust">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <label>Foto</label>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <input type="file" id="IFoto" name="IFoto" accept="image/*" required />
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12 padding-adjust">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                @Html.LabelFor(m => m.IdGeoEstado)
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                @Html.DropDownListFor(m => m.IdGeoEstado, new SelectList(ViewBag.Estados, "Id", "Nome"), new { autocomplete = "nope", @class = "form-control", @required = "" })
+            </div>
+        </div>
+        <div class="col-lg-5 col-md-5 col-sm-12 padding-adjust">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                @Html.LabelFor(m => m.IdGeoCidade)
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                @if (Model.IdGeoCidade == 0)
+                {
+                    @Html.DropDownList("IdGeoCidade", new List<SelectListItem>(), new { autocomplete = "nope", @class = "form-control", @required = "", @Disabled = "" })
+                    <script>GetCidades($("#IdGeoEstado").val());</script>
+                }
+                else
+                {
+                    @Html.DropDownListFor(m => m.IdGeoCidade, new SelectList(ViewBag.Cidades, "Id", "Nome"), new { autocomplete = "nope", @class = "form-control", @required = "" })
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-3 col-sm-12 padding-adjust">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                @Html.LabelFor(m => m.NomePai)
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                @Html.TextBoxFor(m => m.NomePai, new { autocomplete = "nope", @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-3 col-sm-12 padding-adjust">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                @Html.LabelFor(m => m.NomeMae)
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                @Html.TextBoxFor(m => m.NomeMae, new { autocomplete = "nope", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 padding-zero">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <label>Situação</label>
+                <a class="add-link" href="javascript:void(0);" onclick="GridSituacaoEdt(0, true);"><i class="glyphicon glyphicon-plus"></i></a>
+                <a class="add-link" href="javascript:void(0);" onclick="RefreshSituacao(@(Model.Id));"><i class="glyphicon glyphicon-refresh"></i></a>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 ckb-area ckb-situacao">
+                    @{
+                        var LstSituacao = (List<SystemModels.Situacao.SituacaoModel>)ViewBag.Situacao;
+                        if (LstSituacao.Count == 0)
+                        {
+                            <span class="span-situacao-notfound">Nenhum item encontrado</span>
+                        }
+                        else
+                        {
+                            for (var i = 0; i < LstSituacao.Count; i++)
+                            {
+                                var it = LstSituacao[i];
+                                <label><input class="input-ckb-situacao" type="checkbox" value="@it.Id" /><span>@it.Nome</span></label>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row padding-adjust-last">
+        <div class="col-lg-12 col-md-12 col-sm-12 padding-zero">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <label>Áreas de Atuação</label>
+                <a class="add-link" href="javascript:void(0);" onclick="GridAreaAtuacaoEdt(0, true);"><i class="glyphicon glyphicon-plus"></i></a>
+                <a class="add-link" href="javascript:void(0);" onclick="RefreshAreaAtuacao(@(Model.Id));"><i class="glyphicon glyphicon-refresh"></i></a>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 ckb-area ckb-areaatuacao">
+                    @{
+                        var LstAreaAtuacao = (List<SystemModels.AreaAtuacao.AreaAtuacaoModel>)ViewBag.AreaAtuacao;
+                        if (LstAreaAtuacao.Count == 0)
+                        {
+                            <span class="span-areatuacao-notfound">Nenhum item encontrado</span>
+                        }
+                        else
+                        {
+                            for (var i = 0; i < LstAreaAtuacao.Count; i++)
+                            {
+                                var it = LstAreaAtuacao[i];
+                                <label><input class="input-ckb-areaatuacao" type="checkbox" value="@it.Id" /><span>@it.Nome</span></label>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></button>
             <a class="btn btn-danger btn-left-zero" asp-controller="Dashboard" asp-action="Index"><i class="glyphicon glyphicon-ban-circle"></i></a>

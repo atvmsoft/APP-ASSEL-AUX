@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Application.IO.Site.Models.SystemModels.AreaAtuacao;
+using Application.IO.Site.Models.SystemModels.Situacao;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Application.IO.Site.Models.SystemModels.Advogado
@@ -11,7 +15,12 @@ namespace Application.IO.Site.Models.SystemModels.Advogado
         [Display(Name = "Inscrição")]
         public DateTime DateInscricaoOAB { get; set; }
 
+        [Display(Name = "Estado")]
+        [Required(ErrorMessage = "\"{0}\" é obrigatório")]
+        public int IdGeoEstado { get; set; }
+
         [Display(Name = "Subseção")]
+        [Required(ErrorMessage = "\"{0}\" é obrigatório")]
         public int IdGeoCidade { get; set; }
 
         [Display(Name = "Nome")]
@@ -30,6 +39,11 @@ namespace Application.IO.Site.Models.SystemModels.Advogado
         [Display(Name = "Nº OAB")]
         [StringLength(8, ErrorMessage = "\"{0}\" deve ter entre {2} e {1} caracteres.", MinimumLength = 2)]
         public string NumOrdem { get; set; }
+
+        public string ListSituacao { get; set; }
+        public string ListAreaAtuacao { get; set; }
+
+        public IFormFile IFoto { get; set; }
 
         public bool Delete { get; set; }
 

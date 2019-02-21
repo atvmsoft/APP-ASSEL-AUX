@@ -28,6 +28,8 @@ namespace Application.IO.Site.Services.Business.Insert
                 {
                     db.Entry(obj).State = EntityState.Added;
                     db.SaveChanges();
+
+                    retorno.objRetorno = obj;
                 }
             }
 

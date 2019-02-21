@@ -10,6 +10,7 @@ namespace Application.IO.Site.Models.SystemModels.Situacao
         public string Nome { get; set; }
 
         public bool Delete { get; set; }
+        public bool Selected { get; set; }
 
         public int Id { get; set; }
     }

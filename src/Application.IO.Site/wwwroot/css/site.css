@@ -61,3 +61,7 @@ body {
 .btn-left-zero {
     margin-left: 0px !important;
 }
+
+label {
+    margin-bottom: 0px !important;
+}

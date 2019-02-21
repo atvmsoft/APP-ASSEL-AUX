@@ -21,6 +21,9 @@ namespace Application.IO.Site.Models.Domain
         [Required]
         public string NumOrdem { get; private set; }
 
+        [Required]
+        public string Foto { get; private set; }
+
         public string NomePai { get; private set; }
         public string NomeMae { get; private set; }
 
@@ -32,6 +35,9 @@ namespace Application.IO.Site.Models.Domain
 
         [Required]
         public DateTime Date { get; private set; }
+
+        [Required]
+        public bool Delete { get; private set; }
 
         public Advogado(Guid idUser, int idGeoCidade, string nome, string numOrdem, string nomePai, string nomeMae, DateTime dateInscricaoOAB, DateTime dateAtualizacao)
         {

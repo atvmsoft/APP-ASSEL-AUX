@@ -1,9 +1,9 @@
-﻿function GridSituacaoEdt(id) {
+﻿function GridSituacaoEdt(id, inscadadv = false) {
     $.ajax({
         type: "POST",
         url: '/Dashboard/EdtSituacao',
         datatype: "Application/Json",
-        data: { id: id },
+        data: { id: id, insCadAdv: inscadadv },
         success: function (result) {
             $("#ModalMainContent").html(result);
             $("#ModalMain").modal("show");
