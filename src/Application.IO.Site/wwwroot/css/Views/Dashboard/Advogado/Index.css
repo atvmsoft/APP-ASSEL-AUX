@@ -41,3 +41,39 @@
 .add-link {
     margin-left: 5px;
 }
+
+#accordion {
+    margin-top: 15px !important;
+}
+
+.grid-collumn-del {
+    width: 60px;
+}
+
+.grid-collumn-edt {
+    width: 62px;
+}
+
+.grid-collumn-tipo-contato {
+    width: 150px;
+}
+
+.grid-collumn-dateinsert {
+    width: 140px;
+}
+
+.new-contato {
+    margin-bottom: 10px;
+}
+
+.btn-ver-foto {
+    width: 100%;
+}
+
+    .btn-ver-foto > .glyphicon-picture {
+        margin-right: 5px;
+    }
+
+#IFoto {
+    margin-top:6px;
+}

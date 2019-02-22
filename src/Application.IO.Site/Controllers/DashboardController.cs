@@ -1,5 +1,5 @@
 ﻿using Application.IO.Site.Interfaces;
-using Application.IO.Site.Models.Source;
+using Application.IO.Site.Models.Domain;
 using Application.IO.Site.Models.SystemModels.Advogado;
 using Application.IO.Site.Models.SystemModels.AreaAtuacao;
 using Application.IO.Site.Models.SystemModels.Situacao;
@@ -9,9 +9,7 @@ using Application.IO.Site.Services.Business.Core;
 using Application.IO.Site.Services.Business.Select;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Application.IO.Site.Controllers
 {
@@ -66,16 +64,7 @@ namespace Application.IO.Site.Controllers
         [HttpPost]
         public IActionResult SaveSituacao(SituacaoModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                var retorno = new ReturnAction();
-                foreach (var item in ModelState.Values.SelectMany(s => s.Errors).Select(s => s.ErrorMessage))
-                {
-                    retorno.Mensagens.Add(item);
-                }
-
-                return Json(retorno);
-            }
+            if (!ModelState.IsValid) return Json(NegativeReturn);
 
             return Json(new SituacaoCore().Save(model, UserId));
         }
@@ -128,16 +117,7 @@ namespace Application.IO.Site.Controllers
         [HttpPost]
         public IActionResult SaveAreaAtuacao(AreaAtuacaoModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                var retorno = new ReturnAction();
-                foreach (var item in ModelState.Values.SelectMany(s => s.Errors).Select(s => s.ErrorMessage))
-                {
-                    retorno.Mensagens.Add(item);
-                }
-
-                return Json(retorno);
-            }
+            if (!ModelState.IsValid) return Json(NegativeReturn);
 
             return Json(new AreaAtuacaoCore().Save(model, UserId));
         }
@@ -189,17 +169,7 @@ namespace Application.IO.Site.Controllers
         [HttpPost]
         public IActionResult SaveTipoContato(TipoContatoModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                var retorno = new ReturnAction();
-                foreach (var item in ModelState.Values.SelectMany(s => s.Errors).Select(s => s.ErrorMessage))
-                {
-                    retorno.Mensagens.Add(item);
-                }
-
-                return Json(retorno);
-            }
-
+            if (!ModelState.IsValid) return Json(NegativeReturn);
 
             return Json(new TipoContatoCore().Save(model, UserId));
         }
@@ -245,17 +215,7 @@ namespace Application.IO.Site.Controllers
         [HttpPost]
         public IActionResult SaveTipoEndereco(TipoEnderecoModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                var retorno = new ReturnAction();
-                foreach (var item in ModelState.Values.SelectMany(s => s.Errors).Select(s => s.ErrorMessage))
-                {
-                    retorno.Mensagens.Add(item);
-                }
-
-                return Json(retorno);
-            }
-
+            if (!ModelState.IsValid) return Json(NegativeReturn);
 
             return Json(new TipoEnderecoCore().Save(model, UserId));
         }
@@ -279,15 +239,20 @@ namespace Application.IO.Site.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveAdvogado(AdvogadoModel model)
+        public IActionResult SaveAdvogado(AdvogadoModel model)
         {
-            using (var memoryStream = new MemoryStream())
-            {
-                await model.IFoto.CopyToAsync(memoryStream);
-            }
-
-            return Json(model);
+            if (!ModelState.IsValid) return Json(NegativeReturn);
+            
+            return Json(new AdvogadoCore().Save(model, UserId));
         }
+
+        #region Contatos
+        [HttpGet]
+        public PartialViewResult GridAdvogadoContato(int idAdvogado)
+        {
+            return PartialView("Advogado/Contato/_GridView", new AdvogadoContatoSelect().GetGrid(idAdvogado));
+        }
+        #endregion
         #endregion
     }
 }

@@ -1,5 +1,4 @@
-﻿using Application.IO.Site.Data;
-using Application.IO.Site.Models.Source;
+﻿using Application.IO.Site.Models.Source;
 using Application.IO.Site.Models.Source.Notifications;
 using Application.IO.Site.Services.Business.Select;
 using System;
@@ -10,7 +9,7 @@ namespace Application.IO.Site.Models.Domain
     public class AdvogadoContato : Entity
     {
         [Required]
-        public Guid IdInsertUser { get; private set; }
+        public Guid IdUser { get; private set; }
 
         [Required]
         public int IdAdvogado { get; private set; }
@@ -22,17 +21,21 @@ namespace Application.IO.Site.Models.Domain
         public string Contato { get; private set; }
 
         [Required]
-        public DateTime DateInsert { get; private set; }
+        public DateTime Date { get; private set; }
 
-        public AdvogadoContato(Guid idInsertUser, int idAdvogado, int idTipoContato, string contato)
+        [Required]
+        public bool Delete { get; private set; }
+
+        public AdvogadoContato(Guid idUser, int idAdvogado, int idTipoContato, string contato)
         {
-            if (new AdvogadoContatoSelect().GetByAdvContato(idAdvogado,contato) != null) Add(new DomainNotification("AdvogadoContato", $"O Contato \"'{ contato }'\" já existe."));
+            if (new AdvogadoSelect().GetById(idAdvogado, idUser) == null) Add(new DomainNotification("AdvogadoContato", $"O advogado não existe, ou você não tem permissão sobre este cadastro."));
+            if (new AdvogadoContatoSelect().GetByAdvContato(idAdvogado, idTipoContato, contato) != null) Add(new DomainNotification("AdvogadoContato", $"O Contato \"'{ contato }'\" já existe."));
 
-            IdInsertUser = idInsertUser;
+            IdUser = idUser;
             IdAdvogado = idAdvogado;
             IdTipoContato = idTipoContato;
             Contato = contato;
-            DateInsert = DateTime.Now;
+            Date = DateTime.Now;
         }
 
         // EF Construtor

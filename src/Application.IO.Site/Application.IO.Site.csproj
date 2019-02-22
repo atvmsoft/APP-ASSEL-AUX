@@ -29,6 +29,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Dashboard\Advogado\Contato\_DelPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Dashboard\Advogado\Contato\_EdtPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Dashboard\Advogado\Contato\_GridView.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Dashboard\Advogado\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -101,6 +110,11 @@
     <Content Update="wwwroot\js\toastr.min.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Files\Avatar\" />
+    <Folder Include="Views\Dashboard\Advogado\Endereco\" />
   </ItemGroup>
 
 </Project>

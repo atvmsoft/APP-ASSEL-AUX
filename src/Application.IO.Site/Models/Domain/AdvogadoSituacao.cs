@@ -1,5 +1,4 @@
-﻿using Application.IO.Site.Data;
-using Application.IO.Site.Models.Source;
+﻿using Application.IO.Site.Models.Source;
 using Application.IO.Site.Models.Source.Notifications;
 using Application.IO.Site.Services.Business.Select;
 using System;
@@ -10,7 +9,7 @@ namespace Application.IO.Site.Models.Domain
     public class AdvogadoSituacao : Entity
     {
         [Required]
-        public Guid IdInsertUser { get; private set; }
+        public Guid IdUser { get; private set; }
 
         [Required]
         public int IdAdvogado { get; private set; }
@@ -19,16 +18,19 @@ namespace Application.IO.Site.Models.Domain
         public int IdSituacao { get; private set; }
 
         [Required]
-        public DateTime DateInsert { get; private set; }
+        public DateTime Date { get; private set; }
 
-        public AdvogadoSituacao(Guid idInsertUser, int idAdvogado, int idSituacao)
+        public AdvogadoSituacao(Guid idUser, int idAdvogado, int idSituacao)
         {
             if (new AdvogadoSituacaoSelect().GetByAdvSituacao(idSituacao, idAdvogado) != null) Add(new DomainNotification("AdvogadoSituacao", $"Situação já relacionada."));
 
-            IdInsertUser = idInsertUser;
+            var adv = new AdvogadoSelect().GetById(IdAdvogado, idUser);
+            if (adv == null) Add(new DomainNotification("AdvogadoSituacao", $"Situação já relacionada."));
+
+            IdUser = idUser;
             IdAdvogado = idAdvogado;
-            IdSituacao = IdSituacao;
-            DateInsert = DateTime.Now;
+            IdSituacao = idSituacao;
+            Date = DateTime.Now;
         }
 
         // EF Construtor

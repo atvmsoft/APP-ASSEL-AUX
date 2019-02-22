@@ -11,9 +11,10 @@ using System;
 namespace Application.IO.Site.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190222171828_0000016")]
+    partial class _0000016
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,7 +230,7 @@ namespace Application.IO.Site.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("DateInsert")
                         .HasColumnType("datetime");
 
                     b.Property<int>("IdAdvogado");

@@ -1,0 +1,36 @@
+﻿@model SystemModels.Situacao.SituacaoModel
+
+@*<style>
+    .modal-dialog {
+        width: 600px !important;
+    }
+</style>*@
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Excluir - Contato</h4>
+</div>
+<div>
+    @using (Html.BeginForm("SaveSituacao", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", id = "FormDelSituacao", role = "form", onsubmit = "return false;" }))
+    {
+        @Html.HiddenFor(m => m.Id)
+        @Html.Hidden("Delete", true);
+        @Html.HiddenFor(m => m.Nome)
+
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    @Html.LabelFor(m => m.Nome)
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    @Html.DisplayFor(m => m.Nome)
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></button>
+            <button type="button" class="btn btn-danger btn-left-zero" data-dismiss="modal"><i class="glyphicon glyphicon-ban-circle"></i></button>
+        </div>
+    }
+</div>
+<script src="~/js/Views/Situacao/dashboardDelSituacao.js"></script>

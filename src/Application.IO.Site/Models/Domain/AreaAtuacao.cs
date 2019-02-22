@@ -21,11 +21,11 @@ namespace Application.IO.Site.Models.Domain
         [Required]
         public bool Delete { get; private set; }
 
-        public AreaAtuacao(Guid idInsertUser, string nome)
+        public AreaAtuacao(Guid idUser, string nome)
         {
             if (new AreaAtuacaoSelect().GetByName(nome) != null) Add(new DomainNotification("Area", $"A Área de Atuação \"'{ nome.ToUpper() }'\" já existe."));
 
-            IdUser = idInsertUser;
+            IdUser = idUser;
             Date = DateTime.Now;
             Nome = nome.ToUpper();
             Delete = false;

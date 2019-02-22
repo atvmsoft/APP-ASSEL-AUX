@@ -30,7 +30,8 @@ namespace Application.IO.Site.Services.Business.Select
                                NomePai = A.NomePai,
                                NumOrdem = A.NumOrdem,
                                Delete = A.Delete,
-                               Id = A.Id
+                               Id = A.Id,
+                               Foto = A.Foto
                            }).FirstOrDefault();
 
             if (retorno == null)

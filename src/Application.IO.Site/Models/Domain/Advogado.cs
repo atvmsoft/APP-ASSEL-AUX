@@ -39,18 +39,25 @@ namespace Application.IO.Site.Models.Domain
         [Required]
         public bool Delete { get; private set; }
 
-        public Advogado(Guid idUser, int idGeoCidade, string nome, string numOrdem, string nomePai, string nomeMae, DateTime dateInscricaoOAB, DateTime dateAtualizacao)
+        public Advogado(Guid idUser, int idGeoCidade, string nome, string numOrdem, string foto, string nomePai, string nomeMae, DateTime dateInscricaoOAB, DateTime dateAtualizacao)
         {
+            if (new GeoCidadeSelect().GetById(idGeoCidade) == null) Add(new DomainNotification("Advogado", $"Subseção não encontrada."));
             if (new AdvogadoSelect().GetByNumOrdem(numOrdem) != null) Add(new DomainNotification("Advogado", $"O Número da Ordem \"'{ numOrdem }'\" já existe."));
+            if (dateInscricaoOAB > DateTime.Now) Add(new DomainNotification("Advogado", $"A Inscrição: \"'{ dateInscricaoOAB.ToString("dd/MM/yyyy") }'\", é maior do que hoje."));
+            if (dateAtualizacao > DateTime.Now) Add(new DomainNotification("Advogado", $"A Atualização: \"'{ dateAtualizacao.ToString("dd/MM/yyyy") }'\", é maior do que hoje."));
+            if (string.IsNullOrEmpty(foto)) Add(new DomainNotification("Advogado", $"A Foto não foi fornecida."));
 
             IdUser = idUser;
-            Nome = nome;
+            IdGeoCidade = idGeoCidade;
+            Nome = nome.ToUpper();
             NumOrdem = numOrdem;
-            NomePai = nomePai;
-            NomeMae = nomeMae;
+            Foto = foto;
+            NomePai = nomePai.ToUpper();
+            NomeMae = nomeMae.ToUpper();
             DateInscricaoOAB = dateInscricaoOAB;
             DateAtualizacao = dateAtualizacao;
             Date = DateTime.Now;
+            Delete = false;
         }
 
         // EF Construtor

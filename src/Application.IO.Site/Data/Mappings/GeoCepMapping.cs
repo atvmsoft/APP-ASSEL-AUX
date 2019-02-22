@@ -14,13 +14,13 @@ namespace Application.IO.Site.Data.Mappings
             builder.Property(e => e.Bairro).HasColumnType("varchar(150)");
             builder.Property(e => e.Cidade).HasColumnType("varchar(100)");
             builder.Property(e => e.Estado).HasColumnType("varchar(20)");
-            builder.Property(e => e.DateInsert).HasColumnType("datetime");
+            builder.Property(e => e.Date).HasColumnType("datetime");
 
             builder.ToTable("GeoCep");
 
             builder.HasOne(e => e.ApplicationUser)
                 .WithMany(o => o.GeoCep)
-                .HasForeignKey(e => e.IdInsertUser).OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(e => e.IdUser).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

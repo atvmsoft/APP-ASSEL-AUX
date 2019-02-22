@@ -11,9 +11,10 @@ using System;
 namespace Application.IO.Site.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190222133442_0000014")]
+    partial class _0000014
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -137,7 +138,7 @@ namespace Application.IO.Site.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("DateInsert")
                         .HasColumnType("datetime");
 
                     b.Property<int>("IdAdvogado");
@@ -166,24 +167,22 @@ namespace Application.IO.Site.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("DateInsert")
                         .HasColumnType("datetime");
-
-                    b.Property<bool>("Delete");
 
                     b.Property<int>("IdAdvogado");
 
-                    b.Property<int>("IdTipoContato");
+                    b.Property<Guid>("IdInsertUser");
 
-                    b.Property<Guid>("IdUser");
+                    b.Property<int>("IdTipoContato");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IdAdvogado");
 
-                    b.HasIndex("IdTipoContato");
+                    b.HasIndex("IdInsertUser");
 
-                    b.HasIndex("IdUser");
+                    b.HasIndex("IdTipoContato");
 
                     b.ToTable("AdvogadoContato");
                 });
@@ -196,16 +195,16 @@ namespace Application.IO.Site.Migrations
                     b.Property<string>("Complemento")
                         .HasColumnType("varchar(50)");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("DateInsert")
                         .HasColumnType("datetime");
 
                     b.Property<int>("IdAdvogado");
 
                     b.Property<int>("IdGeoCep");
 
-                    b.Property<int>("IdTipoEndereco");
+                    b.Property<Guid>("IdInsertUser");
 
-                    b.Property<Guid>("IdUser");
+                    b.Property<int>("IdTipoEndereco");
 
                     b.Property<string>("Numero")
                         .IsRequired()
@@ -217,9 +216,9 @@ namespace Application.IO.Site.Migrations
 
                     b.HasIndex("IdGeoCep");
 
-                    b.HasIndex("IdTipoEndereco");
+                    b.HasIndex("IdInsertUser");
 
-                    b.HasIndex("IdUser");
+                    b.HasIndex("IdTipoEndereco");
 
                     b.ToTable("AdvogadoEndereco");
                 });
@@ -229,7 +228,7 @@ namespace Application.IO.Site.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("DateInsert")
                         .HasColumnType("datetime");
 
                     b.Property<int>("IdAdvogado");
@@ -288,7 +287,7 @@ namespace Application.IO.Site.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(8)");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("DateInsert")
                         .HasColumnType("datetime");
 
                     b.Property<string>("Endereco")
@@ -299,11 +298,11 @@ namespace Application.IO.Site.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(20)");
 
-                    b.Property<Guid>("IdUser");
+                    b.Property<Guid>("IdInsertUser");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdUser");
+                    b.HasIndex("IdInsertUser");
 
                     b.ToTable("GeoCep");
                 });
@@ -556,14 +555,14 @@ namespace Application.IO.Site.Migrations
                         .HasForeignKey("IdAdvogado")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("Application.IO.Site.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("AdvogadoContato")
+                        .HasForeignKey("IdInsertUser")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Application.IO.Site.Models.Domain.TipoContato", "TipoContato")
                         .WithMany("AdvogadoContato")
                         .HasForeignKey("IdTipoContato")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Application.IO.Site.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("AdvogadoContato")
-                        .HasForeignKey("IdUser")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -579,14 +578,14 @@ namespace Application.IO.Site.Migrations
                         .HasForeignKey("IdGeoCep")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("Application.IO.Site.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("AdvogadoEndereco")
+                        .HasForeignKey("IdInsertUser")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Application.IO.Site.Models.Domain.TipoEndereco", "TipoEndereco")
                         .WithMany("AdvogadoEndereco")
                         .HasForeignKey("IdTipoEndereco")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Application.IO.Site.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("AdvogadoEndereco")
-                        .HasForeignKey("IdUser")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -620,7 +619,7 @@ namespace Application.IO.Site.Migrations
                 {
                     b.HasOne("Application.IO.Site.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("GeoCep")
-                        .HasForeignKey("IdUser")
+                        .HasForeignKey("IdInsertUser")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

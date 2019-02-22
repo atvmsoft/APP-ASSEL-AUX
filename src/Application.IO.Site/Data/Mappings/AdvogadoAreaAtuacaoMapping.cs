@@ -9,13 +9,13 @@ namespace Application.IO.Site.Data.Mappings
     {
         public override void Map(EntityTypeBuilder<AdvogadoAreaAtuacao> builder)
         {
-            builder.Property(e => e.DateInsert).HasColumnType("datetime");
+            builder.Property(e => e.Date).HasColumnType("datetime");
 
             builder.ToTable("AdvogadoAreaAtuacao");
 
             builder.HasOne(e => e.ApplicationUser)
                 .WithMany(o => o.AdvogadoAreaAtuacao)
-                .HasForeignKey(e => e.IdInsertUser).OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(e => e.IdUser).OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.Advogado)
                 .WithMany(o => o.AdvogadoAreaAtuacao)

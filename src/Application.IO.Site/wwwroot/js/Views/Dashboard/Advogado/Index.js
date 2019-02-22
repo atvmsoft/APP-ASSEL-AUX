@@ -58,6 +58,10 @@ $(document).ready(function () {
         GetCidades($("#IdGeoEstado").val());
     });
 
+    $(".btn-novo-adv").click(function () {
+        window.location.href = "/Dashboard/Lawyer";
+    });
+
     $("#FormEdtAdvogado").submit(function () {
         let situacao = [];
         $($(".ckb-situacao input[type='checkbox']:checked")).each(function (i, e) {
@@ -100,13 +104,10 @@ $(document).ready(function () {
                 if (result.valido !== undefined && !result.valido)
                     DefaultError(result.mensagens, 500);
                 else {
-                    DefaultSucessAlert();
-
-                    //se der td certo e não for edição reseta o formulario
-                    if (modelidadv === 0)
-                        $("#FormEdtAdvogado")[0].reset();
+                    if ($("#Id").val() === "0")
+                        window.location.href = "/Dashboard/Lawyer/" + result.objRetorno;
                     else
-                        window.location.href = "/Dashboard/Index";
+                        DefaultSucessAlert();
                 }
             },
             error: function () {
@@ -114,4 +115,7 @@ $(document).ready(function () {
             }
         });
     });
+
+    $(".dateformat").mask("00/00/0000");
+    //$(".oabformat").mask("0000000000");
 });

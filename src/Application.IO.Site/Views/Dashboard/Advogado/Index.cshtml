@@ -1,7 +1,7 @@
 ﻿@model SystemModels.Advogado.AdvogadoModel
 
 <link rel="stylesheet" href="~/css/Views/Dashboard/Advogado/Index.css" />
-<script>var modelidadv = @(Model.Id);</script>
+
 <script src="~/js/Views/Dashboard/Advogado/Index.js"></script>
 <script src="~/js/Views/Situacao/dashboardGridSituacao.js"></script>
 <script src="~/js/Views/AreaAtuacao/dashboardGridAreaAtuacao.js"></script>
@@ -18,6 +18,7 @@ else
 @using (Html.BeginForm("SaveAdvogado", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", id = "FormEdtAdvogado", role = "form", onsubmit = "return false;" }))
 {
     @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.Foto)
 
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-12 padding-adjust">
@@ -25,7 +26,7 @@ else
                 @Html.LabelFor(m => m.Nome)
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
-                @Html.TextBoxFor(m => m.Nome, new { autocomplete = "nope", @class = "form-control", @required = "", @autofocus = "" })
+                @Html.TextBoxFor(m => m.Nome, new { autocomplete = "nope", @class = "form-control", @required = "", @autofocus = "", @maxlength = "100" })
             </div>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-12 padding-adjust">
@@ -33,7 +34,7 @@ else
                 @Html.LabelFor(m => m.NumOrdem)
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
-                @Html.TextBoxFor(m => m.NumOrdem, new { autocomplete = "nope", @class = "form-control", @required = "" })
+                @Html.TextBoxFor(m => m.NumOrdem, new { autocomplete = "nope", @class = "form-control oabformat", @required = "", @maxlength = "10" })
             </div>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-12 padding-adjust">
@@ -42,7 +43,7 @@ else
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="input-group date" data-provide="datepicker" data-date-end-date="0d">
-                    <input type="text" class="form-control" autocomplete="nope" id="DateInscricaoOAB" name="DateInscricaoOAB" value="@(Model.Id == 0 ? "" : Model.DateInscricaoOAB.ToString("dd/MM/yyyy"))" required />
+                    <input type="text" class="form-control dateformat" autocomplete="nope" id="DateInscricaoOAB" name="DateInscricaoOAB" value="@(Model.Id == 0 ? "" : Model.DateInscricaoOAB.ToString("dd/MM/yyyy"))" required />
                     <div class="input-group-addon">
                         <span class="glyphicon glyphicon-th"></span>
                     </div>
@@ -55,7 +56,7 @@ else
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="input-group date" data-provide="datepicker" data-date-end-date="0d">
-                    <input type="text" class="form-control" autocomplete="nope" id="DateAtualizacao" name="DateAtualizacao" value="@(Model.Id == 0 ? "" : Model.DateAtualizacao.ToString("dd/MM/yyyy"))" required />
+                    <input type="text" class="form-control dateformat" autocomplete="nope" id="DateAtualizacao" name="DateAtualizacao" value="@(Model.Id == 0 ? "" : Model.DateAtualizacao.ToString("dd/MM/yyyy"))" required />
                     <div class="input-group-addon">
                         <span class="glyphicon glyphicon-th"></span>
                     </div>
@@ -69,7 +70,14 @@ else
                 <label>Foto</label>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
-                <input type="file" id="IFoto" name="IFoto" accept="image/*" required />
+                @if (Model.Id == 0)
+                {
+                    <input type="file" id="IFoto" name="IFoto" accept="image/*" required />
+                }
+                else
+                {
+                    <a class="btn btn-primary btn-ver-foto" href="javascript:void(0);"><i class="glyphicon glyphicon-picture"></i>Ver ou Trocar</a>
+                }
             </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12 padding-adjust">
@@ -135,7 +143,14 @@ else
                             for (var i = 0; i < LstSituacao.Count; i++)
                             {
                                 var it = LstSituacao[i];
-                                <label><input class="input-ckb-situacao" type="checkbox" value="@it.Id" /><span>@it.Nome</span></label>
+                                if (it.Selected)
+                                {
+                                    <label><input class="input-ckb-situacao" type="checkbox" value="@it.Id" checked /><span>@it.Nome</span></label>
+                                }
+                                else
+                                {
+                                    <label><input class="input-ckb-situacao" type="checkbox" value="@it.Id" /><span>@it.Nome</span></label>
+                                }
                             }
                         }
                     }
@@ -163,7 +178,15 @@ else
                             for (var i = 0; i < LstAreaAtuacao.Count; i++)
                             {
                                 var it = LstAreaAtuacao[i];
-                                <label><input class="input-ckb-areaatuacao" type="checkbox" value="@it.Id" /><span>@it.Nome</span></label>
+
+                                if (it.Selected)
+                                {
+                                    <label><input class="input-ckb-areaatuacao" type="checkbox" value="@it.Id" checked /><span>@it.Nome</span></label>
+                                }
+                                else
+                                {
+                                    <label><input class="input-ckb-areaatuacao" type="checkbox" value="@it.Id" /><span>@it.Nome</span></label>
+                                }
                             }
                         }
                     }
@@ -174,7 +197,47 @@ else
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></button>
-            <a class="btn btn-danger btn-left-zero" asp-controller="Dashboard" asp-action="Index"><i class="glyphicon glyphicon-ban-circle"></i></a>
+            <a class="btn btn-danger" asp-controller="Dashboard" asp-action="Index"><i class="glyphicon glyphicon-ban-circle"></i></a>
+            @if (Model.Id != 0)
+            {
+                <a class="btn btn-primary btn-left-zero btn-novo-adv" href="javascript:void(0);"><i class="glyphicon glyphicon-plus"></i> Novo</a>
+            }
+        </div>
+    </div>
+}
+
+<!---->
+@if (Model.Id != 0)
+{
+    <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                        Endereços
+                    </a>
+                </h4>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+                <div class="panel-body">
+                    Endereços
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                        Contatos
+                    </a>
+                </h4>
+            </div>
+            <div id="collapse2" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <button class="btn btn-primary new-contato" onclick="GridAdvogadoContatoEdt(@(Model.Id));"><i class="glyphicon glyphicon-plus"></i></button>
+                    @Html.AjaxGrid(Url.Action("GridAdvogadoContato", Model.Id))
+                </div>
+            </div>
         </div>
     </div>
 }

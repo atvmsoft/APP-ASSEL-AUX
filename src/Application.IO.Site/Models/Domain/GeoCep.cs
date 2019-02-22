@@ -11,7 +11,7 @@ namespace Application.IO.Site.Models.Domain
     public class GeoCep : Entity
     {
         [Required]
-        public Guid IdInsertUser { get; private set; }
+        public Guid IdUser { get; private set; }
 
         [Required]
         public string Codigo { get; private set; }
@@ -28,19 +28,19 @@ namespace Application.IO.Site.Models.Domain
         public string Estado { get; private set; }
 
         [Required]
-        public DateTime DateInsert { get; private set; }
+        public DateTime Date { get; private set; }
 
-        public GeoCep(Guid idInsertUser, string codigo, string endereco, string bairro, string cidade, string estado)
+        public GeoCep(Guid idUser, string codigo, string endereco, string bairro, string cidade, string estado)
         {
             if (new GeoCepSelect().GetByCod(codigo) != null) Add(new DomainNotification("CEP", $"O CEP \"'{ codigo }'\" já existe."));
 
-            IdInsertUser = idInsertUser;
+            IdUser = idUser;
             Codigo = codigo;
             Endereco = endereco;
             Bairro = bairro;
             Cidade = cidade;
             Estado = estado;
-            DateInsert = DateTime.Now;
+            Date = DateTime.Now;
         }
 
         // EF Construtor

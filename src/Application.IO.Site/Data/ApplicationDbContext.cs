@@ -12,14 +12,18 @@ namespace Application.IO.Site.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
         public virtual DbSet<AreaAtuacao> AreaAtuacao { get; set; }
+
         public virtual DbSet<Situacao> Situacao { get; set; }
+
         public virtual DbSet<GeoCep> GeoCep { get; set; }
         public virtual DbSet<GeoEstado> GeoEstado { get; set; }
         public virtual DbSet<GeoCidade> GeoCidade { get; set; }
-        public virtual DbSet<Advogado> Advogado { get; set; }
+        
         public virtual DbSet<TipoContato> TipoContato { get; set; }
-        public virtual DbSet<AdvogadoContato> AdvogadoContato { get; set; }
         public virtual DbSet<TipoEndereco> TipoEndereco { get; set; }
+
+        public virtual DbSet<Advogado> Advogado { get; set; }
+        public virtual DbSet<AdvogadoContato> AdvogadoContato { get; set; }
         public virtual DbSet<AdvogadoEndereco> AdvogadoEndereco { get; set; }
         public virtual DbSet<AdvogadoAreaAtuacao> AdvogadoAreaAtuacao { get; set; }
         public virtual DbSet<AdvogadoSituacao> AdvogadoSituacao { get; set; }
@@ -29,14 +33,18 @@ namespace Application.IO.Site.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.AddConfiguration(new AreaAtuacaoMapping());
+
             modelBuilder.AddConfiguration(new SituacaoMapping());
+
             modelBuilder.AddConfiguration(new GeoCepMapping());
             modelBuilder.AddConfiguration(new GeoEstadoMapping());
             modelBuilder.AddConfiguration(new GeoCidadeMapping());
-            modelBuilder.AddConfiguration(new AdvogadoMapping());
+
             modelBuilder.AddConfiguration(new TipoContatoMapping());
-            modelBuilder.AddConfiguration(new AdvogadoContatoMapping());
             modelBuilder.AddConfiguration(new TipoEnderecoMapping());
+
+            modelBuilder.AddConfiguration(new AdvogadoMapping());
+            modelBuilder.AddConfiguration(new AdvogadoContatoMapping());
             modelBuilder.AddConfiguration(new AdvogadoEnderecoMapping());
             modelBuilder.AddConfiguration(new AdvogadoAreaAtuacaoMapping());
             modelBuilder.AddConfiguration(new AdvogadoSituacaoMapping());

@@ -10,7 +10,7 @@ namespace Application.IO.Site.Models.Domain
     public class AdvogadoEndereco : Entity
     {
         [Required]
-        public Guid IdInsertUser { get; private set; }
+        public Guid IdUser { get; private set; }
 
         [Required]
         public int IdAdvogado { get; private set; }
@@ -27,19 +27,19 @@ namespace Application.IO.Site.Models.Domain
         public string Complemento { get; private set; }
 
         [Required]
-        public DateTime DateInsert { get; private set; }
+        public DateTime Date { get; private set; }
 
-        public AdvogadoEndereco(Guid idInsertUser, int idAdvogado, int idTipoEndereco, int idGeoCep, string numero, string complemento)
+        public AdvogadoEndereco(Guid idUser, int idAdvogado, int idTipoEndereco, int idGeoCep, string numero, string complemento)
         {
             if (new AdvogadoEnderecoSelect().GetByAdvEndreco(idAdvogado, idTipoEndereco,idGeoCep, numero, complemento) != null) Add(new DomainNotification("AdvogadoEndereco", $"Este endereço já existe."));
 
-            IdInsertUser = idInsertUser;
+            IdUser = idUser;
             IdAdvogado = idAdvogado;
             IdTipoEndereco = idTipoEndereco;
             IdGeoCep = idGeoCep;
             Numero = numero;
             Complemento = complemento;
-            DateInsert = DateTime.Now;
+            Date = DateTime.Now;
         }
 
         // EF Construtor

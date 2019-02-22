@@ -11,13 +11,13 @@ namespace Application.IO.Site.Data.Mappings
         {
             builder.Property(e => e.Numero).HasColumnType("varchar(10)");
             builder.Property(e => e.Complemento).HasColumnType("varchar(50)");
-            builder.Property(e => e.DateInsert).HasColumnType("datetime");
+            builder.Property(e => e.Date).HasColumnType("datetime");
 
             builder.ToTable("AdvogadoEndereco");
 
             builder.HasOne(e => e.ApplicationUser)
                 .WithMany(o => o.AdvogadoEndereco)
-                .HasForeignKey(e => e.IdInsertUser).OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(e => e.IdUser).OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.Advogado)
                 .WithMany(o => o.AdvogadoEndereco)

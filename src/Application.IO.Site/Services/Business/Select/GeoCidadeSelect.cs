@@ -19,5 +19,10 @@ namespace Application.IO.Site.Services.Business.Select
             else
                 return db.GeoCidade.AsNoTracking().Where(w => w.IdGeoEstado == idGeoEstado);
         }
+
+        public IQueryable<GeoCidade> GetById(int idGeoCidade)
+        {
+                return db.GeoCidade.AsNoTracking().Where(w => w.Id == idGeoCidade);
+        }
     }
 }

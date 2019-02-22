@@ -1,8 +1,5 @@
-﻿using Application.IO.Site.Models.SystemModels.AreaAtuacao;
-using Application.IO.Site.Models.SystemModels.Situacao;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Application.IO.Site.Models.SystemModels.Advogado
@@ -37,12 +34,15 @@ namespace Application.IO.Site.Models.SystemModels.Advogado
         public string NomePai { get; set; }
 
         [Display(Name = "Nº OAB")]
-        [StringLength(8, ErrorMessage = "\"{0}\" deve ter entre {2} e {1} caracteres.", MinimumLength = 2)]
+        [StringLength(10, ErrorMessage = "\"{0}\" deve ter entre {2} e {1} caracteres.", MinimumLength = 2)]
         public string NumOrdem { get; set; }
 
         public string ListSituacao { get; set; }
         public string ListAreaAtuacao { get; set; }
+        public string Foto { get; set; }
 
+        [Display(Name = "Foto")]
+        [Required(ErrorMessage = "\"{0}\" é obrigatório")]
         public IFormFile IFoto { get; set; }
 
         public bool Delete { get; set; }

@@ -1,6 +1,8 @@
 ﻿using Application.IO.Site.Interfaces;
+using Application.IO.Site.Models.Source;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Application.IO.Site.Controllers
@@ -52,6 +54,20 @@ namespace Application.IO.Site.Controllers
             digito = digito + resto.ToString();
 
             return cpf.EndsWith(digito);
+        }
+
+        public ReturnAction NegativeReturn
+        {
+            get
+            {
+                var retorno = new ReturnAction();
+                foreach (var item in ModelState.Values.SelectMany(s => s.Errors).Select(s => s.ErrorMessage))
+                {
+                    retorno.Mensagens.Add(item);
+                }
+
+                return retorno;
+            }
         }
     }
 }
