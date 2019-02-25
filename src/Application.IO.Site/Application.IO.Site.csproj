@@ -41,6 +41,9 @@
     <Content Update="Views\Dashboard\Advogado\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Dashboard\Advogado\Partials\_ChangeAvatar.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Dashboard\Advogado\Partials\_DelPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -113,7 +116,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Files\Avatar\" />
     <Folder Include="Views\Dashboard\Advogado\Endereco\" />
   </ItemGroup>
 

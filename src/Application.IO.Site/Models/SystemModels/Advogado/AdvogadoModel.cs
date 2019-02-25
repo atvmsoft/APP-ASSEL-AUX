@@ -42,7 +42,6 @@ namespace Application.IO.Site.Models.SystemModels.Advogado
         public string Foto { get; set; }
 
         [Display(Name = "Foto")]
-        [Required(ErrorMessage = "\"{0}\" é obrigatório")]
         public IFormFile IFoto { get; set; }
 
         public bool Delete { get; set; }

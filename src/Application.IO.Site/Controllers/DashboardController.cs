@@ -246,6 +246,20 @@ namespace Application.IO.Site.Controllers
             return Json(new AdvogadoCore().Save(model, UserId));
         }
 
+        [HttpPost]
+        public IActionResult EdtAdvAvatar(int id)
+        {
+            return PartialView("Advogado/Partials/_ChangeAvatar", new AdvogadoSelect().GetAvatar(id, UserId));
+        }
+
+        [HttpPost]
+        public IActionResult SaveAdvAvatar(AdvogadoAvatarModel model)
+        {
+            if (!ModelState.IsValid) return Json(NegativeReturn);
+
+            return Json(new AdvogadoCore().SaveAvatar(model, UserId));
+        }
+
         #region Contatos
         [HttpGet]
         public PartialViewResult GridAdvogadoContato(int idAdvogado)

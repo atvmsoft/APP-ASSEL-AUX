@@ -3,15 +3,29 @@ using Application.IO.Site.Models.Services.Abstractions;
 using Application.IO.Site.Models.SystemModels.Advogado;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.IO;
 using System.Linq;
 
 namespace Application.IO.Site.Services.Business.Select
 {
     public class AdvogadoSelect : AbstractionContext
     {
-        public Advogado GetByNumOrdem(string numOrdem)
+        public Advogado GetByNumOrdem(string numOrdem, int idGeoCidade)
         {
-            return db.Advogado.Where(w => w.NumOrdem == numOrdem).FirstOrDefault();
+            var obj = db.Advogado.AsNoTracking().Where(w => w.NumOrdem == numOrdem).ToList();
+            //os numeros da OAB podem ser repetidos desde que estejam em estados diferentes
+            if (obj.Any())
+            {
+                var estado = (from A in obj
+                              join C in db.GeoCidade.AsNoTracking() on A.IdGeoCidade equals C.Id
+                              where A.NumOrdem == numOrdem
+                              select C.IdGeoEstado).FirstOrDefault();
+
+                var cidade = new GeoCidadeSelect().GetById(idGeoCidade);
+                if (cidade != null && cidade.FirstOrDefault().IdGeoEstado != estado) return null;
+            }
+
+            return obj.FirstOrDefault();
         }
 
         public AdvogadoModel GetById(int id, Guid idUser)
@@ -38,6 +52,26 @@ namespace Application.IO.Site.Services.Business.Select
                 return new AdvogadoModel();
 
             return retorno;
+        }
+
+        public Advogado Get(int id, Guid idUser)
+        {
+            return db.Advogado.Where(w => w.Id == id && w.IdUser == idUser).FirstOrDefault();
+        }
+
+        public AdvogadoAvatarModel GetAvatar(int id, Guid idUser)
+        {
+            var obj = Get(id, idUser);
+
+            if (obj != null)
+                return new AdvogadoAvatarModel()
+                {
+                    Nome = obj.Nome,
+                    Id = obj.Id,
+                    Foto = obj.Foto
+                };
+
+            return null;
         }
     }
 }

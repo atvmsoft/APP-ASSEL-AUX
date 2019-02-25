@@ -38,7 +38,7 @@ namespace Application.IO.Site.Services.Business.Insert
                     }
                 }
 
-            var obj = new Advogado(id, model.IdGeoCidade, model.Nome, model.NumOrdem, $"{ DateTime.Now.ToString("yyyyMMddHHmmssyyy") }{ model.IFoto.FileName.Substring(model.IFoto.FileName.LastIndexOf(".")) }", model.NomePai, model.NomeMae, model.DateInscricaoOAB, model.DateAtualizacao);
+            var obj = new Advogado(id, model.IdGeoCidade, model.Nome, model.NumOrdem, $"{ DateTime.Now.ToString("yyyyMMddHHmmssfff") }{ model.IFoto.FileName.Substring(model.IFoto.FileName.LastIndexOf(".")) }", model.NomePai, model.NomeMae, model.DateInscricaoOAB, model.DateAtualizacao);
             foreach (var item in obj.Get) retorno.Mensagens.Add(item.Value);
 
             if (!retorno.Valido) return retorno;
@@ -46,22 +46,16 @@ namespace Application.IO.Site.Services.Business.Insert
             db.Entry(obj).State = EntityState.Added;
             db.SaveChanges();
 
-            if (model.Id == 0)
-            {
-                if (!Directory.Exists($"{ Directory.GetCurrentDirectory() }\\Files")) Directory.CreateDirectory($"{ Directory.GetCurrentDirectory() }\\Files");
-                if (!Directory.Exists($"{ Directory.GetCurrentDirectory() }\\Files\\Avatar")) Directory.CreateDirectory($"{ Directory.GetCurrentDirectory() }\\Files\\Avatar");
-                if (!Directory.Exists($"{ Directory.GetCurrentDirectory() }\\Files\\Avatar\\{ obj.IdGeoCidade.ToString() }")) Directory.CreateDirectory($"{ Directory.GetCurrentDirectory() }\\Files\\Avatar\\{ obj.IdGeoCidade.ToString() }");
-                if (!Directory.Exists($"{ Directory.GetCurrentDirectory() }\\Files\\Avatar\\{ obj.IdGeoCidade.ToString() }\\{ obj.Nome.Split(" ")[0].Trim() }")) Directory.CreateDirectory($"{ Directory.GetCurrentDirectory() }\\Files\\Avatar\\{ obj.IdGeoCidade.ToString() }\\{ obj.Nome.Split(" ")[0].Trim() }");
+            if (!Directory.Exists($"{ Directory.GetCurrentDirectory() }\\wwwroot\\images\\Avatar")) Directory.CreateDirectory($"{ Directory.GetCurrentDirectory() }\\wwwroot\\images\\Avatar");
 
-                var directoryRoot = $"{ Directory.GetCurrentDirectory() }\\Files\\Avatar\\{ obj.IdGeoCidade.ToString() }\\{ obj.Nome.Split(" ")[0].Trim() }";
-                var memoryStream = new MemoryStream();
-                model.IFoto.CopyToAsync(memoryStream);
+            var directoryRoot = $"{ Directory.GetCurrentDirectory() }\\wwwroot\\images\\Avatar";
+            var memoryStream = new MemoryStream();
+            model.IFoto.CopyToAsync(memoryStream);
 
-                FileStream file = new FileStream($"{ directoryRoot }\\{ obj.Foto }", FileMode.Create, FileAccess.Write);
-                memoryStream.WriteTo(file);
-                file.Close();
-                memoryStream.Close();
-            }
+            FileStream file = new FileStream($"{ directoryRoot }\\{ obj.Foto }", FileMode.Create, FileAccess.Write);
+            memoryStream.WriteTo(file);
+            file.Close();
+            memoryStream.Close();
 
             foreach (var item in model.ListSituacao.Split("-"))
             {

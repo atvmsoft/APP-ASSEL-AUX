@@ -15,5 +15,10 @@ namespace Application.IO.Site.Services.Business.Core
             else
                 return new AdvogadoInsert().Save(model, id);
         }
+
+        public ReturnAction SaveAvatar(AdvogadoAvatarModel model, Guid id)
+        {
+            return new AdvogadoUpdate().SaveAvatar(model, id);
+        }
     }
 }

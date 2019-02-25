@@ -75,7 +75,7 @@ $(document).ready(function () {
 
         let erros = [];
         if (situacao.length === 0) erros.push("Nenhum item selecionado em \"Situação\"");
-        if (areaAtuacao.length === 0) erros.push("Nenhum item selecionado em \"Área de Atuação\"");
+        //if (areaAtuacao.length === 0) erros.push("Nenhum item selecionado em \"Área de Atuação\"");
 
         if (erros.length !== 0) {
             DefaultInfo(erros, 420);
@@ -85,7 +85,8 @@ $(document).ready(function () {
             toastr.clear();
 
         var fdata = new FormData();
-        fdata.append("IFoto", ($('#IFoto')[0]).files[0]);
+
+        if ($("#Id").val() === "0") fdata.append("IFoto", ($('#IFoto')[0]).files[0]);
 
         $($(this).serializeArray()).each(function (i, e) {
             fdata.append(e.name, e.value);
@@ -116,6 +117,22 @@ $(document).ready(function () {
         });
     });
 
+    $(".btn-ver-foto").click(function () {
+        $.ajax({
+            type: "POST",
+            url: '/Dashboard/EdtAdvAvatar',
+            datatype: "Application/Json",
+            data: { id: $("#Id").val() },
+            success: function (result) {
+                $("#ModalMainContent").html(result);
+                $("#ModalMain").modal("show");
+            },
+            error: function () {
+                DefaultErrorAlert();
+            }
+        });
+    });
+
     $(".dateformat").mask("00/00/0000");
-    //$(".oabformat").mask("0000000000");
+    $(".oabformat").mask("0000000000");
 });

@@ -1,0 +1,63 @@
+﻿@model SystemModels.Advogado.AdvogadoAvatarModel
+
+<style>
+    .modal-dialog {
+        max-width: 600px !important;
+    }
+
+    .adv-avatar {
+        max-height: 173px !important;
+        max-width: 130px !important;
+        border: 1px solid #eee;
+    }
+</style>
+
+<script src="~/js/Views/Dashboard/Advogado/Partials/ChangeAvatar.js"></script>
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Alterar Avatar</h4>
+</div>
+<div>
+    @using (Html.BeginForm("SaveAdvAvatar", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", id = "FormAdvChangeAvatar", role = "form", onsubmit = "return false;" }))
+    {
+        @Html.HiddenFor(m => m.Id);
+
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            @Html.LabelFor(m => m.Nome)
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            @Html.DisplayFor(m => m.Nome)
+                        </div>
+                    </div>
+                    <div class="row padding-adjust-last">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            @Html.LabelFor(m => m.IFoto)
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <input type="file" id="IFoto" name="IFoto" accept="image/*" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <label>Foto Atual</label>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <img src="~/images/Avatar/@Model.Foto" class="adv-avatar" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i></button>
+            <button type="button" class="btn btn-danger btn-left-zero" data-dismiss="modal"><i class="glyphicon glyphicon-ban-circle"></i></button>
+        </div>
+    }
+</div>

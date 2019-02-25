@@ -13,7 +13,7 @@ namespace Application.IO.Site.Data.Mappings
             builder.Property(e => e.NumOrdem).HasColumnType("varchar(10)");
             builder.Property(e => e.NomePai).HasColumnType("varchar(100)");
             builder.Property(e => e.NomeMae).HasColumnType("varchar(100)");
-            builder.Property(e => e.Foto).HasColumnType("varchar(30)");
+            builder.Property(e => e.Foto).HasColumnType("varchar(50)");
             builder.Property(e => e.DateInscricaoOAB).HasColumnType("datetime");
             builder.Property(e => e.DateAtualizacao).HasColumnType("datetime");
             builder.Property(e => e.Date).HasColumnType("datetime");

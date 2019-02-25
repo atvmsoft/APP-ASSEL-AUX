@@ -65,3 +65,7 @@ body {
 label {
     margin-bottom: 0px !important;
 }
+
+.form-control {
+    text-transform: uppercase !important;
+}
