@@ -67,5 +67,9 @@ label {
 }
 
 .form-control {
-    text-transform: uppercase !important;
+    text-transform: uppercase;
+}
+
+.font-free {
+    text-transform: none!important;
 }

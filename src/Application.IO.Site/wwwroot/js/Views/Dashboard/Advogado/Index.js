@@ -53,6 +53,51 @@ function RefreshAreaAtuacao(idadv) {
     });
 }
 
+function GridAdvogadoContatoEdt(id, idadv) {
+    $.ajax({
+        type: "POST",
+        url: "/Dashboard/EdtAdvContato",
+        data: { id: id, idAdv: idadv },
+        success: function (result) {
+            $("#ModalMainContent").html(result);
+            $("#ModalMain").modal("show");
+        },
+        error: function () {
+            DefaultErrorAlert();
+        }
+    });
+}
+
+function GridAdvogadoContatoDel(id, idadv) {
+    $.ajax({
+        type: "POST",
+        url: "/Dashboard/DelAdvContato",
+        data: { id: id, idAdv: idadv },
+        success: function (result) {
+            $("#ModalMainContent").html(result);
+            $("#ModalMain").modal("show");
+        },
+        error: function () {
+            DefaultErrorAlert();
+        }
+    });
+}
+
+function GridAdvogadoEnderecoEdt(id, idadv) {
+    $.ajax({
+        type: "POST",
+        url: "/Dashboard/EdtAdvEndereco",
+        data: { id: id, idAdv: idadv },
+        success: function (result) {
+            $("#ModalMainContent").html(result);
+            $("#ModalMain").modal("show");
+        },
+        error: function () {
+            DefaultErrorAlert();
+        }
+    });
+}
+
 $(document).ready(function () {
     $("#IdGeoEstado").change(function () {
         GetCidades($("#IdGeoEstado").val());
@@ -135,4 +180,5 @@ $(document).ready(function () {
 
     $(".dateformat").mask("00/00/0000");
     $(".oabformat").mask("0000000000");
+    $(".phone-number").mask("(00) 000000000");
 });

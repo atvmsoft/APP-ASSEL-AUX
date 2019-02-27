@@ -4,8 +4,8 @@
     .Grid(Model)
     .Build(columns =>
     {
-        columns.Add(model => $"<button class=\"btn btn-danger\" onclick=\"GridSituacaoDel({model.Id});\"><i class=\"glyphicon glyphicon-remove\"></i></button>").Css("grid-collumn-del").Encoded(false);
-        columns.Add(model => $"<button class=\"btn btn-warning\" onclick=\"GridSituacaoEdt({model.Id});\"><i class=\"glyphicon glyphicon-pencil\"></i></button>").Css("grid-collumn-edt").Encoded(false);
+        columns.Add(model => $"<button class=\"btn btn-danger\" onclick=\"GridAdvogadoContatoDel({ model.Id },{ model.IdAdvogado });\"><i class=\"glyphicon glyphicon-remove\"></i></button>").Css("grid-collumn-del").Encoded(false);
+        columns.Add(model => $"<button class=\"btn btn-warning\" onclick=\"GridAdvogadoContatoEdt({ model.Id },{ model.IdAdvogado });\"><i class=\"glyphicon glyphicon-pencil\"></i></button>").Css("grid-collumn-edt").Encoded(false);
         columns.Add(model => model.TipoContato).Css("grid-collumn-tipo-contato").Titled("Tipo");
         columns.Add(model => model.Contato).Titled("Contato");
         columns.Add(model => model.Date).Css("grid-collumn-dateinsert").Formatted("{0: dd/MM/yyyy HH:mm}").Titled("Data");
@@ -14,7 +14,7 @@
     .Id("GridAdvogadoContato")
     .Pageable(pager =>
     {
-        pager.RowsPerPage = 6;
+        pager.RowsPerPage = 2;
         pager.CssClasses = "pager-styler";
     })
     .AppendCss("table-hover")

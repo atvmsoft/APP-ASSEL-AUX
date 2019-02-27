@@ -1,0 +1,21 @@
+﻿@model IEnumerable<SystemModels.Advogado.AdvogadoEnderecoModel>
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(model => $"<button class=\"btn btn-danger\" onclick=\"GridAdvogadoEnderecoDel({ model.Id },{ model.IdAdvogado });\"><i class=\"glyphicon glyphicon-remove\"></i></button>").Css("grid-collumn-del").Encoded(false);
+        columns.Add(model => $"<button class=\"btn btn-warning\" onclick=\"GridAdvogadoEnderecoEdt({ model.Id },{ model.IdAdvogado });\"><i class=\"glyphicon glyphicon-pencil\"></i></button>").Css("grid-collumn-edt").Encoded(false);
+        columns.Add(model => model.TipoEndereco).Css("grid-collumn-tipo-endereco").Titled("Tipo");
+        columns.Add(model => model.Endereco).Titled("Endereco");
+        columns.Add(model => model.Date).Css("grid-collumn-dateinsert").Formatted("{0: dd/MM/yyyy HH:mm}").Titled("Data");
+    })
+    .Empty("Nenhum Item encontrado")
+    .Id("GridAdvogadoEndereco")
+    .Pageable(pager =>
+    {
+        pager.RowsPerPage = 2;
+        pager.CssClasses = "pager-styler";
+    })
+    .AppendCss("table-hover")
+)

@@ -8,7 +8,9 @@ namespace Application.IO.Site.Services.Business.Select
     {
         public GeoCep GetByCod(string codigo)
         {
-            return db.GeoCep.Where(w => w.Codigo == codigo).FirstOrDefault();
+            var cod = string.Join("", codigo.ToCharArray().Where(char.IsDigit));
+
+            return db.GeoCep.Where(w => w.Codigo == cod).FirstOrDefault();
         }
     }
 }

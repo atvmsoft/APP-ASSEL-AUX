@@ -1,10 +1,12 @@
-﻿@model SystemModels.Situacao.SituacaoModel
+﻿@model SystemModels.Advogado.AdvogadoContatoModel
 
 <style>
     .modal-dialog {
         max-width: 500px !important;
     }
 </style>
+
+<script src="~/js/Views/Dashboard/Advogado/Contato/Index.js"></script>
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -18,17 +20,26 @@
     }
 </div>
 <div>
-    @using (Html.BeginForm("SaveSituacao", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", id = "FormEdtSituacao", role = "form", onsubmit = "return false;" }))
+    @using (Html.BeginForm("SaveAdvContato", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", id = "FormEdtAdvContato", role = "form", onsubmit = "return false;" }))
     {
         @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.IdAdvogado)
 
         <div class="modal-body">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    @Html.LabelFor(m => m.Nome)
+                    @Html.LabelFor(m => m.IdTipoContato)
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    @Html.TextBoxFor(m => m.Nome, new { autocomplete = "nope", @class = "form-control", @required = "", @autofocus = "" })
+                    @Html.DropDownListFor(m => m.IdTipoContato, new SelectList(ViewBag.TipoContato, "Id", "Nome"), new { autocomplete = "nope", @class = "form-control", @required = "" })
+                </div>
+            </div>
+            <div class="row padding-adjust-last">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    @Html.LabelFor(m => m.Contato)
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    @Html.TextBoxFor(m => m.Contato, new { autocomplete = "nope", @class = "form-control phone-number", @required = "", @maxlength = "10" })
                 </div>
             </div>
         </div>
@@ -38,5 +49,3 @@
         </div>
     }
 </div>
-<script>var inscadadv = @((bool)ViewBag.InsCadAdv);</script>
-<script src="~/js/Views/Situacao/dashboardEdtSituacao.js"></script>

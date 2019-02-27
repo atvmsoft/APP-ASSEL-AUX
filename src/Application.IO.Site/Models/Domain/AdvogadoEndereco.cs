@@ -27,6 +27,9 @@ namespace Application.IO.Site.Models.Domain
         public string Complemento { get; private set; }
 
         [Required]
+        public bool Delete { get; private set; }
+
+        [Required]
         public DateTime Date { get; private set; }
 
         public AdvogadoEndereco(Guid idUser, int idAdvogado, int idTipoEndereco, int idGeoCep, string numero, string complemento)

@@ -264,7 +264,68 @@ namespace Application.IO.Site.Controllers
         [HttpGet]
         public PartialViewResult GridAdvogadoContato(int idAdvogado)
         {
-            return PartialView("Advogado/Contato/_GridView", new AdvogadoContatoSelect().GetGrid(idAdvogado));
+            return PartialView("Advogado/Contato/_GridView", new AdvogadoContatoSelect().GetGrid(idAdvogado, UserId));
+        }
+
+        [HttpPost]
+        public IActionResult EdtAdvContato(int id, int idAdv)
+        {
+            ViewBag.TipoContato = new TipoContatoSelect().Get();
+            return PartialView("Advogado/Contato/_EdtPartial", new AdvogadoContatoSelect().Get(id, idAdv, UserId));
+        }
+
+        [HttpPost]
+        public IActionResult DelAdvContato(int id, int idAdv)
+        {
+            return PartialView("Advogado/Contato/_DelPartial", new AdvogadoContatoSelect().Get(id, idAdv, UserId));
+        }
+
+        [HttpPost]
+        public IActionResult SaveAdvContato(AdvogadoContatoModel model)
+        {
+            if (!ModelState.IsValid) return Json(NegativeReturn);
+
+            return Json(new AdvogadoContatoCore().Save(model, UserId));
+        }
+        #endregion
+
+        #region Enderecos
+        [HttpGet]
+        public PartialViewResult GridAdvogadoEndereco(int idAdvogado)
+        {
+            return PartialView("Advogado/Endereco/_GridView", new AdvogadoEnderecoSelect().GetGrid(idAdvogado, UserId));
+        }
+
+        [HttpPost]
+        public IActionResult EdtAdvEndereco(int id, int idAdv)
+        {
+            var model = new AdvogadoEnderecoSelect().GetGrid(idAdv, UserId, id).FirstOrDefault() ?? new AdvogadoEnderecoModel() {
+                IdAdvogado = idAdv
+            };
+
+            var estados = new GeoEstadoSelect().Get().ToList();
+            ViewBag.Estados = estados;
+
+            if (model.Id != 0)
+                ViewBag.Cidades = new GeoCidadeSelect().Get(model.IdGeoEstado).ToList();
+            else
+                ViewBag.Cidades = new GeoCidadeSelect().Get(estados.Any() ? estados.FirstOrDefault().Id : 0).ToList();
+
+            return PartialView("Advogado/Endereco/_EdtPartial", model);
+        }
+
+        [HttpPost]
+        public IActionResult DelAdvEndereco(int id, int idAdv)
+        {
+            return PartialView("Advogado/Contato/_DelPartial", new AdvogadoContatoSelect().Get(id, idAdv, UserId));
+        }
+
+        [HttpPost]
+        public IActionResult SaveAdvEndereco(AdvogadoEnderecoModel model)
+        {
+            if (!ModelState.IsValid) return Json(NegativeReturn);
+
+            return Json(model);
         }
         #endregion
         #endregion

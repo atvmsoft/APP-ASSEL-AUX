@@ -8,9 +8,8 @@
 <hr />
 
 <p class="text-info">
-    You've successfully authenticated with <strong>@ViewData["LoginProvider"]</strong>.
-    Please enter an email address for this site below and click the Register button to finish
-    logging in.
+    Sucesso na autenticação com <strong>@ViewData["LoginProvider"]</strong>.
+    Por favor informe um e-mail para este site e clique no botão Registrar abaixo para finalizar fazendo login.
 </p>
 
 <div class="row">
@@ -19,10 +18,10 @@
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Email"></label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control font-free" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-default">Register</button>
+            <button type="submit" class="btn btn-default">Registrar</button>
         </form>
     </div>
 </div>

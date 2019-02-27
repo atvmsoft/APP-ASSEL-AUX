@@ -54,8 +54,13 @@
     width: 62px;
 }
 
+.grid-collumn-tipo-endereco,
 .grid-collumn-tipo-contato {
     width: 150px;
+}
+
+.grid-collumn-log-num {
+    width: 100px;
 }
 
 .grid-collumn-dateinsert {
@@ -76,4 +81,26 @@
 
 #IFoto {
     margin-top: 6px;
+}
+
+
+@media (min-width: 992px) {
+    .div-new-advogado {
+        padding-top: 20px !important;
+    }
+
+        .div-new-advogado > a {
+            float: right !important;
+        }
+}
+
+@media (max-width: 991px) {
+    .div-new-advogado {
+        padding-bottom: 13px !important;
+    }
+
+        .div-new-advogado > a {
+            float: left !important;
+            width:100%;
+        }
 }

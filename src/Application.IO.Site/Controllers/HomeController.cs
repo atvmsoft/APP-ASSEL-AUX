@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Application.IO.Site.Controllers
 {
@@ -6,8 +7,6 @@ namespace Application.IO.Site.Controllers
     {
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
-
             return View();
         }
     }
