@@ -299,17 +299,19 @@ namespace Application.IO.Site.Controllers
         [HttpPost]
         public IActionResult EdtAdvEndereco(int id, int idAdv)
         {
-            var model = new AdvogadoEnderecoSelect().GetGrid(idAdv, UserId, id).FirstOrDefault() ?? new AdvogadoEnderecoModel() {
+            var model = new AdvogadoEnderecoSelect().GetModel(idAdv, UserId, id) ?? new AdvogadoEnderecoModel() {
                 IdAdvogado = idAdv
             };
 
             var estados = new GeoEstadoSelect().Get().ToList();
             ViewBag.Estados = estados;
 
-            if (model.Id != 0)
-                ViewBag.Cidades = new GeoCidadeSelect().Get(model.IdGeoEstado).ToList();
+            if (model.IdEnd != 0)
+                ViewBag.Cidades = new GeoCidadeSelect().Get(model.IdEndGeoEstado).ToList();
             else
                 ViewBag.Cidades = new GeoCidadeSelect().Get(estados.Any() ? estados.FirstOrDefault().Id : 0).ToList();
+
+            ViewBag.TipoEndereco = new TipoEnderecoSelect().Get().ToList();
 
             return PartialView("Advogado/Endereco/_EdtPartial", model);
         }
@@ -317,7 +319,7 @@ namespace Application.IO.Site.Controllers
         [HttpPost]
         public IActionResult DelAdvEndereco(int id, int idAdv)
         {
-            return PartialView("Advogado/Contato/_DelPartial", new AdvogadoContatoSelect().Get(id, idAdv, UserId));
+            return PartialView("Advogado/Endereco/_DelPartial", new AdvogadoEnderecoSelect().GetModel(idAdv, UserId, id));
         }
 
         [HttpPost]
@@ -325,7 +327,7 @@ namespace Application.IO.Site.Controllers
         {
             if (!ModelState.IsValid) return Json(NegativeReturn);
 
-            return Json(model);
+            return Json(new AdvogadoEnderecoCore().Save(model, UserId));
         }
         #endregion
         #endregion

@@ -23,11 +23,11 @@ namespace Application.IO.Site.Models.SystemModels.Advogado
 
         [Display(Name = "Cidade")]
         [Required(ErrorMessage = "\"{0}\" é obrigatório")]
-        public int IdGeoCidade { get; set; }
+        public int IdEndGeoCidade { get; set; }
 
         [Display(Name = "Estado")]
         [Required(ErrorMessage = "\"{0}\" é obrigatório")]
-        public int IdGeoEstado { get; set; }
+        public int IdEndGeoEstado { get; set; }
 
         [Display(Name = "Nº")]
         [Required(ErrorMessage = "\"{0}\" é obrigatório")]
@@ -35,7 +35,8 @@ namespace Application.IO.Site.Models.SystemModels.Advogado
 
         [Display(Name = "Complemento")]
         public string Complemento { get; set; }
-        
+
+        [Display(Name = "Endereço")]
         public string Endereco { get; set; }
 
         #region EXTRA DATA
@@ -43,9 +44,11 @@ namespace Application.IO.Site.Models.SystemModels.Advogado
         public string Cidade { get; set; }
         [Display(Name = "Estado")]
         public string Estado { get; set; }
+
+        public bool Delete { get; set; }
         public string TipoEndereco { get; set; }
         public int IdGeoCep { get; set; }
-        public int Id { get; set; }
+        public int IdEnd { get; set; }
         public DateTime Date { get; set; }
         public int IdAdvogado { get; set; }
         #endregion

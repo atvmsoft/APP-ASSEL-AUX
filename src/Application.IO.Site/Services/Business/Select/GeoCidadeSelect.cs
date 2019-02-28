@@ -22,7 +22,7 @@ namespace Application.IO.Site.Services.Business.Select
 
         public IQueryable<GeoCidade> GetById(int idGeoCidade)
         {
-                return db.GeoCidade.AsNoTracking().Where(w => w.Id == idGeoCidade);
+            return db.GeoCidade.AsNoTracking().Where(w => w.Id == idGeoCidade);
         }
     }
 }

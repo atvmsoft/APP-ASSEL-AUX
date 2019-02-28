@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 using System.Linq;
 
 namespace Application.IO.Site.Models.Source
@@ -12,9 +13,12 @@ namespace Application.IO.Site.Models.Source
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; protected set; }
 
+        public TextInfo tCase;
+
         protected Entity()
         {
             Get = new List<DomainNotification>();
+            tCase = new CultureInfo("pt-BR", false).TextInfo;
         }
 
         public bool EhValido() => !Get.Any();

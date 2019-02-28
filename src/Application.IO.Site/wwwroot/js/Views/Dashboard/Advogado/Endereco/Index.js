@@ -1,6 +1,19 @@
-﻿$(document).ready(function () {
-    $("#CodCep").focusout(function () {
+﻿function GetEndCidades(idEndGeoEstado, idEndGeoCidade) {
+    $.getJSON("/Values/ListCidades", { idGeoEstado: idEndGeoEstado }, function (data) {
+        $("#IdEndGeoCidade").empty();
+        let items = "";
+        $.each(data, function (i, e) {
+            items += "<option value=\"" + e.id + "\">" + e.nome + "</option>";
+        });
 
+        $("#IdEndGeoCidade").html(items);
+
+        if (idEndGeoCidade != 0) $("#IdEndGeoCidade").val(idEndGeoCidade.toString());
+    });
+}
+
+$(document).ready(function () {
+    $("#CodCep").focusout(function () {
         if ($(this).val() === "") return false;
 
         $(".msg-box").addClass("hide");
@@ -10,19 +23,29 @@
             url: "/Values/PostalCode",
             data: { pcode: $(this).val() },
             success: function (result) {
-                $("#Logradouro,#Bairro,#Cidade,#Estado").val("");
-                $("#Logradouro,#Bairro,#Cidade,#Estado").removeAttr("disabled");
+                $("#Logradouro,#Bairro").val("");
 
                 if (result !== null) {
+                    $("#IdGeoCep").val(result.id);
                     $("#Logradouro").val(result.endereco);
                     $("#Bairro").val(result.bairro);
-                    $("#Cidade").val(result.cidade);
-                    $("#Estado").val(result.estado);
+                    $("#IdEndGeoEstado").val(result.idGeoEstado.toString());
 
-                    $("#Logradouro,#Bairro,#Cidade,#Estado").attr("disabled", "");
+                    GetEndCidades(result.idGeoEstado, result.idGeoCidade);
+
+                    $("#Logradouro,#Bairro,#IdEndGeoEstado,#IdEndGeoCidade").attr("disabled", "");
+
+                    return;
                 }
-                else
-                    $(".msg-box").removeClass("hide");
+
+                $("#IdGeoCep").val(0);
+
+                $("#IdEndGeoEstado").val($("#IdEndGeoEstado option:first").val());
+                GetEndCidades($("#IdEndGeoEstado").val());
+                $("#IdEndGeoCidade").val($("#IdEndGeoCidade option:first").val());
+
+                $(".msg-box").removeClass("hide");
+                $("#Logradouro,#Bairro,#IdEndGeoEstado,#IdEndGeoCidade").removeAttr("disabled");
             },
             error: function () {
                 DefaultErrorAlert();
@@ -30,7 +53,34 @@
         });
     });
 
-    $(".cep-box").mask("00.000-000");
+    $("#FormEdtAdvEndereco").submit(function () {
+        let disabled = $(this).find(":input:disabled").removeAttr("disabled");
+        let lData = $(this).serialize();
+        disabled.attr("disabled", "");
 
-    $('[autofocus]').first().focus();
+        $.ajax({
+            type: this.method,
+            url: this.action,
+            data: lData,
+            success: function (result) {
+                if (result.valido !== undefined && !result.valido)
+                    DefaultError(result.mensagens, 500);
+                else {
+                    DefaultSucessAlert();
+                    new MvcGrid(document.querySelector('#GridAdvogadoEndereco')).reload();
+                    $("#ModalMain").modal("hide");
+                }
+            },
+            error: function () {
+                DefaultErrorAlert();
+            }
+        });
+    });
+
+    $("#IdEndGeoEstado").change(function () {
+        GetEndCidades($("#IdEndGeoEstado").val());
+    });
+
+    $(".cep-box").mask("00.000-000");
+    $("#Logradouro,#Bairro,#IdEndGeoEstado,#IdEndGeoCidade").attr("disabled", "");
 });

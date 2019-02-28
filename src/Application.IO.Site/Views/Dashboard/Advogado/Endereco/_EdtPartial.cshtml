@@ -6,7 +6,7 @@
         overflow-y: auto;
         overflow-x: hidden;
         width: auto;
-        max-width: 780px;
+        max-width: 900px;
     }
 </style>
 
@@ -14,7 +14,7 @@
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
-    @if (Model.Id == 0)
+    @if (Model.IdEnd == 0)
     {
         <h4 class="modal-title">Inserir Endereço</h4>
     }
@@ -26,7 +26,8 @@
 <div>
     @using (Html.BeginForm("SaveAdvEndereco", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", id = "FormEdtAdvEndereco", role = "form", onsubmit = "return false;" }))
     {
-        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.IdEnd)
+        @Html.HiddenFor(m => m.IdGeoCep)
         @Html.HiddenFor(m => m.IdAdvogado)
 
         <div class="modal-body">
@@ -34,6 +35,16 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="alert alert-danger text-center" role="alert">
                         O cep informado não se encontra cadastrado e será armazenado ao final do processo.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 padding-adjust">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        @Html.LabelFor(m => m.IdTipoEndereco)
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        @Html.DropDownListFor(m => m.IdTipoEndereco, new SelectList(ViewBag.TipoEndereco, "Id", "Nome"), new { autocomplete = "nope", @class = "form-control", @required = "" })
                     </div>
                 </div>
             </div>
@@ -69,7 +80,7 @@
                         @Html.LabelFor(m => m.Estado)
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        @Html.DropDownListFor(m => m.IdGeoEstado, new SelectList(ViewBag.Estados, "Id", "Nome"), new { autocomplete = "nope", @class = "form-control", @required = "" })
+                        @Html.DropDownListFor(m => m.IdEndGeoEstado, new SelectList(ViewBag.Estados, "Id", "Nome"), new { autocomplete = "nope", @class = "form-control", @required = "" })
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 padding-adjust">
@@ -77,7 +88,7 @@
                         @Html.LabelFor(m => m.Cidade)
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        @Html.DropDownListFor(m => m.IdGeoCidade, new SelectList(ViewBag.Cidades, "Id", "Nome"), new { autocomplete = "nope", @class = "form-control", @required = "" })
+                        @Html.DropDownListFor(m => m.IdEndGeoCidade, new SelectList(ViewBag.Cidades, "Id", "Nome"), new { autocomplete = "nope", @class = "form-control", @required = "" })
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 padding-adjust">
@@ -93,7 +104,7 @@
                         @Html.LabelFor(m => m.Complemento)
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        @Html.TextBoxFor(m => m.Complemento, new { autocomplete = "nope", @class = "form-control", @required = "" })
+                        @Html.TextBoxFor(m => m.Complemento, new { autocomplete = "nope", @class = "form-control" })
                     </div>
                 </div>
             </div>

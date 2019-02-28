@@ -98,6 +98,21 @@ function GridAdvogadoEnderecoEdt(id, idadv) {
     });
 }
 
+function GridAdvogadoEnderecoDel(id, idadv) {
+    $.ajax({
+        type: "POST",
+        url: "/Dashboard/DelAdvEndereco",
+        data: { id: id, idAdv: idadv },
+        success: function (result) {
+            $("#ModalMainContent").html(result);
+            $("#ModalMain").modal("show");
+        },
+        error: function () {
+            DefaultErrorAlert();
+        }
+    });
+}
+
 $(document).ready(function () {
     $("#IdGeoEstado").change(function () {
         GetCidades($("#IdGeoEstado").val());

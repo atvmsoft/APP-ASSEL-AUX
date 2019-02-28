@@ -1,40 +1,45 @@
-﻿@model SystemModels.Advogado.AdvogadoContatoModel
+﻿@model SystemModels.Advogado.AdvogadoEnderecoModel
 <style>
     .modal-dialog {
         max-width: 600px !important;
     }
 </style>
 
-<script src="~/js/Views/Dashboard/Advogado/Contato/Delete.js"></script>
+<script src="~/js/Views/Dashboard/Advogado/Endereco/Delete.js"></script>
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h4 class="modal-title">Excluir - Contato</h4>
+    <h4 class="modal-title">Excluir - Endereço</h4>
 </div>
 <div>
-    @using (Html.BeginForm("SaveAdvContato", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", id = "FormDelAdvDelete", role = "form", onsubmit = "return false;" }))
+    @using (Html.BeginForm("SaveAdvEndereco", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", id = "FormDelAdvEndereco", role = "form", onsubmit = "return false;" }))
     {
-        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.IdEnd)
         @Html.Hidden("Delete", true);
         @Html.HiddenFor(m => m.IdAdvogado);
-        @Html.HiddenFor(m => m.IdTipoContato);
-        @Html.HiddenFor(m => m.Contato);
+        @Html.HiddenFor(m => m.IdTipoEndereco);
+        @Html.HiddenFor(m => m.IdGeoCep);
+        @Html.HiddenFor(m => m.CodCep);
+        @Html.HiddenFor(m => m.Logradouro);
+        @Html.HiddenFor(m => m.Bairro);
+        @Html.HiddenFor(m => m.Numero);
+        @Html.HiddenFor(m => m.Complemento);
 
         <div class="modal-body">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    @Html.LabelFor(m => m.IdTipoContato)
+                    @Html.LabelFor(m => m.IdTipoEndereco)
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    @Html.DisplayFor(m => m.TipoContato)
+                    @Html.DisplayFor(m => m.TipoEndereco)
                 </div>
             </div>
             <div class="row padding-adjust-last">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    @Html.LabelFor(m => m.Contato)
+                    @Html.LabelFor(m => m.Endereco)
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    @Html.DisplayFor(m => m.Contato)
+                    @Html.DisplayFor(m => m.Endereco)
                 </div>
             </div>
         </div>

@@ -65,13 +65,13 @@ namespace Application.IO.Site.Models.Domain
 
         public void ChangeEntity(Guid idUser, int idAdvogado, int idTipoContato, string contato, bool delete)
         {
-            ValidaContato(contato);
-            ValidaAdvogado(idUser, idAdvogado);
-            ValidaTipoContato(idTipoContato);
-            ValidaAdvogadoContato(idAdvogado, idTipoContato, contato);
-
             if (!delete)
             {
+                ValidaContato(contato);
+                ValidaAdvogado(idUser, idAdvogado);
+                ValidaTipoContato(idTipoContato);
+                ValidaAdvogadoContato(idAdvogado, idTipoContato, contato);
+
                 IdUser = idUser;
                 IdAdvogado = idAdvogado;
                 IdTipoContato = idTipoContato;

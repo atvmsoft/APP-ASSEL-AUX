@@ -9,7 +9,7 @@ namespace Application.IO.Site.Services.Business.Select
     {
         public TipoEndereco GetByName(string nome)
         {
-            return db.TipoEndereco.Where(w => w.Nome == nome).FirstOrDefault();
+            return db.TipoEndereco.AsNoTracking().Where(w => w.Nome == nome).FirstOrDefault();
         }
 
         public TipoEndereco GetById(int id)

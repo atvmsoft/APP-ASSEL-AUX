@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    $("#FormDelAdvDelete").submit(function () {
+    $("#FormDelAdvEndereco").submit(function () {
         $.ajax({
             type: this.method,
             url: this.action,
@@ -9,7 +9,7 @@
                     DefaultError(result.mensagens, 400);
                 else {
                     DefaultSucessAlert();
-                    new MvcGrid(document.querySelector('#GridAdvogadoContato')).reload();
+                    new MvcGrid(document.querySelector('#GridAdvogadoEndereco')).reload();
                     $("#ModalMain").modal("hide");
                 }
             },

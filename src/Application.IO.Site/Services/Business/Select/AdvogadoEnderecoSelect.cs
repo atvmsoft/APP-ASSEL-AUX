@@ -15,14 +15,19 @@ namespace Application.IO.Site.Services.Business.Select
                 w.Numero == numero && w.Complemento == complemento).FirstOrDefault();
         }
 
-        public IQueryable<AdvogadoEnderecoModel> GetGrid(int idAdvogado, Guid idUser, int id = 0)
+        public AdvogadoEndereco GetById(int id, Guid idUser)
+        {
+            return db.AdvogadoEndereco.AsNoTracking().Where(w => w.Id == id && w.IdUser == idUser).FirstOrDefault();
+        }
+
+        public IQueryable<AdvogadoEnderecoModel> GetGrid(int idAdvogado, Guid idUser)
         {
             var lista = from AE in db.AdvogadoEndereco.AsNoTracking()
                         join TE in db.TipoEndereco.AsNoTracking() on AE.IdTipoEndereco equals TE.Id
                         join GC in db.GeoCep.AsNoTracking() on AE.IdGeoCep equals GC.Id
                         join CD in db.GeoCidade.AsNoTracking() on GC.Cidade equals CD.Nome
                         join GE in db.GeoEstado.AsNoTracking() on GC.Estado equals GE.Sigla
-                        where AE.Delete == false && AE.IdAdvogado == idAdvogado && AE.IdUser == idUser && AE.Id == (id == 0 ? AE.Id : id)
+                        where AE.Delete == false && AE.IdAdvogado == idAdvogado && AE.IdUser == idUser
                         select new
                         {
                             AE.IdTipoEndereco,
@@ -54,17 +59,22 @@ namespace Application.IO.Site.Services.Business.Select
                            Complemento = L.Complemento,
                            TipoEndereco = L.TipoEndereco,
                            IdGeoCep = L.IdGeoCep,
-                           IdGeoCidade = L.IdGeoCidade,
-                           IdGeoEstado = L.IdGeoEstado,
+                           IdEndGeoCidade = L.IdGeoCidade,
+                           IdEndGeoEstado = L.IdGeoEstado,
                            Cidade = L.Cidade,
                            Estado = L.Estado,
-                           Id = L.Id,
+                           IdEnd = L.Id,
                            Date = L.Date,
                            IdAdvogado = L.IdAdvogado,
                            Endereco = $"{ L.Logradouro }, { L.Numero }{ (string.IsNullOrEmpty(L.Complemento) ? "" : $" ({ L.Complemento })") }{ (string.IsNullOrEmpty(L.Bairro) ? "" : $", { L.Bairro }") }, { String.Format(@"{0:00\.000\-000}", Convert.ToInt64(L.CodCep)) } - { L.Cidade }/{ L.Estado }"
                        };
 
             return Enumerable.Empty<AdvogadoEnderecoModel>().AsQueryable();
+        }
+
+        public AdvogadoEnderecoModel GetModel(int idAdvogado, Guid idUser, int id)
+        {
+            return GetGrid(idAdvogado, idUser).Where(w => w.IdEnd == id).FirstOrDefault();
         }
     }
 }
