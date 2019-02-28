@@ -3,7 +3,6 @@ using Application.IO.Site.Models.Services.Abstractions;
 using Application.IO.Site.Models.SystemModels.Advogado;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.IO;
 using System.Linq;
 
 namespace Application.IO.Site.Services.Business.Select
@@ -32,6 +31,7 @@ namespace Application.IO.Site.Services.Business.Select
         {
             var retorno = (from A in db.Advogado.AsNoTracking()
                            join C in db.GeoCidade.AsNoTracking() on A.IdGeoCidade equals C.Id
+                           join E in db.GeoEstado.AsNoTracking() on C.IdGeoEstado equals E.Id
                            where A.Id == id && A.IdUser == idUser
                            select new AdvogadoModel
                            {
@@ -44,6 +44,7 @@ namespace Application.IO.Site.Services.Business.Select
                                NomePai = A.NomePai,
                                NumOrdem = A.NumOrdem,
                                Delete = A.Delete,
+                               EstadoSigla = E.Sigla,
                                Id = A.Id,
                                Foto = A.Foto
                            }).FirstOrDefault();
@@ -72,6 +73,22 @@ namespace Application.IO.Site.Services.Business.Select
                 };
 
             return null;
+        }
+
+        public IQueryable<AdvogadoModel> GetGrid(Guid idUser)
+        {
+            return from A in db.Advogado.AsNoTracking()
+                   join C in db.GeoCidade.AsNoTracking() on A.IdGeoCidade equals C.Id
+                   join E in db.GeoEstado.AsNoTracking() on C.IdGeoEstado equals E.Id
+                   where A.Delete == false && A.IdUser == idUser
+                   select new AdvogadoModel()
+                   {
+                       Id = A.Id,
+                       Delete = A.Delete,
+                       Nome = A.Nome,
+                       NumOrdem = $"{ E.Sigla }/{ A.NumOrdem }",
+                       Date = A.Date
+                   };
         }
     }
 }

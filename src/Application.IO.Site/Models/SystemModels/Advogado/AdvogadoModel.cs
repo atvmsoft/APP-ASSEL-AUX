@@ -40,6 +40,7 @@ namespace Application.IO.Site.Models.SystemModels.Advogado
         public string ListSituacao { get; set; }
         public string ListAreaAtuacao { get; set; }
         public string Foto { get; set; }
+        public string EstadoSigla { get; set; }
 
         [Display(Name = "Foto")]
         public IFormFile IFoto { get; set; }
@@ -47,5 +48,7 @@ namespace Application.IO.Site.Models.SystemModels.Advogado
         public bool Delete { get; set; }
 
         public int Id { get; set; }
+
+        public DateTime Date { get; set; }
     }
 }

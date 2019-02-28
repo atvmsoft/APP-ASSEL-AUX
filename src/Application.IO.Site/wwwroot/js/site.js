@@ -3,7 +3,7 @@
     width = (width < 270 || width === undefined) ? 270 : width;
 
     var error = "<ul style=\"padding-top:10px!important; padding-left: 16px!important;\">";
-
+    
     $(msgs).each(function (i, e) {
         error += "<li>" + e + "</li>";
     });

@@ -17,28 +17,32 @@ namespace Application.IO.Site.Services.Business.Updade
             ReturnAction retorno = new ReturnAction();
 
             int idSituacao = 0, idAreaAtuacao = 0;
-            if (string.IsNullOrEmpty(model.ListSituacao)) retorno.Mensagens.Add($"A Situação não foi informada");
-            else
-                foreach (var item in model.ListSituacao.Split("-"))
-                {
-                    if (!int.TryParse(item, out idSituacao) || new SituacaoSelect().GetById(idSituacao) == null)
-                    {
-                        retorno.Mensagens.Add($"Situação não encontrada");
-                        break;
-                    }
-                }
 
-            //if (string.IsNullOrEmpty(model.ListAreaAtuacao)) retorno.Mensagens.Add($"A Área de Atuação não foi informada");
-            //else
-            if (!string.IsNullOrEmpty(model.ListAreaAtuacao))
-                foreach (var item in model.ListAreaAtuacao.Split("-"))
-                {
-                    if (!int.TryParse(item, out idAreaAtuacao) || new AreaAtuacaoSelect().GetById(idAreaAtuacao) == null)
+            if (!model.Delete)
+            {
+                if (string.IsNullOrEmpty(model.ListSituacao)) retorno.Mensagens.Add($"A Situação não foi informada");
+                else
+                    foreach (var item in model.ListSituacao.Split("-"))
                     {
-                        retorno.Mensagens.Add($"Área de Atuação não encontrada");
-                        break;
+                        if (!int.TryParse(item, out idSituacao) || new SituacaoSelect().GetById(idSituacao) == null)
+                        {
+                            retorno.Mensagens.Add($"Situação não encontrada");
+                            break;
+                        }
                     }
-                }
+
+                //if (string.IsNullOrEmpty(model.ListAreaAtuacao)) retorno.Mensagens.Add($"A Área de Atuação não foi informada");
+                //else
+                if (!string.IsNullOrEmpty(model.ListAreaAtuacao))
+                    foreach (var item in model.ListAreaAtuacao.Split("-"))
+                    {
+                        if (!int.TryParse(item, out idAreaAtuacao) || new AreaAtuacaoSelect().GetById(idAreaAtuacao) == null)
+                        {
+                            retorno.Mensagens.Add($"Área de Atuação não encontrada");
+                            break;
+                        }
+                    }
+            }
 
             var obj = new AdvogadoSelect().Get(model.Id, id);
             if (obj == null) retorno.Mensagens.Add("Advogado não encontrado");
@@ -49,23 +53,22 @@ namespace Application.IO.Site.Services.Business.Updade
 
                 foreach (var item in obj.Get) retorno.Mensagens.Add(item.Value);
             }
-
-            if (!retorno.Valido) return retorno;
+            else return retorno;
 
             db.Entry(obj).State = EntityState.Modified;
             db.SaveChanges();
 
             new AdvogadoSituacaoDelete().DeleteAll(model.Id);
-            foreach (var item in model.ListSituacao.Split("-"))
-            {
-                var sit = new AdvogadoSituacao(id, obj.Id, Convert.ToInt32(item));
-                if (sit.EhValido())
-                    db.Entry(sit).State = EntityState.Added;
-            }
+            if (!model.Delete)
+                foreach (var item in model.ListSituacao.Split("-"))
+                {
+                    var sit = new AdvogadoSituacao(id, obj.Id, Convert.ToInt32(item));
+                    if (sit.EhValido())
+                        db.Entry(sit).State = EntityState.Added;
+                }
 
             new AdvogadoAreaAtuacaoDelete().DeleteAll(model.Id);
-
-            if (!string.IsNullOrEmpty(model.ListAreaAtuacao))
+            if (!model.Delete && !string.IsNullOrEmpty(model.ListAreaAtuacao))
                 foreach (var item in model.ListAreaAtuacao.Split("-"))
                 {
                     var sit = new AdvogadoAreaAtuacao(id, obj.Id, Convert.ToInt32(item));
@@ -73,7 +76,7 @@ namespace Application.IO.Site.Services.Business.Updade
                         db.Entry(sit).State = EntityState.Added;
                 }
 
-            db.SaveChanges();
+            if (!model.Delete) db.SaveChanges();
 
             retorno.objRetorno = obj.Id;
 

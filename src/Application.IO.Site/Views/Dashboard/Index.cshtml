@@ -26,10 +26,9 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:10px;">
                 <a class="btn btn-primary" asp-controller="Dashboard" asp-action="Lawyer"><i class="glyphicon glyphicon-plus"></i></a>
-                <button class="btn btn-warning" onclick="javascript:new MvcGrid(document.querySelector('#GridAdvogado')).reload();"><i class="glyphicon glyphicon-refresh"></i></button>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
-                Paz
+                @Html.AjaxGrid(Url.Action("GridAdvogado"))
             </div>
         </div>
     </div>
@@ -79,6 +78,7 @@
     </div>
 </div>
 
+<script src="~/js/Views/Advogado/dashboardGridAdvogado.js"></script>
 <script src="~/js/Views/AreaAtuacao/dashboardGridAreaAtuacao.js"></script>
 <script src="~/js/Views/Situacao/dashboardGridSituacao.js"></script>
 <script src="~/js/Views/TipoContato/dashboardGridTipoContato.js"></script>

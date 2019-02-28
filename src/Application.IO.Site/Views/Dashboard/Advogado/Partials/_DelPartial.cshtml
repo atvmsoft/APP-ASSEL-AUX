@@ -1,4 +1,4 @@
-﻿@model SystemModels.AreaAtuacao.AreaAtuacaoModel
+﻿@model SystemModels.Advogado.AdvogadoModel
 
 <style>
     .modal-dialog {
@@ -16,6 +16,12 @@
         @Html.HiddenFor(m => m.Id)
         @Html.Hidden("Delete", true);
         @Html.HiddenFor(m => m.Nome)
+        @Html.HiddenFor(m => m.IdGeoCidade)
+        @Html.HiddenFor(m => m.NumOrdem)
+        @Html.HiddenFor(m => m.NomePai)
+        @Html.HiddenFor(m => m.NomeMae)
+        @Html.HiddenFor(m => m.DateInscricaoOAB)
+        @Html.HiddenFor(m => m.DateAtualizacao)
 
         <div class="modal-body">
             <div class="row">
@@ -24,6 +30,14 @@
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     @Html.DisplayFor(m => m.Nome)
+                </div>
+            </div>
+            <div class="row padding-adjust-last">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    @Html.LabelFor(m => m.NumOrdem)
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    @($"{ Model.EstadoSigla }/{ Model.NumOrdem }")
                 </div>
             </div>
         </div>

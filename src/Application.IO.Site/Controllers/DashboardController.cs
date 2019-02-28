@@ -238,6 +238,12 @@ namespace Application.IO.Site.Controllers
             return View("Advogado/Index", model);
         }
 
+        [HttpGet]
+        public PartialViewResult GridAdvogado()
+        {
+            return PartialView("Advogado/Partials/_GridView", new AdvogadoSelect().GetGrid(UserId));
+        }
+
         [HttpPost]
         public IActionResult SaveAdvogado(AdvogadoModel model)
         {
@@ -258,6 +264,12 @@ namespace Application.IO.Site.Controllers
             if (!ModelState.IsValid) return Json(NegativeReturn);
 
             return Json(new AdvogadoCore().SaveAvatar(model, UserId));
+        }
+
+        [HttpPost]
+        public IActionResult DelAdvogado(int id)
+        {
+            return PartialView("Advogado/Partials/_DelPartial", new AdvogadoSelect().GetById(id, UserId));
         }
 
         #region Contatos
