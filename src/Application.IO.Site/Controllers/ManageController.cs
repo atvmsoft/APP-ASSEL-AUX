@@ -1,6 +1,8 @@
-﻿using Application.IO.Site.Models;
+﻿using Application.IO.Site.Interfaces;
+using Application.IO.Site.Models;
 using Application.IO.Site.Models.ManageViewModels;
 using Application.IO.Site.Services;
+using Application.IO.Site.Services.Business.Updade;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -16,7 +18,7 @@ namespace Application.IO.Site.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
-    public class ManageController : Controller
+    public class ManageController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -32,7 +34,8 @@ namespace Application.IO.Site.Controllers
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder,
+          IUser user) : base(user)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -57,7 +60,8 @@ namespace Application.IO.Site.Controllers
             {
                 Username = user.UserName,
                 Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
+                Name = user.Name,
+                NumDocument = user.NumDocument,
                 IsEmailConfirmed = user.EmailConfirmed,
                 StatusMessage = StatusMessage
             };
@@ -69,38 +73,36 @@ namespace Application.IO.Site.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(IndexViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            if (!ModelState.IsValid) return View(model);
 
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                model.StatusMessage = "Usuário não encontrado";
+                return View(model);
             }
 
             var email = user.Email;
             if (model.Email != email)
             {
-                var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
+                var setEmailResult = await _userManager.SetEmailAsync(user, model.Email.ToLower());
                 if (!setEmailResult.Succeeded)
                 {
-                    throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
+                    model.StatusMessage = "Erro ao setar e-mail";
+                    return View(model);
                 }
             }
 
-            var phoneNumber = user.PhoneNumber;
-            if (model.PhoneNumber != phoneNumber)
+            var retorno = new AspNetUserUpdade().Save(UserId, model);
+            if (!retorno.Valido)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
-                {
-                    throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
-                }
+                foreach (var item in retorno.Mensagens) ModelState.AddModelError(string.Empty, item);
+
+                model.StatusMessage = "Erro ao alterar dados do usuário";
+                return View(model);
             }
 
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Perfil alterado com sucesso!";
             return RedirectToAction(nameof(Index));
         }
 
@@ -132,16 +134,10 @@ namespace Application.IO.Site.Controllers
         public async Task<IActionResult> ChangePassword()
         {
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
+            if (user == null) return View(new ChangePasswordViewModel { StatusMessage = "Usuário não encontrado" });
 
             var hasPassword = await _userManager.HasPasswordAsync(user);
-            if (!hasPassword)
-            {
-                return RedirectToAction(nameof(SetPassword));
-            }
+            if (!hasPassword) return RedirectToAction(nameof(SetPassword));
 
             var model = new ChangePasswordViewModel { StatusMessage = StatusMessage };
             return View(model);
@@ -151,15 +147,13 @@ namespace Application.IO.Site.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            if (!ModelState.IsValid) return View(model);
 
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                StatusMessage = "Usuário não encontrado";
+                return View(model);
             }
 
             var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
@@ -170,8 +164,8 @@ namespace Application.IO.Site.Controllers
             }
 
             await _signInManager.SignInAsync(user, isPersistent: false);
-            _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
+            _logger.LogInformation("Senha alterada com sucesso.");
+            StatusMessage = "Senha alterada com sucesso.";
 
             return RedirectToAction(nameof(ChangePassword));
         }
@@ -490,12 +484,14 @@ namespace Application.IO.Site.Controllers
         }
 
         #region Helpers
-
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
             {
-                ModelState.AddModelError(string.Empty, error.Description);
+                if (error.Description == "Incorrect password.")
+                    ModelState.AddModelError(string.Empty, "Senha incorreta!");
+                else
+                    ModelState.AddModelError(string.Empty, error.Description);
             }
         }
 
@@ -537,7 +533,6 @@ namespace Application.IO.Site.Controllers
             model.SharedKey = FormatKey(unformattedKey);
             model.AuthenticatorUri = GenerateQrCodeUri(user.Email, unformattedKey);
         }
-
         #endregion
     }
 }

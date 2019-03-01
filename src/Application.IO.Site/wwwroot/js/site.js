@@ -51,3 +51,7 @@ function DefaultSucessAlert() {
 function DefaultInfo(msgs, width) {
     DefaultMessage("info", "Informação importante!", msgs, width);
 }
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+})

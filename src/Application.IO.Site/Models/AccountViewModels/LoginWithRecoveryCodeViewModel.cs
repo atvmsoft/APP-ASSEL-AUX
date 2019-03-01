@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Application.IO.Site.Models.AccountViewModels
 {
     public class LoginWithRecoveryCodeViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "\"{0}\" é obrigatório")]
         [DataType(DataType.Text)]
-        [Display(Name = "Recovery Code")]
+        [Display(Name = "Código de recuperação")]
         public string RecoveryCode { get; set; }
     }
 }

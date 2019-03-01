@@ -73,3 +73,18 @@ label {
 .font-free {
     text-transform: none!important;
 }
+
+.padding-adjust {
+    padding: 0px 0px 15px 0px !important;
+}
+
+.padding-adjust-last {
+    padding: 15px 0px 15px 0px !important;
+}
+.padding-zero {
+    padding: 0px !important;
+}
+
+.btn + .tooltip > .tooltip-inner {
+    padding:8px 12px!important;
+}

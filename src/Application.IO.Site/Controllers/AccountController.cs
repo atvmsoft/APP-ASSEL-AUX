@@ -336,18 +336,13 @@ namespace Application.IO.Site.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
-                {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return RedirectToAction(nameof(ForgotPasswordConfirmation));
-                }
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user))) return RedirectToAction(nameof(ForgotPasswordConfirmation));
 
-                // For more information on how to enable account confirmation and password reset please
-                // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
-                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+
+                await _emailSender.SendEmailAsync(model.Email, "[Assel] Resetar Senha", $"Para resetar sua senha clique <a href='{callbackUrl}'>aqui</a>");
+
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 

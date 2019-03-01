@@ -1,15 +1,12 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Application.IO.Site.Models.AccountViewModels
 {
     public class ExternalLoginViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Display(Name = "E-mail")]
+        [Required(ErrorMessage = "\"{0}\" é obrigatório")]
+        [EmailAddress(ErrorMessage = "\"{0}\" inválido")]
         public string Email { get; set; }
     }
 }

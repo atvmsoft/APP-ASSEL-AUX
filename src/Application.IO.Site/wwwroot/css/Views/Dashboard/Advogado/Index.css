@@ -1,4 +1,4 @@
-.padding-adjust {
+/*.padding-adjust {
     padding: 0px 0px 15px 0px !important;
 }
 
@@ -8,18 +8,11 @@
 
 .padding-zero {
     padding: 0px !important;
-}
+}*/
 
 .ckb-area {
     padding: 0 0 0 0 !important;
-    /*line-height: 1.42857143;*/
     border-top: 1px solid #ccc;
-    /*border-radius: 4px;*/
-    /*-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;*/
 }
 
     .ckb-area label {
@@ -56,7 +49,7 @@
 
 .grid-collumn-tipo-endereco,
 .grid-collumn-tipo-contato {
-    width: 150px;
+    width: 220px;
 }
 
 .grid-collumn-log-num {

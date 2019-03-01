@@ -4,8 +4,8 @@
     .Grid(Model)
     .Build(columns =>
     {
-        columns.Add(model => $"<button class=\"btn btn-danger\" onclick=\"GridAvogadoDel({model.Id});\"><i class=\"glyphicon glyphicon-remove\"></i></button>").Css("grid-collumn-del").Encoded(false);
-        columns.Add(model => $"<button class=\"btn btn-warning\" onclick=\"GridAvogadoEdt({model.Id});\"><i class=\"glyphicon glyphicon-pencil\"></i></button>").Css("grid-collumn-edt").Encoded(false);
+        columns.Add(model => $"<button class=\"btn btn-danger\" onclick=\"GridAdvogadoDel({model.Id});\"><i class=\"glyphicon glyphicon-remove\"></i></button>").Css("grid-collumn-del").Encoded(false);
+        columns.Add(model => $"<button class=\"btn btn-warning\" onclick=\"GridAdvogadoEdt({model.Id});\"><i class=\"glyphicon glyphicon-pencil\"></i></button>").Css("grid-collumn-edt").Encoded(false);
         columns.Add(model => model.Nome).Titled("Nome");
         columns.Add(model => model.NumOrdem).Titled("Nº OAB");
         columns.Add(model => model.Date).Css("grid-collumn-dateinsert").Formatted("{0: dd/MM/yyyy HH:mm}").Titled("Data");

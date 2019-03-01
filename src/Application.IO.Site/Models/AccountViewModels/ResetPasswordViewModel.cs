@@ -1,25 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Application.IO.Site.Models.AccountViewModels
 {
     public class ResetPasswordViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Display(Name = "E-mail")]
+        [Required(ErrorMessage = "\"{0}\" é obrigatório")]
+        [EmailAddress(ErrorMessage = "\"{0}\" inválido")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [Display(Name = "Senha")]
+        [Required(ErrorMessage = "\"{0}\" é obrigatório")]
+        [StringLength(10, ErrorMessage = "\"{0}\" deve ter entre {2} e {1} caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        [Display(Name = "Confirmar Senha")]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Required(ErrorMessage = "\"{0}\" é obrigatório")]
+        [Compare("Password", ErrorMessage = "\"{0}\" deve ser igual a \"Senha\".")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
