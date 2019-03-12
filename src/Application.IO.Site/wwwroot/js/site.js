@@ -1,4 +1,6 @@
-﻿function DefaultMessage(type, title, msgs, width) {
+﻿var True = true, False = false;
+
+function DefaultMessage(type, title, msgs, width) {
 
     width = (width < 270 || width === undefined) ? 270 : width;
 
@@ -54,4 +56,4 @@ function DefaultInfo(msgs, width) {
 
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
-})
+});

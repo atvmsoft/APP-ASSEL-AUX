@@ -1,5 +1,5 @@
 ﻿function GetEndCidades(idEndGeoEstado, idEndGeoCidade) {
-    $.getJSON("/Values/ListCidades", { idGeoEstado: idEndGeoEstado }, function (data) {
+    $.getJSON(baseUrl + "Values/ListCidades", { idGeoEstado: idEndGeoEstado }, function (data) {
         $("#IdEndGeoCidade").empty();
         let items = "";
         $.each(data, function (i, e) {
@@ -8,7 +8,7 @@
 
         $("#IdEndGeoCidade").html(items);
 
-        if (idEndGeoCidade != 0) $("#IdEndGeoCidade").val(idEndGeoCidade.toString());
+        if (idEndGeoCidade !== 0) $("#IdEndGeoCidade").val(idEndGeoCidade.toString());
     });
 }
 
@@ -20,7 +20,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "post",
-            url: "/Values/PostalCode",
+            url: baseUrl + "Values/PostalCode",
             data: { pcode: $(this).val() },
             success: function (result) {
                 $("#Logradouro,#Bairro").val("");

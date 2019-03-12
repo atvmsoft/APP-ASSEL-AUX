@@ -1,5 +1,6 @@
 ﻿function GetCidades(id) {
-    $.getJSON("/Values/ListCidades", { idGeoEstado: id }, function (data) {
+    debugger;
+    $.getJSON(baseUrl + "Values/ListCidades", { idGeoEstado: id }, function (data) {
         $("#IdGeoCidade").empty();
         let items = "";
         $.each(data, function (i, e) {
@@ -14,7 +15,7 @@
 function RefreshSituacao(idadv) {
     $.ajax({
         type: "POST",
-        url: "/Dashboard/GetSituacao",
+        url: baseUrl + "Dashboard/GetSituacao",
         data: { idAdv: idadv },
         success: function (result) {
             $(".ckb-situacao").empty();
@@ -35,7 +36,7 @@ function RefreshSituacao(idadv) {
 function RefreshAreaAtuacao(idadv) {
     $.ajax({
         type: "POST",
-        url: "/Dashboard/GetAreaAtuacao",
+        url: baseUrl + "Dashboard/GetAreaAtuacao",
         data: { idAdv: idadv },
         success: function (result) {
             $(".ckb-areaatuacao").empty();
@@ -56,7 +57,7 @@ function RefreshAreaAtuacao(idadv) {
 function GridAdvogadoContatoEdt(id, idadv) {
     $.ajax({
         type: "POST",
-        url: "/Dashboard/EdtAdvContato",
+        url: baseUrl + "Dashboard/EdtAdvContato",
         data: { id: id, idAdv: idadv },
         success: function (result) {
             $("#ModalMainContent").html(result);
@@ -71,7 +72,7 @@ function GridAdvogadoContatoEdt(id, idadv) {
 function GridAdvogadoContatoDel(id, idadv) {
     $.ajax({
         type: "POST",
-        url: "/Dashboard/DelAdvContato",
+        url: baseUrl + "Dashboard/DelAdvContato",
         data: { id: id, idAdv: idadv },
         success: function (result) {
             $("#ModalMainContent").html(result);
@@ -86,7 +87,7 @@ function GridAdvogadoContatoDel(id, idadv) {
 function GridAdvogadoEnderecoEdt(id, idadv) {
     $.ajax({
         type: "POST",
-        url: "/Dashboard/EdtAdvEndereco",
+        url: baseUrl + "Dashboard/EdtAdvEndereco",
         data: { id: id, idAdv: idadv },
         success: function (result) {
             $("#ModalMainContent").html(result);
@@ -101,7 +102,7 @@ function GridAdvogadoEnderecoEdt(id, idadv) {
 function GridAdvogadoEnderecoDel(id, idadv) {
     $.ajax({
         type: "POST",
-        url: "/Dashboard/DelAdvEndereco",
+        url: baseUrl + "Dashboard/DelAdvEndereco",
         data: { id: id, idAdv: idadv },
         success: function (result) {
             $("#ModalMainContent").html(result);
@@ -119,7 +120,7 @@ $(document).ready(function () {
     });
 
     $(".btn-novo-adv").click(function () {
-        window.location.href = "/Dashboard/Lawyer";
+        window.location.href = baseUrl + "Dashboard/Lawyer";
     });
 
     $("#FormEdtAdvogado").submit(function () {
@@ -180,7 +181,7 @@ $(document).ready(function () {
     $(".btn-ver-foto").click(function () {
         $.ajax({
             type: "POST",
-            url: '/Dashboard/EdtAdvAvatar',
+            url: baseUrl + "Dashboard/EdtAdvAvatar",
             datatype: "Application/Json",
             data: { id: $("#Id").val() },
             success: function (result) {

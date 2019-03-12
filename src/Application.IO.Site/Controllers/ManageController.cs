@@ -118,7 +118,7 @@ namespace Application.IO.Site.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                throw new ApplicationException($"Usuário não encontrado.");
             }
 
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -126,7 +126,7 @@ namespace Application.IO.Site.Controllers
             var email = user.Email;
             await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
 
-            StatusMessage = "Verification email sent. Please check your email.";
+            StatusMessage = "E-mail de verificação enviado. Por favor confira seu e-mail.";
             return RedirectToAction(nameof(Index));
         }
 

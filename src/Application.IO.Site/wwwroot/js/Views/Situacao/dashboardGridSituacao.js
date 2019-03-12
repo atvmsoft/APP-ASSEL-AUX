@@ -1,7 +1,7 @@
 ﻿function GridSituacaoEdt(id, inscadadv = false) {
     $.ajax({
         type: "POST",
-        url: '/Dashboard/EdtSituacao',
+        url: baseUrl + "Dashboard/EdtSituacao",
         datatype: "Application/Json",
         data: { id: id, insCadAdv: inscadadv },
         success: function (result) {
@@ -17,7 +17,7 @@
 function GridSituacaoDel(id) {
     $.ajax({
         type: "POST",
-        url: '/Dashboard/DelSituacao',
+        url: baseUrl + "Dashboard/DelSituacao",
         datatype: "Application/Json",
         data: { id: id },
         success: function (result) {
