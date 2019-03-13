@@ -1,7 +1,7 @@
 ﻿function GridTipoContatoEdt(id) {
     $.ajax({
         type: "POST",
-        url: baseUrl + "Dashboard/EdtTipoContato",
+        url: baseUrl + "/Dashboard/EdtTipoContato",
         datatype: "Application/Json",
         data: { id: id },
         success: function (result) {
@@ -17,7 +17,7 @@
 function GridTipoContatoDel(id) {
     $.ajax({
         type: "POST",
-        url: baseUrl + "Dashboard/DelTipoContato",
+        url: baseUrl + "/Dashboard/DelTipoContato",
         datatype: "Application/Json",
         data: { id: id },
         success: function (result) {

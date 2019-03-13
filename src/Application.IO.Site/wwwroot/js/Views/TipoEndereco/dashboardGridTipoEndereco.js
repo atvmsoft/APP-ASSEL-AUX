@@ -1,7 +1,7 @@
 ﻿function GridTipoEnderecoEdt(id) {
     $.ajax({
         type: "POST",
-        url: baseUrl + "Dashboard/EdtTipoEndereco",
+        url: baseUrl + "/Dashboard/EdtTipoEndereco",
         datatype: "Application/Json",
         data: { id: id },
         success: function (result) {
@@ -17,7 +17,7 @@
 function GridTipoEnderecoDel(id) {
     $.ajax({
         type: "POST",
-        url: baseUrl + "Dashboard/DelTipoEndereco",
+        url: baseUrl + "/Dashboard/DelTipoEndereco",
         datatype: "Application/Json",
         data: { id: id },
         success: function (result) {

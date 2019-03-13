@@ -1,5 +1,5 @@
 ﻿function GetEndCidades(idEndGeoEstado, idEndGeoCidade) {
-    $.getJSON(baseUrl + "Values/ListCidades", { idGeoEstado: idEndGeoEstado }, function (data) {
+    $.getJSON(baseUrl + "/Values/ListCidades", { idGeoEstado: idEndGeoEstado }, function (data) {
         $("#IdEndGeoCidade").empty();
         let items = "";
         $.each(data, function (i, e) {
@@ -20,7 +20,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "post",
-            url: baseUrl + "Values/PostalCode",
+            url: baseUrl + "/Values/PostalCode",
             data: { pcode: $(this).val() },
             success: function (result) {
                 $("#Logradouro,#Bairro").val("");

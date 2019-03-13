@@ -1,7 +1,7 @@
 ﻿function GridAreaAtuacaoEdt(id, inscadadv = false) {
     $.ajax({
         type: "POST",
-        url: baseUrl + "Dashboard/EdtAreaAtuacao",
+        url: baseUrl + "/Dashboard/EdtAreaAtuacao",
         datatype: "Application/Json",
         data: { id: id, insCadAdv: inscadadv },
         success: function (result) {
@@ -17,7 +17,7 @@
 function GridAreaAtuacaoDel(id) {
     $.ajax({
         type: "POST",
-        url: baseUrl + "Dashboard/DelAreaAtuacao",
+        url: baseUrl + "/Dashboard/DelAreaAtuacao",
         datatype: "Application/Json",
         data: { id: id },
         success: function (result) {
