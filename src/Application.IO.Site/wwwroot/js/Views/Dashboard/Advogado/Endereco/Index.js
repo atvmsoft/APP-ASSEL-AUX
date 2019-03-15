@@ -1,14 +1,22 @@
 ﻿function GetEndCidades(idEndGeoEstado, idEndGeoCidade) {
-    $.getJSON(baseUrl + "/Values/ListCidades", { idGeoEstado: idEndGeoEstado }, function (data) {
-        $("#IdEndGeoCidade").empty();
-        let items = "";
-        $.each(data, function (i, e) {
-            items += "<option value=\"" + e.id + "\">" + e.nome + "</option>";
-        });
+    $.ajax({
+        type: "GET",
+        url: baseUrl + "/Values/ListCidades",
+        data: { idGeoEstado: idEndGeoEstado },
+        success: function (result) {
+            $("#IdEndGeoCidade").empty();
+            let items = "";
+            $.each(result, function (i, e) {
+                items += "<option value=\"" + e.id + "\">" + e.nome + "</option>";
+            });
 
-        $("#IdEndGeoCidade").html(items);
+            $("#IdEndGeoCidade").html(items);
 
-        if (idEndGeoCidade !== 0) $("#IdEndGeoCidade").val(idEndGeoCidade.toString());
+            if (idEndGeoCidade !== 0 && idEndGeoCidade !== undefined) $("#IdEndGeoCidade").val(idEndGeoCidade.toString());
+        },
+        error: function () {
+            DefaultErrorAlert();
+        }
     });
 }
 

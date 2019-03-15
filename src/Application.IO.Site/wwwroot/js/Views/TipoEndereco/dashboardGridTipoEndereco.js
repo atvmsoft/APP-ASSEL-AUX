@@ -1,4 +1,12 @@
-﻿function GridTipoEnderecoEdt(id) {
+﻿$("#tab-t-end").click(function () {
+    if ($("#GridTipoEndereco").is(":empty")) {
+        new MvcGrid(document.querySelector('#GridTipoEndereco'), {
+            sourceUrl: baseUrl + '/Dashboard/GridTipoEndereco'
+        });
+    }
+});
+
+function GridTipoEnderecoEdt(id) {
     $.ajax({
         type: "POST",
         url: baseUrl + "/Dashboard/EdtTipoEndereco",

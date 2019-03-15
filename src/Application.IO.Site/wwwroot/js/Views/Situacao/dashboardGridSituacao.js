@@ -1,4 +1,12 @@
-﻿function GridSituacaoEdt(id, inscadadv = false) {
+﻿$("#tab-sit").click(function () {
+    if ($("#GridSituacao").is(":empty")) {
+        new MvcGrid(document.querySelector('#GridSituacao'), {
+            sourceUrl: baseUrl + '/Dashboard/GridSituacao'
+        });
+    }
+});
+
+function GridSituacaoEdt(id, inscadadv = false) {
     $.ajax({
         type: "POST",
         url: baseUrl + "/Dashboard/EdtSituacao",

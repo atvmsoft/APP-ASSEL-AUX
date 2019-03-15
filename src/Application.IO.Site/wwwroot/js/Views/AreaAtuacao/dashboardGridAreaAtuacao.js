@@ -1,4 +1,12 @@
-﻿function GridAreaAtuacaoEdt(id, inscadadv = false) {
+﻿$("#tab-att").click(function () {
+    if ($("#GridAreaAtuacao").is(":empty")) {
+        new MvcGrid(document.querySelector('#GridAreaAtuacao'), {
+            sourceUrl: baseUrl + '/Dashboard/GridAreaAtuacao'
+        });
+    }
+});
+
+function GridAreaAtuacaoEdt(id, inscadadv = false) {
     $.ajax({
         type: "POST",
         url: baseUrl + "/Dashboard/EdtAreaAtuacao",

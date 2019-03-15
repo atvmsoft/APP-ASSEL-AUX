@@ -37,6 +37,17 @@
             font-size: 12px !important;
             float: left;
         }
+
+        .blockMsg {
+            border: none !important;
+            background-color: transparent !important;
+            /*top: 50% !important;*/
+        }
+
+        .blockOverlay {
+            z-index: 1050 !important;
+            opacity: 0.2 !important;
+        }
     </style>
 </head>
 <body>
@@ -85,17 +96,34 @@
     <script src="~/js/mvc-grid.js"></script>
     <script src="~/js/bootstrap-datepicker.min.js"></script>
     <script src="~/js/bootstrap-datepicker.pt-BR.min.js"></script>
+    <script src="~/js/jquery.blockUI.js"></script>
 
     <div class="container body-content b-content">
         @RenderBody()
     </div>
 
     <script>
-        [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
-            new MvcGrid(element);
+        //<ev-grid>
+        document.addEventListener('reloadend', function () { 
+            $.unblockUI();
         });
 
+        document.addEventListener('reloadstart', function () {
+            $.blockUI({
+                message: "<img src=\"" + window.location.origin + baseUrl + "/images/load01.gif\" height=\"100\"/>"
+            });
+        });
+        //</ev-grid>
+
         $(document).ready(function () {
+            $(document).ajaxStart(function () {
+                $.blockUI({
+                    message: "<img src=\"" + window.location.origin + baseUrl + "/images/load01.gif\" height=\"100\"/>"
+                });
+            }).ajaxStop(function () {
+                $.unblockUI();
+            });
+
             $('#ModalMain').on('hidden.bs.modal', function (e) {
                 $("#ModalMainContent").empty();
             });

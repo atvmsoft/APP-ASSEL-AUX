@@ -123,6 +123,10 @@ $(document).ready(function () {
     });
 
     $("#FormEdtAdvogado").submit(function () {
+        $.blockUI({
+            message: "<img src=\"" + window.location.origin + baseUrl + "/images/load01.gif\" height=\"100\"/>"
+        });
+
         let situacao = [];
         $($(".ckb-situacao input[type='checkbox']:checked")).each(function (i, e) {
             situacao.push(e.value);
@@ -165,8 +169,9 @@ $(document).ready(function () {
                 if (result.valido !== undefined && !result.valido)
                     DefaultError(result.mensagens, 500);
                 else {
-                    if ($("#Id").val() === "0")
+                    if ($("#Id").val() === "0") {
                         window.location.href = "/Dashboard/Lawyer/" + result.objRetorno;
+                    }
                     else
                         DefaultSucessAlert();
                 }

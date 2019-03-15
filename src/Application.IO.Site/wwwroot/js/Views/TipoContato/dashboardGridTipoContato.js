@@ -1,4 +1,12 @@
-﻿function GridTipoContatoEdt(id) {
+﻿$("#tab-t-cont").click(function () {
+    if ($("#GridTipoContato").is(":empty")) {
+        new MvcGrid(document.querySelector('#GridTipoContato'), {
+            sourceUrl: baseUrl + '/Dashboard/GridTipoContato'
+        });
+    }
+});
+
+function GridTipoContatoEdt(id) {
     $.ajax({
         type: "POST",
         url: baseUrl + "/Dashboard/EdtTipoContato",
