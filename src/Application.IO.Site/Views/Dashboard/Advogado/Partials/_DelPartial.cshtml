@@ -22,8 +22,8 @@
         @Html.HiddenFor(m => m.NumOrdem)
         @Html.HiddenFor(m => m.NomePai)
         @Html.HiddenFor(m => m.NomeMae)
-        @Html.HiddenFor(m => m.DateInscricaoOAB)
-        @Html.HiddenFor(m => m.DateAtualizacao)
+        @Html.Hidden("DateInscricaoOAB", Model.DateInscricaoOAB.ToString("dd/MM/yyyy"))
+        @Html.Hidden("DateAtualizacao", Model.DateAtualizacao.ToString("dd/MM/yyyy"))
 
         <div class="modal-body">
             <div class="row">
