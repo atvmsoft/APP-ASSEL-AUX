@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Application.IO.Site.Extensions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -7,9 +9,11 @@ namespace Application.IO.Site.Models.SystemModels.Advogado
     public class AdvogadoModel
     {
         [Display(Name = "Atualização")]
+        [ModelBinder(BinderType = typeof(PtBrDateTimeBinder))]
         public DateTime DateAtualizacao { get; set; }
 
         [Display(Name = "Inscrição")]
+        [ModelBinder(BinderType = typeof(PtBrDateTimeBinder))]
         public DateTime DateInscricaoOAB { get; set; }
 
         [Display(Name = "Estado")]

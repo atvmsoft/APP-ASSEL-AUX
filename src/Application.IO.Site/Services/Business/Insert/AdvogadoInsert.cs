@@ -38,7 +38,7 @@ namespace Application.IO.Site.Services.Business.Insert
                     }
                 }
 
-            var obj = new Advogado(id, model.IdGeoCidade, model.Nome, model.NumOrdem, $"{ DateTime.Now.ToString("yyyyMMddHHmmssfff") }{ model.IFoto.FileName.Substring(model.IFoto.FileName.LastIndexOf(".")) }", model.NomePai, model.NomeMae, model.DateInscricaoOAB, model.DateAtualizacao);
+            var obj = new Advogado(id, model.IdGeoCidade, model.Nome, model.NumOrdem, $"{ Guid.NewGuid().ToString() }{ model.IFoto.FileName.Substring(model.IFoto.FileName.LastIndexOf(".")) }", model.NomePai, model.NomeMae, model.DateInscricaoOAB, model.DateAtualizacao);
             foreach (var item in obj.Get) retorno.Mensagens.Add(item.Value);
 
             if (!retorno.Valido) return retorno;

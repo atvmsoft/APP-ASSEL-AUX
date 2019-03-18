@@ -110,7 +110,7 @@
 
         document.addEventListener('reloadstart', function () {
             $.blockUI({
-                message: "<img src=\"" + window.location.origin + baseUrl + "/images/load01.gif\" height=\"100\"/>"
+                message: "<img src=\"" + baseUrl + "/images/load01.gif\" height=\"100\"/>"
             });
         });
         //</ev-grid>
@@ -118,7 +118,7 @@
         $(document).ready(function () {
             $(document).ajaxStart(function () {
                 $.blockUI({
-                    message: "<img src=\"" + window.location.origin + baseUrl + "/images/load01.gif\" height=\"100\"/>"
+                    message: "<img src=\"" + baseUrl + "/images/load01.gif\" height=\"100\"/>"
                 });
             }).ajaxStop(function () {
                 $.unblockUI();

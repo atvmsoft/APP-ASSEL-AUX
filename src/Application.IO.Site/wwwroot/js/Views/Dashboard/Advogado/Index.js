@@ -124,7 +124,7 @@ $(document).ready(function () {
 
     $("#FormEdtAdvogado").submit(function () {
         $.blockUI({
-            message: "<img src=\"" + window.location.origin + baseUrl + "/images/load01.gif\" height=\"100\"/>"
+            message: "<img src=\"" + baseUrl + "/images/load01.gif\" height=\"100\"/>"
         });
 
         let situacao = [];
@@ -170,7 +170,7 @@ $(document).ready(function () {
                     DefaultError(result.mensagens, 500);
                 else {
                     if ($("#Id").val() === "0") {
-                        window.location.href = "/Dashboard/Lawyer/" + result.objRetorno;
+                        window.location.href = window.location.origin + baseUrl + "/Dashboard/Lawyer/" + result.objRetorno;
                     }
                     else
                         DefaultSucessAlert();
