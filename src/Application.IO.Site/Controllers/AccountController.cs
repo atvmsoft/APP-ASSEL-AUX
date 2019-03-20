@@ -66,10 +66,19 @@ namespace Application.IO.Site.Controllers
                     _logger.LogInformation("Usuário logado");
                     return RedirectToLocal(returnUrl);
                 }
+
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
                 }
+
+                if (result.IsNotAllowed)
+                {
+                    //Ainda não é permitido o login, verifique se a confirmação de e-mail foi feita
+                    ModelState.AddModelError(string.Empty, "Ainda não é permitido o login, localize no seu e-mail a mensagem de confirmação de conta e siga os passos para ativação");
+                    return View(model);
+                }
+
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("Usuário bloqueado, aguarde");
@@ -135,7 +144,7 @@ namespace Application.IO.Site.Controllers
 
                     //_logger.LogInformation("User created a new account with password.");
 
-                    return LocalRedirect("/Account/Login");
+                    return LocalRedirect($"{ Url.Content("~") }/Account/Login");
                 }
                 AddErrors(result);
             }
