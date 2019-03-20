@@ -27,8 +27,7 @@ namespace Application.IO.Site.Services.Business.Insert
                     }
                 }
 
-            if (string.IsNullOrEmpty(model.ListAreaAtuacao)) retorno.Mensagens.Add($"A Área de Atuação não foi informada");
-            else
+            if (!string.IsNullOrEmpty(model.ListAreaAtuacao)) //retorno.Mensagens.Add($"A Área de Atuação não foi informada");
                 foreach (var item in model.ListAreaAtuacao.Split("-"))
                 {
                     if (!int.TryParse(item, out idAreaAtuacao) || new AreaAtuacaoSelect().GetById(idAreaAtuacao) == null)
