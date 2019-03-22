@@ -137,16 +137,16 @@ $(document).ready(function () {
             areaAtuacao.push(e.value);
         });
 
-        let erros = [];
-        if (situacao.length === 0) erros.push("Nenhum item selecionado em \"Situação\"");
-        //if (areaAtuacao.length === 0) erros.push("Nenhum item selecionado em \"Área de Atuação\"");
+        //let erros = [];
+        //if (situacao.length === 0) erros.push("Nenhum item selecionado em \"Situação\"");
+        ////if (areaAtuacao.length === 0) erros.push("Nenhum item selecionado em \"Área de Atuação\"");
 
-        if (erros.length !== 0) {
-            DefaultInfo(erros, 420);
-            return;
-        }
-        else
-            toastr.clear();
+        //if (erros.length !== 0) {
+        //    DefaultInfo(erros, 420);
+        //    return;
+        //}
+        //else
+        //    toastr.clear();
 
         var fdata = new FormData();
 

@@ -1,6 +1,7 @@
 ﻿using Application.IO.Site.Models.Source;
 using Application.IO.Site.Models.Source.Notifications;
 using Application.IO.Site.Services.Business.Select;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,17 +22,11 @@ namespace Application.IO.Site.Models.Domain
         [Required]
         public string NumOrdem { get; private set; }
 
-        [Required]
         public string Foto { get; private set; }
-
         public string NomePai { get; private set; }
         public string NomeMae { get; private set; }
-
-        [Required]
-        public DateTime DateInscricaoOAB { get; private set; }
-
-        [Required]
-        public DateTime DateAtualizacao { get; private set; }
+        public DateTime? DateInscricaoOAB { get; private set; }
+        public DateTime? DateAtualizacao { get; private set; }
 
         [Required]
         public DateTime Date { get; private set; }
@@ -50,52 +45,49 @@ namespace Application.IO.Site.Models.Domain
             if (new AdvogadoSelect().GetByNumOrdem(numOrdem, idGeoCidade) != null) Add(new DomainNotification("Advogado", $"O Número da Ordem \"'{ numOrdem }'\" já existe."));
         }
 
-        protected void ValidaDataInscricao(DateTime dateInscricaoOAB)
+        protected void ValidaDataInscricao(DateTime? dateInscricaoOAB)
         {
-            if (dateInscricaoOAB > DateTime.Now) Add(new DomainNotification("Advogado", $"A Inscrição: \"'{ dateInscricaoOAB.ToString("dd/MM/yyyy") }'\", é maior do que hoje."));
-            else if (dateInscricaoOAB.Year < (DateTime.Now.Year - 100)) Add(new DomainNotification("Advogado", $"A Inscrição: \"'{ dateInscricaoOAB.ToString("dd/MM/yyyy") }'\", é inválida."));
+            if (dateInscricaoOAB != null)
+                if (dateInscricaoOAB.Value > DateTime.Now) Add(new DomainNotification("Advogado", $"A Inscrição: \"'{ dateInscricaoOAB.Value.ToString("dd/MM/yyyy") }'\", é maior do que hoje."));
+                else if (dateInscricaoOAB.Value.Year < (DateTime.Now.Year - 100)) Add(new DomainNotification("Advogado", $"A Inscrição: \"'{ dateInscricaoOAB.Value.ToString("dd/MM/yyyy") }'\", é inválida."));
         }
 
-        protected void ValidaDataAtualizacao(DateTime dateAtualizacao)
+        protected void ValidaDataAtualizacao(DateTime? dateAtualizacao)
         {
-            if (dateAtualizacao > DateTime.Now) Add(new DomainNotification("Advogado", $"A Atualização: \"'{ dateAtualizacao.ToString("dd/MM/yyyy") }'\", é maior do que hoje."));
-            else if (dateAtualizacao.Year < (DateTime.Now.Year - 100)) Add(new DomainNotification("Advogado", $"A Atualização: \"'{ dateAtualizacao.ToString("dd/MM/yyyy") }'\", é inválida."));
+            if (dateAtualizacao != null)
+                if (dateAtualizacao.Value > DateTime.Now) Add(new DomainNotification("Advogado", $"A Atualização: \"'{ dateAtualizacao.Value.ToString("dd/MM/yyyy") }'\", é maior do que hoje."));
+                else if (dateAtualizacao.Value.Year < (DateTime.Now.Year - 100)) Add(new DomainNotification("Advogado", $"A Atualização: \"'{ dateAtualizacao.Value.ToString("dd/MM/yyyy") }'\", é inválida."));
         }
 
-        protected void ValidaDataInscAtt(DateTime dateInscricaoOAB, DateTime dateAtualizacao)
+        protected void ValidaDataInscAtt(DateTime? dateInscricaoOAB, DateTime? dateAtualizacao)
         {
-            if (dateInscricaoOAB > dateAtualizacao) Add(new DomainNotification("Advogado", $"A Atualização deve ser maior do que Inscrição."));
-        }
-
-        protected void ValidaAvatar(string foto)
-        {
-            if (string.IsNullOrEmpty(foto)) Add(new DomainNotification("Advogado", $"A Foto não foi fornecida."));
+            if (dateInscricaoOAB != null && dateAtualizacao != null)
+                if (dateInscricaoOAB.Value > dateAtualizacao.Value) Add(new DomainNotification("Advogado", $"A Atualização deve ser maior do que Inscrição."));
         }
         #endregion
 
-        public Advogado(Guid idUser, int idGeoCidade, string nome, string numOrdem, string foto, string nomePai, string nomeMae, DateTime dateInscricaoOAB, DateTime dateAtualizacao)
+        public Advogado(Guid idUser, int idGeoCidade, string nome, string numOrdem, IFormFile foto, string nomePai, string nomeMae, DateTime? dateInscricaoOAB, DateTime? dateAtualizacao)
         {
             ValidaGeoCidade(idGeoCidade);
             ValidaNumOAB(idGeoCidade, numOrdem);
             ValidaDataInscricao(dateInscricaoOAB);
             ValidaDataAtualizacao(dateAtualizacao);
             ValidaDataInscAtt(dateInscricaoOAB, dateAtualizacao);
-            ValidaAvatar(foto);
 
             IdUser = idUser;
             IdGeoCidade = idGeoCidade;
             Nome = nome.ToUpper();
             NumOrdem = numOrdem;
-            Foto = foto;
-            NomePai = nomePai.ToUpper();
-            NomeMae = nomeMae.ToUpper();
+            Foto = foto == null ? null : $"{ Guid.NewGuid().ToString() }{ foto.FileName.Substring(foto.FileName.LastIndexOf(".")) }";
+            NomePai = nomePai?.ToUpper();
+            NomeMae = nomeMae?.ToUpper();
             DateInscricaoOAB = dateInscricaoOAB;
             DateAtualizacao = dateAtualizacao;
             Date = DateTime.Now;
             Delete = false;
         }
 
-        public void ChangeEntity(int idGeoCidade, string nome, string numOrdem, string nomePai, string nomeMae, DateTime dateInscricaoOAB, DateTime dateAtualizacao, bool delete)
+        public void ChangeEntity(int idGeoCidade, string nome, string numOrdem, string nomePai, string nomeMae, DateTime? dateInscricaoOAB, DateTime? dateAtualizacao, bool delete)
         {
             if (!delete)
             {
@@ -111,8 +103,8 @@ namespace Application.IO.Site.Models.Domain
                 IdGeoCidade = idGeoCidade;
                 Nome = nome.ToUpper();
                 NumOrdem = numOrdem;
-                NomePai = nomePai.ToUpper();
-                NomeMae = nomeMae.ToUpper();
+                NomePai = nomePai?.ToUpper();
+                NomeMae = nomeMae?.ToUpper();
                 DateInscricaoOAB = dateInscricaoOAB;
                 DateAtualizacao = dateAtualizacao;
             }

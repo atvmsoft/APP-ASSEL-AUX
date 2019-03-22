@@ -69,7 +69,7 @@ namespace Application.IO.Site.Services.Business.Select
                 {
                     Nome = obj.Nome,
                     Id = obj.Id,
-                    Foto = obj.Foto
+                    Foto = obj.Foto ?? "icon-user.png"
                 };
 
             return null;

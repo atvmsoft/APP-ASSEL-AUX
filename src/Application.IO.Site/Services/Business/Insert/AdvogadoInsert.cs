@@ -16,8 +16,7 @@ namespace Application.IO.Site.Services.Business.Insert
             ReturnAction retorno = new ReturnAction();
 
             int idSituacao = 0, idAreaAtuacao = 0;
-            if (string.IsNullOrEmpty(model.ListSituacao)) retorno.Mensagens.Add($"A Situação não foi informada");
-            else
+            if (!string.IsNullOrEmpty(model.ListSituacao))
                 foreach (var item in model.ListSituacao.Split("-"))
                 {
                     if (!int.TryParse(item, out idSituacao) || new SituacaoSelect().GetById(idSituacao) == null)
@@ -27,7 +26,7 @@ namespace Application.IO.Site.Services.Business.Insert
                     }
                 }
 
-            if (!string.IsNullOrEmpty(model.ListAreaAtuacao)) //retorno.Mensagens.Add($"A Área de Atuação não foi informada");
+            if (!string.IsNullOrEmpty(model.ListAreaAtuacao))
                 foreach (var item in model.ListAreaAtuacao.Split("-"))
                 {
                     if (!int.TryParse(item, out idAreaAtuacao) || new AreaAtuacaoSelect().GetById(idAreaAtuacao) == null)
@@ -37,7 +36,7 @@ namespace Application.IO.Site.Services.Business.Insert
                     }
                 }
 
-            var obj = new Advogado(id, model.IdGeoCidade, model.Nome, model.NumOrdem, $"{ Guid.NewGuid().ToString() }{ model.IFoto.FileName.Substring(model.IFoto.FileName.LastIndexOf(".")) }", model.NomePai, model.NomeMae, model.DateInscricaoOAB, model.DateAtualizacao);
+            var obj = new Advogado(id, model.IdGeoCidade, model.Nome, model.NumOrdem, model.IFoto, model.NomePai, model.NomeMae, model.DateInscricaoOAB, model.DateAtualizacao);
             foreach (var item in obj.Get) retorno.Mensagens.Add(item.Value);
 
             if (!retorno.Valido) return retorno;
@@ -45,31 +44,37 @@ namespace Application.IO.Site.Services.Business.Insert
             db.Entry(obj).State = EntityState.Added;
             db.SaveChanges();
 
-            if (!Directory.Exists($"{ Directory.GetCurrentDirectory() }\\wwwroot\\images\\Avatar")) Directory.CreateDirectory($"{ Directory.GetCurrentDirectory() }\\wwwroot\\images\\Avatar");
-
-            var directoryRoot = $"{ Directory.GetCurrentDirectory() }\\wwwroot\\images\\Avatar";
-            var memoryStream = new MemoryStream();
-            model.IFoto.CopyToAsync(memoryStream);
-
-            FileStream file = new FileStream($"{ directoryRoot }\\{ obj.Foto }", FileMode.Create, FileAccess.Write);
-            memoryStream.WriteTo(file);
-            file.Close();
-            memoryStream.Close();
-
-            foreach (var item in model.ListSituacao.Split("-"))
+            //foto não é obrigatoria
+            if (model.IFoto != null)
             {
-                var sit = new AdvogadoSituacao(id, obj.Id, Convert.ToInt32(item));
-                if (sit.EhValido())
-                    db.Entry(sit).State = EntityState.Added;
+                var directoryRoot = $"{ Directory.GetCurrentDirectory() }\\wwwroot\\images\\Avatar";
+                var memoryStream = new MemoryStream();
+                model.IFoto.CopyToAsync(memoryStream);
+
+                FileStream file = new FileStream($"{ directoryRoot }\\{ obj.Foto }", FileMode.Create, FileAccess.Write);
+                memoryStream.WriteTo(file);
+                file.Close();
+                memoryStream.Close();
             }
 
-            foreach (var item in model.ListAreaAtuacao.Split("-"))
-            {
-                var sit = new AdvogadoAreaAtuacao(id, obj.Id, Convert.ToInt32(item));
-                if (sit.EhValido())
-                    db.Entry(sit).State = EntityState.Added;
-            }
-            db.SaveChanges();
+            if (!string.IsNullOrEmpty(model.ListSituacao))
+                foreach (var item in model.ListSituacao.Split("-"))
+                {
+                    var sit = new AdvogadoSituacao(id, obj.Id, Convert.ToInt32(item));
+                    if (sit.EhValido())
+                        db.Entry(sit).State = EntityState.Added;
+                }
+
+            if (!string.IsNullOrEmpty(model.ListAreaAtuacao))
+                foreach (var item in model.ListAreaAtuacao.Split("-"))
+                {
+                    var sit = new AdvogadoAreaAtuacao(id, obj.Id, Convert.ToInt32(item));
+                    if (sit.EhValido())
+                        db.Entry(sit).State = EntityState.Added;
+                }
+
+            if (!string.IsNullOrEmpty(model.ListSituacao) || !string.IsNullOrEmpty(model.ListAreaAtuacao))
+                db.SaveChanges();
 
             retorno.objRetorno = obj.Id;
 

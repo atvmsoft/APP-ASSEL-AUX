@@ -53,7 +53,7 @@ else
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="input-group date" data-provide="datepicker" data-date-end-date="0d">
-                    <input type="text" class="form-control dateformat" autocomplete="nope" id="DateInscricaoOAB" name="DateInscricaoOAB" value="@(Model.Id == 0 ? "" : Model.DateInscricaoOAB.ToString("dd/MM/yyyy"))" required />
+                    <input type="text" class="form-control dateformat" autocomplete="nope" id="DateInscricaoOAB" name="DateInscricaoOAB" value="@(Model.Id == 0 ? "" : Model.DateInscricaoOAB?.ToString("dd/MM/yyyy"))" />
                     <div class="input-group-addon">
                         <span class="glyphicon glyphicon-th"></span>
                     </div>
@@ -66,7 +66,7 @@ else
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="input-group date" data-provide="datepicker" data-date-end-date="0d">
-                    <input type="text" class="form-control dateformat" autocomplete="nope" id="DateAtualizacao" name="DateAtualizacao" value="@(Model.Id == 0 ? "" : Model.DateAtualizacao.ToString("dd/MM/yyyy"))" required />
+                    <input type="text" class="form-control dateformat" autocomplete="nope" id="DateAtualizacao" name="DateAtualizacao" value="@(Model.Id == 0 ? "" : Model.DateAtualizacao?.ToString("dd/MM/yyyy"))" />
                     <div class="input-group-addon">
                         <span class="glyphicon glyphicon-th"></span>
                     </div>
@@ -82,7 +82,7 @@ else
             <div class="col-lg-12 col-md-12 col-sm-12">
                 @if (Model.Id == 0)
                 {
-                    <input type="file" id="IFoto" name="IFoto" accept="image/*" required />
+                    <input type="file" id="IFoto" name="IFoto" accept="image/*" />
                 }
                 else
                 {

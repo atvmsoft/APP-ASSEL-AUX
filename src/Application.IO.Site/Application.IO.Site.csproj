@@ -127,4 +127,8 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\Avatar\" />
+  </ItemGroup>
+
 </Project>

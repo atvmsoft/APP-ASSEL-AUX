@@ -31,8 +31,6 @@ namespace Application.IO.Site.Services.Business.Updade
                         }
                     }
 
-                //if (string.IsNullOrEmpty(model.ListAreaAtuacao)) retorno.Mensagens.Add($"A Área de Atuação não foi informada");
-                //else
                 if (!string.IsNullOrEmpty(model.ListAreaAtuacao))
                     foreach (var item in model.ListAreaAtuacao.Split("-"))
                     {

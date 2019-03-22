@@ -10,11 +10,11 @@ namespace Application.IO.Site.Models.SystemModels.Advogado
     {
         [Display(Name = "Atualização")]
         [ModelBinder(BinderType = typeof(PtBrDateTimeBinder))]
-        public DateTime DateAtualizacao { get; set; }
+        public DateTime? DateAtualizacao { get; set; }
 
         [Display(Name = "Inscrição")]
         [ModelBinder(BinderType = typeof(PtBrDateTimeBinder))]
-        public DateTime DateInscricaoOAB { get; set; }
+        public DateTime? DateInscricaoOAB { get; set; }
 
         [Display(Name = "Estado")]
         [Required(ErrorMessage = "\"{0}\" é obrigatório")]
@@ -38,6 +38,7 @@ namespace Application.IO.Site.Models.SystemModels.Advogado
         public string NomePai { get; set; }
 
         [Display(Name = "Nº OAB")]
+        [Required(ErrorMessage = "\"{0}\" é obrigatório")]
         [StringLength(10, ErrorMessage = "\"{0}\" deve ter entre {2} e {1} caracteres.", MinimumLength = 2)]
         public string NumOrdem { get; set; }
 
