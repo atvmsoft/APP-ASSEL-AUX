@@ -1,0 +1,16 @@
+﻿.modal-dialog {
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: auto;
+    max-width: 900px;
+}
+
+.link-new-adress {
+    text-decoration: underline;
+    color: #31708f;
+}
+
+.icon-can-ins {
+    margin-right: 5px !important;
+}

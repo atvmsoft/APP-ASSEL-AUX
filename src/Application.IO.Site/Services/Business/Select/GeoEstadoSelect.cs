@@ -17,6 +17,11 @@ namespace Application.IO.Site.Services.Business.Select
             return db.GeoEstado.AsNoTracking().Where(w => w.Sigla == sigla).FirstOrDefault();
         }
 
+        public GeoEstado GetById(int id)
+        {
+            return Get().Where(w => w.Id == id).FirstOrDefault();
+        }
+
         public IQueryable<GeoEstado> Get()
         {
             return db.GeoEstado.AsNoTracking();

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -23,6 +24,7 @@ namespace Application.IO.Site.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private Dictionary<string, string> RegisterErrors = new Dictionary<string, string>();
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -34,6 +36,12 @@ namespace Application.IO.Site.Controllers
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+
+            RegisterErrors.Add("PasswordRequiresNonAlphanumeric", "A senha deve conter ao menos um caracter especial");
+            RegisterErrors.Add("PasswordRequiresLower", "A senha deve conter ao menos uma letra minúscula");
+            RegisterErrors.Add("PasswordRequiresUpper", "A senha deve conter ao menos uma letra maiúscula");
+            RegisterErrors.Add("PasswordRequiresDigit", "A senha deve conter ao menos um número");
+            RegisterErrors.Add("DuplicateUserName", "O e-mail informado já está em uso");
         }
 
         [TempData]
@@ -146,6 +154,7 @@ namespace Application.IO.Site.Controllers
 
                     return LocalRedirect($"{ Url.Content("~") }/Account/Login");
                 }
+
                 AddErrors(result);
             }
 
@@ -475,9 +484,14 @@ namespace Application.IO.Site.Controllers
 
         private void AddErrors(IdentityResult result)
         {
+            string strDescription = string.Empty;
             foreach (var error in result.Errors)
             {
-                ModelState.AddModelError(string.Empty, error.Description);
+                if (error.Code != "DuplicateEmail")
+                {
+                    if (!RegisterErrors.TryGetValue(error.Code, out strDescription)) strDescription = error.Description;
+                    ModelState.AddModelError(string.Empty, strDescription);
+                }
             }
         }
 

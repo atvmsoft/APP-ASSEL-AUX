@@ -1,14 +1,6 @@
 ﻿@model SystemModels.Advogado.AdvogadoEnderecoModel
 
-<style>
-    .modal-dialog {
-        position: relative;
-        overflow-y: auto;
-        overflow-x: hidden;
-        width: auto;
-        max-width: 900px;
-    }
-</style>
+<link rel="stylesheet" href="~/css/Views/Dashboard/Advogado/Endereco/EdtEndereco.css" />
 
 <script src="~/js/Views/Dashboard/Advogado/Endereco/Index.js"></script>
 
@@ -29,6 +21,7 @@
         @Html.HiddenFor(m => m.IdEnd)
         @Html.HiddenFor(m => m.IdGeoCep)
         @Html.HiddenFor(m => m.IdAdvogado)
+        @Html.HiddenFor(m => m.InsEndereco)
 
         <div class="modal-body">
             <div class="row hide msg-box">
@@ -39,7 +32,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 padding-adjust">
+                <div class="col-lg-9 col-md-9 col-sm-12 padding-adjust">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         @Html.LabelFor(m => m.IdTipoEndereco)
                     </div>
@@ -47,35 +40,45 @@
                         @Html.DropDownListFor(m => m.IdTipoEndereco, new SelectList(ViewBag.TipoEndereco, "Id", "Nome"), new { autocomplete = "nope", @class = "form-control", @required = "" })
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-12 padding-adjust">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         @Html.LabelFor(m => m.CodCep)
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        @Html.TextBoxFor(m => m.CodCep, new { autocomplete = "nope", @class = "form-control cep-box", @required = "", @autofocus = "" })
+                        @Html.TextBoxFor(m => m.CodCep, new { autocomplete = "nope", @class = "form-control cep-box", @required = "", @autofocus = "", @maxlength = "10" })
                     </div>
                 </div>
-                <div class="col-lg-5 col-md-5 col-sm-12 padding-adjust">
+            </div>
+
+            <div class="row padding-adjust row-adresses hide">
+                <div class="col-sm-12">
+                    @Html.Label("Endereços")
+                </div>
+                <div class="col-sm-12">
+                    @Html.DropDownList("ddlEnderecos", Enumerable.Empty<SelectListItem>(), "Selecione", new { autocomplete = "nope", @class = "form-control", @required = "" })
+                </div>
+            </div>
+
+            <div class="row row-adress">
+                <div class="col-lg-7 col-md-7 col-sm-12 padding-adjust">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         @Html.LabelFor(m => m.Logradouro)
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        @Html.TextBoxFor(m => m.Logradouro, new { autocomplete = "nope", @class = "form-control", @required = "" })
+                        @Html.TextBoxFor(m => m.Logradouro, new { autocomplete = "nope", @class = "form-control", @required = "", @maxlength = "300" })
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 padding-adjust">
+                <div class="col-lg-5 col-md-5 col-sm-12 padding-adjust">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         @Html.LabelFor(m => m.Bairro)
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        @Html.TextBoxFor(m => m.Bairro, new { autocomplete = "nope", @class = "form-control", @required = "" })
+                        @Html.TextBoxFor(m => m.Bairro, new { autocomplete = "nope", @class = "form-control", @required = "", @maxlength = "150" })
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-12 padding-adjust">
+            <div class="row row-adress">
+                <div class="col-lg-4 col-md-4 col-sm-12 padding-adjust">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         @Html.LabelFor(m => m.Estado)
                     </div>
@@ -83,7 +86,7 @@
                         @Html.DropDownListFor(m => m.IdEndGeoEstado, new SelectList(ViewBag.Estados, "Id", "Nome"), new { autocomplete = "nope", @class = "form-control", @required = "" })
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 padding-adjust">
+                <div class="col-lg-8 col-md-8 col-sm-12 padding-adjust">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         @Html.LabelFor(m => m.Cidade)
                     </div>
@@ -91,21 +94,31 @@
                         @Html.DropDownListFor(m => m.IdEndGeoCidade, new SelectList(ViewBag.Cidades, "Id", "Nome"), new { autocomplete = "nope", @class = "form-control", @required = "" })
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-lg-2 col-md-2 col-sm-12 padding-adjust">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         @Html.LabelFor(m => m.Numero)
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        @Html.TextBoxFor(m => m.Numero, new { autocomplete = "nope", @class = "form-control", @required = "" })
+                        @Html.TextBoxFor(m => m.Numero, new { autocomplete = "nope", @class = "form-control", @required = "", @maxlength = "10" })
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 padding-adjust">
+                <div class="col-lg-10 col-md-10 col-sm-12 padding-adjust">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         @Html.LabelFor(m => m.Complemento)
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        @Html.TextBoxFor(m => m.Complemento, new { autocomplete = "nope", @class = "form-control" })
+                        @Html.TextBoxFor(m => m.Complemento, new { autocomplete = "nope", @class = "form-control", @maxlength = "50" })
                     </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 hide msg-new-adress">
+                    <div class="alert alert-info text-center margin-top-ten" role="alert">
+                        Caso o endereço apresentado não corresponda ao CEP informado <a href="#" class="link-new-adress">clique aqui</a> para cadastrar outro endereço.
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 hide add-new-adress margin-top-ten">
+                    <button type="button" class="btn btn-danger btn-can-adress"><i class="glyphicon glyphicon-ban-circle icon-can-ins"></i>Cancelar Inclusão</button>
                 </div>
             </div>
         </div>

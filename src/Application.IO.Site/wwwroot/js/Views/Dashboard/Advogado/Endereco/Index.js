@@ -20,37 +20,58 @@
     });
 }
 
+function StartEstadoCidade() {
+    $("#IdEndGeoEstado").val($("#IdEndGeoEstado option:first").val());
+    GetEndCidades($("#IdEndGeoEstado").val());
+    $("#IdEndGeoCidade").val($("#IdEndGeoCidade option:first").val());
+}
+
 $(document).ready(function () {
     $("#CodCep").focusout(function () {
         if ($(this).val() === "") return false;
 
-        $(".msg-box").addClass("hide");
+        $(".msg-box,.msg-new-adress,.add-new-adress").addClass("hide");
 
         $.ajax({
             type: "post",
             url: baseUrl + "/Values/PostalCode",
             data: { pcode: $(this).val() },
             success: function (result) {
+                $("#ddlEnderecos").empty();
                 $("#Logradouro,#Bairro").val("");
 
-                if (result !== null) {
-                    $("#IdGeoCep").val(result.id);
-                    $("#Logradouro").val(result.endereco);
-                    $("#Bairro").val(result.bairro);
-                    $("#IdEndGeoEstado").val(result.idGeoEstado.toString());
+                if (result.length > 0) {
+                    if (result.length === 1) {
 
-                    GetEndCidades(result.idGeoEstado, result.idGeoCidade);
+                        if (!$(".row-adresses").hasClass("hide")) $(".row-adresses").addClass("hide");
+                        $(".row-adress").removeClass("hide");
 
-                    $("#Logradouro,#Bairro,#IdEndGeoEstado,#IdEndGeoCidade").attr("disabled", "");
+                        $("#IdGeoCep").val(result[0].id);
+                        $("#Logradouro").val(result[0].endereco);
+                        $("#Bairro").val(result[0].bairro);
+                        $("#IdEndGeoEstado").val(result[0].idGeoEstado.toString());
+
+                        GetEndCidades(result[0].idGeoEstado, result[0].idGeoCidade);
+
+                        $("#Logradouro,#Bairro,#IdEndGeoEstado,#IdEndGeoCidade").attr("disabled", "");
+                    }
+                    else {
+                        if (!$(".row-adress").hasClass("hide")) $(".row-adress").addClass("hide");
+                        $(".row-adresses").removeClass("hide");
+
+                        $(result).each(function () {
+                            $("#ddlEnderecos").append($("<option></option>").val(this.id).html(this.endereco + ", " + this.bairro + ", " + this.cidade + "/" + this.estado));
+                        });
+                    }
+
+                    $(".msg-new-adress").removeClass("hide");
 
                     return;
                 }
 
                 $("#IdGeoCep").val(0);
 
-                $("#IdEndGeoEstado").val($("#IdEndGeoEstado option:first").val());
-                GetEndCidades($("#IdEndGeoEstado").val());
-                $("#IdEndGeoCidade").val($("#IdEndGeoCidade option:first").val());
+                StartEstadoCidade();
 
                 $(".msg-box").removeClass("hide");
                 $("#Logradouro,#Bairro,#IdEndGeoEstado,#IdEndGeoCidade").removeAttr("disabled");
@@ -90,5 +111,30 @@ $(document).ready(function () {
     });
 
     $(".cep-box").mask("00.000-000");
+
     $("#Logradouro,#Bairro,#IdEndGeoEstado,#IdEndGeoCidade").attr("disabled", "");
+
+    $(".link-new-adress").click(function () {
+        $(".msg-new-adress").addClass("hide");
+        $(".add-new-adress").removeClass("hide");
+        $("#IdGeoCep").val(0);
+        $("#InsEndereco").val(true);
+        $("#Logradouro,#Bairro,#IdEndGeoEstado,#IdEndGeoCidade").removeAttr("disabled");
+        $("#Logradouro,#Bairro,#Numero,#Complemento").val("");
+
+        StartEstadoCidade();
+
+        $("#Logradouro").focus();
+    });
+
+    $(".btn-can-adress").click(function () {
+        $(".add-new-adress").addClass("hide");
+        $("#CodCep").focus();
+        $("#InsEndereco").val(false);
+
+        StartEstadoCidade();
+
+        $("#Logradouro,#Bairro,#Numero,#Complemento,#CodCep").val("");
+        $("#Logradouro,#Bairro,#IdEndGeoEstado,#IdEndGeoCidade").attr("disabled", "");
+    });
 });

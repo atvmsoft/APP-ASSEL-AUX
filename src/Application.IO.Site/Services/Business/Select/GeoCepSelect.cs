@@ -2,13 +2,14 @@
 using Application.IO.Site.Models.Services.Abstractions;
 using Application.IO.Site.Models.SystemModels.GeoCep;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Application.IO.Site.Services.Business.Select
 {
     public class GeoCepSelect : AbstractionContext
     {
-        public GeoCepModel GetByCod(string codigo)
+        public List<GeoCepModel> GetByCod(string codigo)
         {
             var cod = string.Join("", codigo.ToCharArray().Where(char.IsDigit));
 
@@ -16,6 +17,7 @@ namespace Application.IO.Site.Services.Business.Select
                     join E in db.GeoEstado.AsNoTracking() on CP.Estado equals E.Sigla
                     join C in db.GeoCidade.AsNoTracking() on new { cdd = CP.Cidade, id = E.Id } equals new { cdd = C.Nome, id = C.IdGeoEstado }
                     where CP.Codigo == cod
+                    orderby CP.Bairro, CP.Endereco
                     select new GeoCepModel()
                     {
                         Id = CP.Id,
@@ -26,7 +28,7 @@ namespace Application.IO.Site.Services.Business.Select
                         Bairro = CP.Bairro,
                         Cidade = CP.Cidade,
                         Estado = CP.Estado
-                    }).FirstOrDefault();
+                    }).ToList();
         }
 
         public GeoCep GetById(int idGeoCep)

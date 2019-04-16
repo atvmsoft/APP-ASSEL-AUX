@@ -27,7 +27,7 @@ namespace Application.IO.Site.Models.AccountViewModels
 
         [Display(Name = "Senha")]
         [Required(ErrorMessage = "\"{0}\" é obrigatório")]
-        [StringLength(10, ErrorMessage = "\"{0}\" deve ter entre {2} e {1} caracteres.", MinimumLength = 6)]
+        [StringLength(10, ErrorMessage = "\"{0}\" deve ter entre {2} e {1} caracteres.", MinimumLength = 8)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

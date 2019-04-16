@@ -5,7 +5,6 @@ using Application.IO.Site.Models.SystemModels.Advogado;
 using Application.IO.Site.Services.Business.Select;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Linq;
 
 namespace Application.IO.Site.Services.Business.Updade
 {
@@ -24,29 +23,15 @@ namespace Application.IO.Site.Services.Business.Updade
 
             if (!model.Delete && model.IdGeoCep == 0) // SE O CEP NÃO EXISTIR SERÁ CRIADO
             {
-                var lista = new GeoCidadeSelect().GetById(model.IdEndGeoCidade).ToList();
-                var localizacao = (from C in lista
-                                   join E in db.GeoEstado.AsNoTracking() on C.IdGeoEstado equals E.Id
-                                   where C.Id == model.IdEndGeoCidade && C.IdGeoEstado == model.IdEndGeoEstado
-                                   select new
-                                   {
-                                       Cidade = C.Nome,
-                                       Estado = E.Sigla
-                                   }).FirstOrDefault();
+                var cep = new GeoCep(idUser, model.CodCep, model.Logradouro, model.Bairro, model.IdEndGeoCidade, model.IdEndGeoEstado);
 
-                if (localizacao == null) retorno.Mensagens.Add("Cidade e Estado não localizados");
+                if (!cep.EhValido()) foreach (var item in cep.Get) retorno.Mensagens.Add(item.Value);
                 else
                 {
-                    var cep = new GeoCep(idUser, model.CodCep, model.Logradouro, model.Bairro, localizacao.Cidade, localizacao.Estado);
+                    db.Entry(cep).State = EntityState.Added;
+                    db.SaveChanges();
 
-                    if (!cep.EhValido()) foreach (var item in cep.Get) retorno.Mensagens.Add(item.Value);
-                    else
-                    {
-                        db.Entry(cep).State = EntityState.Added;
-                        db.SaveChanges();
-
-                        model.IdGeoCep = cep.Id;
-                    }
+                    model.IdGeoCep = cep.Id;
                 }
             }
 
