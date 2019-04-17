@@ -16,11 +16,11 @@ namespace Application.IO.Site.Models.Domain
 
         public GeoEstado(string nome, string sigla)
         {
-            if (new GeoEstadoSelect().GetByName(nome) != null) Add(new DomainNotification("Estado", $"O Estado (Nome) \"'{ nome }'\" já existe."));
-            if (new GeoEstadoSelect().GetByInitials(sigla) != null) Add(new DomainNotification("Estado", $"O Estado (Sigla) \"'{ sigla }'\" já existe."));
+            if (new GeoEstadoSelect().GetByName(nome.Trim()) != null) Add(new DomainNotification("Estado", $"O Estado (Nome) \"'{ nome.Trim() }'\" já existe."));
+            if (new GeoEstadoSelect().GetByInitials(sigla.Trim()) != null) Add(new DomainNotification("Estado", $"O Estado (Sigla) \"'{ sigla.Trim() }'\" já existe."));
 
-            Nome = nome;
-            Sigla = sigla;
+            Nome = nome.Trim();
+            Sigla = sigla.Trim();
         }
 
         // EF Construtor

@@ -23,17 +23,17 @@ namespace Application.IO.Site.Models.Domain
 
         public TipoEndereco(Guid idUser, string nome)
         {
-            if (new TipoEnderecoSelect().GetByName(nome) != null) Add(new DomainNotification("TipoEndereco", $"O Tipo de Endereço \"'{ nome }'\" já existe."));
+            if (new TipoEnderecoSelect().GetByName(nome.Trim()) != null) Add(new DomainNotification("TipoEndereco", $"O Tipo de Endereço \"'{ nome.Trim() }'\" já existe."));
 
             IdUser = idUser;
             Date = DateTime.Now;
-            Nome = nome.ToUpper();
+            Nome = nome.Trim().ToUpper();
         }
 
         public void ChangeEntity(string nome, bool delte)
         {
             Date = DateTime.Now;
-            Nome = nome.ToUpper();
+            Nome = nome.Trim().ToUpper();
             Delete = delte;
         }
 

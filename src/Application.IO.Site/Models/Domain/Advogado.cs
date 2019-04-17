@@ -69,18 +69,18 @@ namespace Application.IO.Site.Models.Domain
         public Advogado(Guid idUser, int idGeoCidade, string nome, string numOrdem, IFormFile foto, string nomePai, string nomeMae, DateTime? dateInscricaoOAB, DateTime? dateAtualizacao)
         {
             ValidaGeoCidade(idGeoCidade);
-            ValidaNumOAB(idGeoCidade, numOrdem);
+            ValidaNumOAB(idGeoCidade, numOrdem.Trim());
             ValidaDataInscricao(dateInscricaoOAB);
             ValidaDataAtualizacao(dateAtualizacao);
             ValidaDataInscAtt(dateInscricaoOAB, dateAtualizacao);
 
             IdUser = idUser;
             IdGeoCidade = idGeoCidade;
-            Nome = nome.ToUpper();
-            NumOrdem = numOrdem;
+            Nome = nome.Trim().ToUpper();
+            NumOrdem = numOrdem.Trim();
             Foto = foto == null ? null : $"{ Guid.NewGuid().ToString() }{ foto.FileName.Substring(foto.FileName.LastIndexOf(".")) }";
-            NomePai = nomePai?.ToUpper();
-            NomeMae = nomeMae?.ToUpper();
+            NomePai = nomePai?.Trim().ToUpper();
+            NomeMae = nomeMae?.Trim().ToUpper();
             DateInscricaoOAB = dateInscricaoOAB;
             DateAtualizacao = dateAtualizacao;
             Date = DateTime.Now;
@@ -93,7 +93,7 @@ namespace Application.IO.Site.Models.Domain
             {
                 ValidaGeoCidade(idGeoCidade);
 
-                var adv = new AdvogadoSelect().GetByNumOrdem(numOrdem, idGeoCidade);
+                var adv = new AdvogadoSelect().GetByNumOrdem(numOrdem.Trim(), idGeoCidade);
                 if (adv != null && adv.Id != Id) Add(new DomainNotification("Advogado", $"O Número da Ordem \"'{ numOrdem }'\" já existe."));
 
                 ValidaDataInscricao(dateInscricaoOAB);
@@ -101,10 +101,10 @@ namespace Application.IO.Site.Models.Domain
                 ValidaDataInscAtt(dateInscricaoOAB, dateAtualizacao);
 
                 IdGeoCidade = idGeoCidade;
-                Nome = nome.ToUpper();
-                NumOrdem = numOrdem;
-                NomePai = nomePai?.ToUpper();
-                NomeMae = nomeMae?.ToUpper();
+                Nome = nome.Trim().ToUpper();
+                NumOrdem = numOrdem.Trim();
+                NomePai = nomePai?.Trim().ToUpper();
+                NomeMae = nomeMae?.Trim().ToUpper();
                 DateInscricaoOAB = dateInscricaoOAB;
                 DateAtualizacao = dateAtualizacao;
             }

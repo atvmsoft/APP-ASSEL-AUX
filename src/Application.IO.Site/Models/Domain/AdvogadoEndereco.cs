@@ -58,14 +58,14 @@ namespace Application.IO.Site.Models.Domain
             ValidaTipoEndereco(idTipoEndereco);
             ValidaGeoCep(idGeoCep);
             ValidaAdvogado(idUser, idAdvogado);
-            ValidaAdvEndereco(idAdvogado, idTipoEndereco, idGeoCep, numero, complemento);
+            ValidaAdvEndereco(idAdvogado, idTipoEndereco, idGeoCep, numero.Trim(), complemento?.Trim());
 
             IdUser = idUser;
             IdAdvogado = idAdvogado;
             IdTipoEndereco = idTipoEndereco;
             IdGeoCep = idGeoCep;
-            Numero = numero.ToUpper();
-            Complemento = string.IsNullOrEmpty(complemento) ? null : tCase.ToTitleCase(complemento);
+            Numero = numero.Trim().ToUpper();
+            Complemento = string.IsNullOrEmpty(complemento) ? null : tCase.ToTitleCase(complemento.Trim());
             Date = DateTime.Now;
         }
 
@@ -76,14 +76,14 @@ namespace Application.IO.Site.Models.Domain
                 ValidaTipoEndereco(idTipoEndereco);
                 ValidaGeoCep(idGeoCep);
                 ValidaAdvogado(idUser, idAdvogado);
-                ValidaAdvEndereco(idAdvogado, idTipoEndereco, idGeoCep, numero, complemento);
+                ValidaAdvEndereco(idAdvogado, idTipoEndereco, idGeoCep, numero.Trim(), complemento?.Trim());
 
                 IdUser = idUser;
                 IdAdvogado = idAdvogado;
                 IdTipoEndereco = idTipoEndereco;
                 IdGeoCep = idGeoCep;
                 Numero = numero.ToUpper();
-                Complemento = string.IsNullOrEmpty(complemento) ? null : tCase.ToTitleCase(complemento);
+                Complemento = string.IsNullOrEmpty(complemento) ? null : tCase.ToTitleCase(complemento.Trim());
             }
 
             Delete = delele;

@@ -30,7 +30,7 @@ namespace Application.IO.Site.Models.Domain
         #region VALIDATORS
         protected void ValidaContato(string contato)
         {
-            if (!new Regex(@"\([0-9]{2}\) [0-9]{8,9}").IsMatch(contato.Trim())) Add(new DomainNotification("AdvogadoContato", "O Contato está incorreto"));
+            if (!new Regex(@"\([0-9]{2}\) [0-9]{8,9}").IsMatch(contato)) Add(new DomainNotification("AdvogadoContato", "O Contato está incorreto"));
         }
 
         protected void ValidaAdvogado(Guid idUser, int idAdvogado)
@@ -51,15 +51,15 @@ namespace Application.IO.Site.Models.Domain
 
         public AdvogadoContato(Guid idUser, int idAdvogado, int idTipoContato, string contato)
         {
-            ValidaContato(contato);
+            ValidaContato(contato.Trim());
             ValidaAdvogado(idUser, idAdvogado);
             ValidaTipoContato(idTipoContato);
-            ValidaAdvogadoContato(idAdvogado, idTipoContato, contato);
+            ValidaAdvogadoContato(idAdvogado, idTipoContato, contato.Trim());
 
             IdUser = idUser;
             IdAdvogado = idAdvogado;
             IdTipoContato = idTipoContato;
-            Contato = contato;
+            Contato = contato.Trim();
             Date = DateTime.Now;
         }
 
@@ -67,15 +67,15 @@ namespace Application.IO.Site.Models.Domain
         {
             if (!delete)
             {
-                ValidaContato(contato);
+                ValidaContato(contato.Trim());
                 ValidaAdvogado(idUser, idAdvogado);
                 ValidaTipoContato(idTipoContato);
-                ValidaAdvogadoContato(idAdvogado, idTipoContato, contato);
+                ValidaAdvogadoContato(idAdvogado, idTipoContato, contato.Trim());
 
                 IdUser = idUser;
                 IdAdvogado = idAdvogado;
                 IdTipoContato = idTipoContato;
-                Contato = contato;
+                Contato = contato.Trim();
             }
 
             Date = DateTime.Now;

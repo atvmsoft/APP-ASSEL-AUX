@@ -65,23 +65,23 @@ namespace Application.IO.Site.Models.Domain
         protected void ValidaExistencia(string cod, string endereco, string bairro, string cidade, string estado)
         {
             var obj = new GeoCepSelect().GetByCod(cod).Where(w => w.Endereco.ToUpper() == endereco.ToUpper() && w.Bairro.ToUpper() == bairro.ToUpper() && w.Cidade.ToUpper() == cidade.ToUpper() && w.Estado.ToUpper() == estado.ToUpper());
-            if (obj != null)
-                Add(new DomainNotification("CEP", $"O endereço: { tCase.ToTitleCase(endereco) }, { (string.IsNullOrEmpty(bairro) ? "" : $", { tCase.ToTitleCase(bairro) }") }, { String.Format(@"{0:00\.000\-000}", Convert.ToInt64(cod)) } - { tCase.ToTitleCase(cidade) }/{ estado.ToUpper() }, já existe."));
+            if (obj.Count() > 0)
+                Add(new DomainNotification("CEP", $"O endereço: { tCase.ToTitleCase(endereco) }{ (string.IsNullOrEmpty(bairro) ? "" : $", { tCase.ToTitleCase(bairro) }") }, { String.Format(@"{0:00\.000\-000}", Convert.ToInt64(cod)) } - { tCase.ToTitleCase(cidade) }/{ estado.ToUpper() }, já existe."));
         }
         #endregion
 
         public GeoCep(Guid idUser, string codigo, string endereco, string bairro, int idEndGeoCidade, int idEndGeoEstado)
         {
-            var cod = string.Join("", codigo.ToCharArray().Where(char.IsDigit));
+            var cod = string.Join("", codigo.Trim().ToCharArray().Where(char.IsDigit));
 
             ValidaCodigoPostal(cod);
             var localizacao = ValidaLocalizacao(idEndGeoCidade, idEndGeoEstado);
-            ValidaExistencia(cod, endereco, bairro, localizacao["cidade"], localizacao["estado"]);
+            ValidaExistencia(cod, endereco.Trim(), bairro.Trim(), localizacao["cidade"], localizacao["estado"]);
 
             IdUser = idUser;
             Codigo = cod;
-            Endereco = tCase.ToTitleCase(endereco);
-            Bairro = tCase.ToTitleCase(bairro);
+            Endereco = tCase.ToTitleCase(endereco.Trim());
+            Bairro = tCase.ToTitleCase(bairro.Trim());
             Cidade = localizacao["cidade"];
             Estado = localizacao["estado"];
             Date = DateTime.Now;

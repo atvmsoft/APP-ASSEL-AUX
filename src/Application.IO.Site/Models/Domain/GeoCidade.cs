@@ -16,9 +16,9 @@ namespace Application.IO.Site.Models.Domain
 
         public GeoCidade(int idGeoEstado, string nome)
         {
-            if (new GeoCidadeSelect().GetByNameEstate(nome, idGeoEstado) != null) Add(new DomainNotification("Cidade", $"A Cidade \"'{ nome }'\" já existe."));
+            if (new GeoCidadeSelect().GetByNameEstate(nome.Trim(), idGeoEstado) != null) Add(new DomainNotification("Cidade", $"A Cidade \"'{ nome.Trim() }'\" já existe."));
 
-            Nome = nome;
+            Nome = nome.Trim();
             IdGeoEstado = idGeoEstado;
         }
 

@@ -27,14 +27,14 @@ namespace Application.IO.Site.Models.Domain
 
             IdUser = idUser;
             Date = DateTime.Now;
-            Nome = nome.ToUpper();
+            Nome = nome.Trim().ToUpper();
             Delete = false;
         }
 
         public void ChangeEntity(string nome, bool delete)
         {
             Date = DateTime.Now;
-            Nome = nome.ToUpper();
+            Nome = nome.Trim().ToUpper();
             Delete = delete;
         }
 

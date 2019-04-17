@@ -17,7 +17,7 @@ namespace Application.IO.Site.Services.Business.Select
                     join E in db.GeoEstado.AsNoTracking() on CP.Estado equals E.Sigla
                     join C in db.GeoCidade.AsNoTracking() on new { cdd = CP.Cidade, id = E.Id } equals new { cdd = C.Nome, id = C.IdGeoEstado }
                     where CP.Codigo == cod
-                    orderby CP.Bairro, CP.Endereco
+                    orderby CP.Endereco, CP.Bairro
                     select new GeoCepModel()
                     {
                         Id = CP.Id,

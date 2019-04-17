@@ -59,8 +59,10 @@ $(document).ready(function () {
                         if (!$(".row-adress").hasClass("hide")) $(".row-adress").addClass("hide");
                         $(".row-adresses").removeClass("hide");
 
+                        $("#ddlEnderecos").append($("<option></option>").val("").html("Selecione"));
                         $(result).each(function () {
-                            $("#ddlEnderecos").append($("<option></option>").val(this.id).html(this.endereco + ", " + this.bairro + ", " + this.cidade + "/" + this.estado));
+                            $("#ddlEnderecos").append($("<option cd=\"" + this.idGeoCidade + "\" st=\"" + this.idGeoEstado + "\" br=\"" + this.bairro + "\" ed=\"" + this.endereco + "\"></option>")
+                                .val(this.id).html(this.endereco + ", " + this.bairro + ", " + this.cidade + "/" + this.estado));
                         });
                     }
 
@@ -110,13 +112,31 @@ $(document).ready(function () {
         GetEndCidades($("#IdEndGeoEstado").val());
     });
 
+    $("#ddlEnderecos").change(function () {
+        var op = $("#ddlEnderecos option:selected");
+
+        if (op.val() === "") {
+            $("#Logradouro,#Bairro").val("");
+            StartEstadoCidade();
+        }
+        else {
+            $("#IdGeoCep").val(op.val());
+            $("#Logradouro").val(op.attr("ed"));
+            $("#Bairro").val(op.attr("br"));
+            $("#IdEndGeoEstado").val(op.attr("st"));
+
+            GetEndCidades(parseInt(op.attr("st")), parseInt(op.attr("cd")));
+        }
+    });
+
     $(".cep-box").mask("00.000-000");
 
     $("#Logradouro,#Bairro,#IdEndGeoEstado,#IdEndGeoCidade").attr("disabled", "");
 
     $(".link-new-adress").click(function () {
-        $(".msg-new-adress").addClass("hide");
-        $(".add-new-adress").removeClass("hide");
+        $(".msg-new-adress,.row-adresses").addClass("hide");
+        $(".add-new-adress,.row-adress").removeClass("hide");
+
         $("#IdGeoCep").val(0);
         $("#InsEndereco").val(true);
         $("#Logradouro,#Bairro,#IdEndGeoEstado,#IdEndGeoCidade").removeAttr("disabled");
