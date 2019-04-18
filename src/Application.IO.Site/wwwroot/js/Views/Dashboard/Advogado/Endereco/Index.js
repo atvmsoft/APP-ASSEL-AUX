@@ -38,6 +38,8 @@ $(document).ready(function () {
             data: { pcode: $(this).val() },
             success: function (result) {
                 $("#ddlEnderecos").empty();
+                $("#ddlEnderecos").removeAttr("required");
+
                 $("#Logradouro,#Bairro").val("");
 
                 if (result.length > 0) {
@@ -59,7 +61,9 @@ $(document).ready(function () {
                         if (!$(".row-adress").hasClass("hide")) $(".row-adress").addClass("hide");
                         $(".row-adresses").removeClass("hide");
 
+                        $("#ddlEnderecos").attr("required", "");
                         $("#ddlEnderecos").append($("<option></option>").val("").html("Selecione"));
+
                         $(result).each(function () {
                             $("#ddlEnderecos").append($("<option cd=\"" + this.idGeoCidade + "\" st=\"" + this.idGeoEstado + "\" br=\"" + this.bairro + "\" ed=\"" + this.endereco + "\"></option>")
                                 .val(this.id).html(this.endereco + ", " + this.bairro + ", " + this.cidade + "/" + this.estado));
