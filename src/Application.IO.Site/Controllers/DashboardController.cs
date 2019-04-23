@@ -272,6 +272,16 @@ namespace Application.IO.Site.Controllers
             return PartialView("Advogado/Partials/_DelPartial", new AdvogadoSelect().GetById(id, UserId));
         }
 
+        #region REPORTS
+
+        [HttpPost]
+        public IActionResult GetReportUserWork()
+        {
+            return Json(new AdvogadoCore().ReportUserWork(UserId));
+        }
+
+        #endregion
+
         #region Contatos
         [HttpGet]
         public PartialViewResult GridAdvogadoContato(int idAdvogado)

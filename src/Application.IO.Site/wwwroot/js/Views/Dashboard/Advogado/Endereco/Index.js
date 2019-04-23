@@ -138,6 +138,7 @@ $(document).ready(function () {
     $("#Logradouro,#Bairro,#IdEndGeoEstado,#IdEndGeoCidade").attr("disabled", "");
 
     $(".link-new-adress").click(function () {
+        $("#ddlEnderecos").removeAttr("required");
         $(".msg-new-adress,.row-adresses").addClass("hide");
         $(".add-new-adress,.row-adress").removeClass("hide");
 

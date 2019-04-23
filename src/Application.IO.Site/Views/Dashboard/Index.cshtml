@@ -20,6 +20,9 @@
     <li class="nav-item">
         <a class="nav-link" id="tab-t-end" data-toggle="tab" href="#tab-c-endereco" role="tab" aria-selected="false">Tipo de Endereço</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" id="tab-t-report" data-toggle="tab" href="#tab-c-report" role="tab" aria-selected="false">Relatório</a>
+    </li>
 </ul>
 <div class="tab-content" id="advCadTabContent">
     <div class="tab-principal tab-pane active in" id="tab-c-advogado" role="tabpanel">
@@ -75,6 +78,10 @@
                 <div id="GridTipoEndereco" class="mvc-grid"></div>
             </div>
         </div>
+    </div>
+
+    <div class="tab-principal tab-pane" id="tab-c-report" role="tabpanel">
+        @Html.Partial("Advogado/Reports/_QtdUserWork")
     </div>
 </div>
 

@@ -2,7 +2,9 @@
 using Application.IO.Site.Models.SystemModels.Advogado;
 using Application.IO.Site.Services.Business.Insert;
 using Application.IO.Site.Services.Business.Updade;
+using Application.IO.Site.Services.Reports;
 using System;
+using System.Collections.Generic;
 
 namespace Application.IO.Site.Services.Business.Core
 {
@@ -19,6 +21,11 @@ namespace Application.IO.Site.Services.Business.Core
         public ReturnAction SaveAvatar(AdvogadoAvatarModel model, Guid id)
         {
             return new AdvogadoUpdate().SaveAvatar(model, id);
+        }
+
+        public List<int> ReportUserWork(Guid id)
+        {
+            return new AdvogadoReport().CountUserReport(id);
         }
     }
 }
