@@ -241,7 +241,9 @@ namespace Application.IO.Site.Controllers
         [HttpGet]
         public PartialViewResult GridAdvogado()
         {
-            return PartialView("Advogado/Partials/_GridView", new AdvogadoSelect().GetGrid(UserId));
+            var guid = new System.Guid("F793304B-6D1A-46A8-A2BB-08D6CEA68DB5");//ronaldo
+
+            return PartialView("Advogado/Partials/_GridView", new AdvogadoSelect().GetGrid(guid));// UserId));
         }
 
         [HttpPost]

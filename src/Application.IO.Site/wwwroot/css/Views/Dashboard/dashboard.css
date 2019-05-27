@@ -8,11 +8,20 @@
     font-size: 12px !important;
 }
 
-.grid-collumn-dateinsert {
+.grid-adv-collumn-cidade {
+    width: 210px;
+}
+
+.grid-adv-collumn-oab-num {
+    width: 120px;
+}
+
+.grid-adv-collumn-dateinsert,.grid-collumn-dateinsert {
     width: 140px;
 }
 
-.table-hover > tbody > tr > td.grid-collumn-dateinsert {
+.table-hover > tbody > tr > td.grid-collumn-dateinsert,
+.table-hover > tbody > tr > td.grid-adv-collumn-dateinsert {
     text-align: center;
 }
 

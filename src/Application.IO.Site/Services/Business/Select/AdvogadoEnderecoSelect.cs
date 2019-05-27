@@ -28,6 +28,7 @@ namespace Application.IO.Site.Services.Business.Select
                         join CD in db.GeoCidade.AsNoTracking() on GC.Cidade equals CD.Nome
                         join GE in db.GeoEstado.AsNoTracking() on GC.Estado equals GE.Sigla
                         where AE.Delete == false && AE.IdAdvogado == idAdvogado && AE.IdUser == idUser
+                        orderby TE.Nome
                         select new
                         {
                             AE.IdTipoEndereco,

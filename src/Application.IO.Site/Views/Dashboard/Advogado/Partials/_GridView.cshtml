@@ -4,12 +4,13 @@
     .Grid(Model)
     .Build(columns =>
     {
-        columns.Add(model => $"<button class=\"btn btn-danger\" onclick=\"GridAdvogadoDel({model.Id});\"><i class=\"glyphicon glyphicon-remove\"></i></button>").Css("grid-collumn-del").Encoded(false);
-        columns.Add(model => $"<button class=\"btn btn-warning\" onclick=\"GridAdvogadoEdt({model.Id});\"><i class=\"glyphicon glyphicon-pencil\"></i></button>").Css("grid-collumn-edt").Encoded(false);
-        columns.Add(model => model.Nome).Titled("Nome");
-        columns.Add(model => model.NumOrdem).Titled("Nº OAB");
-        columns.Add(model => model.Date).Css("grid-collumn-dateinsert").Formatted("{0: dd/MM/yyyy HH:mm}").Titled("Data");
-    })
+        columns.Add(model => $"<button class=\"btn btn-danger\" onclick=\"GridAdvogadoDel({model.Id});\"><i class=\"glyphicon glyphicon-remove\"></i></button>").Css("grid-collumn-del").Encoded(false).Sortable(false);
+        columns.Add(model => $"<button class=\"btn btn-warning\" onclick=\"GridAdvogadoEdt({model.Id});\"><i class=\"glyphicon glyphicon-pencil\"></i></button>").Css("grid-collumn-edt").Encoded(false).Sortable(false);
+        columns.Add(model => model.Nome).Css("grid-adv-collumn-name").Titled("Nome");
+        columns.Add(model => model.NomeCidade).Css("grid-adv-collumn-cidade").Titled("Subseção");
+        columns.Add(model => model.NumOrdem).Css("grid-adv-collumn-oab-num").Titled("Nº OAB").Sortable(false);
+        columns.Add(model => model.Date).Css("grid-adv-collumn-dateinsert").Formatted("{0: dd/MM/yyyy HH:mm}").Titled("Data");
+    }).Sortable()
     .Empty("Nenhum Item encontrado")
     .Id("GridAdvogado")
     .Pageable(pager =>

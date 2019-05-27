@@ -75,19 +75,21 @@ namespace Application.IO.Site.Services.Business.Select
             return null;
         }
 
-        public IQueryable<AdvogadoModel> GetGrid(Guid idUser)
+        public IQueryable<AdvogadoModel> GetGrid(Guid idUser)//, string nome = null, string numoab = null)
         {
             return from A in db.Advogado.AsNoTracking()
                    join C in db.GeoCidade.AsNoTracking() on A.IdGeoCidade equals C.Id
                    join E in db.GeoEstado.AsNoTracking() on C.IdGeoEstado equals E.Id
-                   where A.Delete == false && A.IdUser == idUser
+                   where A.Delete == false && A.IdUser == idUser// && (nome == null || A.Nome.Contains(nome)) && (numoab == null || A.NumOrdem == numoab)
+                   orderby A.Date descending
                    select new AdvogadoModel()
                    {
                        Id = A.Id,
                        Delete = A.Delete,
                        Nome = A.Nome,
                        NumOrdem = $"{ E.Sigla }/{ A.NumOrdem }",
-                       Date = A.Date
+                       Date = A.Date,
+                       NomeCidade = C.Nome
                    };
         }
     }

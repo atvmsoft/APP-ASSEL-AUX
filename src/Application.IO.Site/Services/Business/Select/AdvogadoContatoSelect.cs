@@ -19,6 +19,7 @@ namespace Application.IO.Site.Services.Business.Select
             return from AC in db.AdvogadoContato.AsNoTracking()
                    join TC in db.TipoContato.AsNoTracking() on AC.IdTipoContato equals TC.Id
                    where AC.Delete == false && AC.IdAdvogado == idAdvogado && AC.IdUser == idUser
+                   orderby TC.Nome, AC.Contato
                    select new AdvogadoContatoModel()
                    {
                        IdTipoContato = AC.IdTipoContato,

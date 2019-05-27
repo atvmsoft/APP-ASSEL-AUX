@@ -42,6 +42,7 @@ namespace Application.IO.Site.Models.SystemModels.Advogado
         [StringLength(10, ErrorMessage = "\"{0}\" deve ter entre {2} e {1} caracteres.", MinimumLength = 2)]
         public string NumOrdem { get; set; }
 
+        public string NomeCidade { get; set; }
         public string ListSituacao { get; set; }
         public string ListAreaAtuacao { get; set; }
         public string Foto { get; set; }

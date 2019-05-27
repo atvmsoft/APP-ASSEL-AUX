@@ -32,6 +32,14 @@
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div id="GridAdvogado" class="mvc-grid"></div>
+                <script>
+                    var grid = document.querySelector('#GridAdvogado.mvc-grid');
+
+                    // Triggered after grid stop loading
+                    grid.addEventListener('reloadend', function (e) {
+                        alert("paz");
+                    });
+                </script>
             </div>
         </div>
     </div>

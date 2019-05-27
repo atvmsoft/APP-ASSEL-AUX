@@ -104,7 +104,17 @@
 
     <script>
         //<ev-grid>
+        function AdvGridHeaderCustomSort(cssclass, name) {
+            let advnome = $('.' + cssclass + ' > .mvc-grid-header-title:not(.asc, .desc)');
+            if (advnome.length > 0) $('.mvc-grid-headers .' + cssclass).empty().append('<span class="mvc-grid-header-title"><i class="glyphicon glyphicon-resize-vertical"></i>' + name + '</span>');
+        }
+
         document.addEventListener('reloadend', function () { 
+            //grid advogado
+            AdvGridHeaderCustomSort("grid-adv-collumn-name", "Nome");
+            AdvGridHeaderCustomSort("grid-adv-collumn-cidade", "Subseção");
+            AdvGridHeaderCustomSort("grid-adv-collumn-dateinsert", "Data");
+
             $.unblockUI();
         });
 
